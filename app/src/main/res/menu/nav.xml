@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_add"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Add Contact"/>
+    <item android:title=" Sort Order">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/order_asc"
+                    android:title="Ascending"
+                    android:checkable="true"
+                    android:icon="@android:drawable/arrow_down_float"/>
+                <item
+                    android:id="@+id/order_des"
+                    android:title="Descending"
+                    android:checkable="true"
+                    android:icon="@android:drawable/arrow_up_float"/>
+            </group>
+        </menu>
+    </item>
+</menu>
