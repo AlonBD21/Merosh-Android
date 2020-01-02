@@ -38,10 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="30dp"
-            android:background="@color/colorPrimary"
-            android:backgroundTint="@color/colorPrimary"
-            android:src="@android:drawable/ic_menu_add"
-            android:tint="@color/colorAccent" />
+            android:src="@drawable/baseline_add_black_24dp"
+            />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
