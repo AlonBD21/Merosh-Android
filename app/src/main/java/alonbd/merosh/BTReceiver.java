@@ -6,7 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-public class BTReciever extends BroadcastReceiver {
+import java.util.ArrayList;
+
+public class BTReceiver extends BroadcastReceiver {
+
+
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -14,8 +19,16 @@ public class BTReciever extends BroadcastReceiver {
 
         if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)){
             Toast.makeText(context,"Connected to "+device.getName(),Toast.LENGTH_SHORT).show();
+
+
+
+
         }else if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
-            Toast.makeText(context,"Disonnected from "+device.getName(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,"Disconnected from "+device.getName(),Toast.LENGTH_SHORT).show();
+
+
+
         }
+
     }
 }
