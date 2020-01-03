@@ -25,5 +25,4 @@
         android:text="anappmadeby_ALONBENDOV"
         android:textSize="12sp"
         android:textColor="@color/colorPrimary"
-        android:textStyle="bold"/>
-</LinearLayout>
+        android:textStyle="bold"/></LinearLayout>

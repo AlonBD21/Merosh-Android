@@ -1,5 +1,6 @@
 package alonbd.merosh;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -9,7 +10,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -30,6 +33,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
 
         toolbar = findViewById(R.id.toolbar);
         rootDrawer = findViewById(R.id.drawer_root);
@@ -54,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //if (dataManager.getOrderAsc()){ TODO, check order
             nav.setCheckedItem(R.id.order_asc);
         //}else{
-            nav.setCheckedItem(R.id.order_des);;
+            nav.setCheckedItem(R.id.order_des);
         //}
 
         nav.setNavigationItemSelectedListener(this);
@@ -72,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         /*TODO Fix
         if (menuItem.getItemId() == R.id.menu_add) {
             Intent intent = new Intent(ContactsActivity.this, AddContactActivity.class);
