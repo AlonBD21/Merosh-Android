@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="30dp"
-            android:src="@drawable/baseline_add_black_24dp"
+            android:src="@drawable/ic_add_plus_black"
             />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.baseline_menu);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_burgermenu_white);
 
         //if (dataManager.getOrderAsc()){ TODO, check order
             nav.setCheckedItem(R.id.order_asc);
