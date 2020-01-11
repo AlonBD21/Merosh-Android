@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/primaryDarkColor"
+    android:gravity="bottom"
     android:orientation="vertical"
-    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
-    android:background="@color/colorPrimaryDark"
-    android:gravity="bottom">
+    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Options"
-        android:gravity="center"
-        android:textStyle="bold|italic"
-        android:textColor="@color/colorAccent"
-        android:textSize="35sp"
         android:layout_margin="12dp"
         android:layout_marginBottom="10dp"
         android:fontFamily="serif"
-        />
+        android:gravity="center"
+        android:text="Options"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="35sp"
+        android:textStyle="bold|italic" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:text="anappmadeby_ALONBENDOV"
+        android:text="byALONBENDOV"
+        android:textColor="@color/primaryLightColor"
         android:textSize="12sp"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"/></LinearLayout>
+        android:textStyle="bold" />
+</LinearLayout>

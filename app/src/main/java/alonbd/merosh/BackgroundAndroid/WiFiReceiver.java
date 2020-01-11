@@ -1,4 +1,4 @@
-package alonbd.merosh;
+package alonbd.merosh.BackgroundAndroid;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

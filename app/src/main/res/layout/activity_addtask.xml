@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Task will start according to"
+        android:textColor="@color/secondaryTextColor"
+        android:layout_margin="7dp"/>
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="ltr">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checkedButton="@id/radio_bt"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_gravity="center">
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_bt"
+                    android:text="Bluetooth"
+                    android:layout_marginHorizontal="15dp"
+                    android:textSize="40sp"
+                    />
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WiFi"
+                    android:layout_marginHorizontal="15dp"
+                    android:textSize="40sp"
+
+                    />
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location"
+                    android:layout_marginHorizontal="15dp"
+                    android:textSize="40sp"
+                    />
+            </RadioGroup>
+        </LinearLayout>
+    </HorizontalScrollView>
+</LinearLayout>

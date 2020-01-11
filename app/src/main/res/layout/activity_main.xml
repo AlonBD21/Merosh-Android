@@ -19,8 +19,8 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                android:background="@color/primaryColor"
+                app:titleTextColor="@color/primaryTextColor"
                 app:layout_scrollFlags="scroll|enterAlways"/>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="30dp"
+            android:background="@color/secondaryColor"
             android:src="@drawable/ic_add_plus_black"
             />
 
@@ -50,6 +51,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/header"
-        app:menu="@menu/nav"></com.google.android.material.navigation.NavigationView>
+        app:menu="@menu/nav"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

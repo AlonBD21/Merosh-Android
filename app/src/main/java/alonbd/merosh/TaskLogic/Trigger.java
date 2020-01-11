@@ -1,11 +1,11 @@
-package alonbd.merosh;
+package alonbd.merosh.TaskLogic;
 
 public abstract class Trigger {
     private boolean consumed;
     public Trigger(){
         consumed = false;
     }
-    public void SetConsumedTrue(){
+    public void setConsumedTrue(){
         consumed = true;
     }
 }

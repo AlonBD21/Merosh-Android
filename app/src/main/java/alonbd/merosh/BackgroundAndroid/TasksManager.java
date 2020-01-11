@@ -1,4 +1,4 @@
-package alonbd.merosh;
+package alonbd.merosh.BackgroundAndroid;
 
 
 import android.content.Context;
@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
+import alonbd.merosh.TaskLogic.Task;
 
 //TODO, fix reace conditions with 'synchronized'
 public class TasksManager {
@@ -25,7 +27,7 @@ public class TasksManager {
         loadData();
     }
 
-    private void saveData() {
+    public void saveData() {
         FileOutputStream fos = null;
         try {
             fos = context.openFileOutput(FILE, Context.MODE_PRIVATE);
@@ -38,7 +40,7 @@ public class TasksManager {
             e.printStackTrace();
         }
     }
-    private void loadData(){
+    public ArrayList<Task> loadData(){
         try {
             FileInputStream fis = context.openFileInput(FILE);
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -51,6 +53,7 @@ public class TasksManager {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        return data;
     }
     //Public
     public static TasksManager getInstance(Context context) {
