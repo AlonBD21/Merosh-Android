@@ -21,9 +21,6 @@ public class Task implements Serializable {
         this.name = name;
         this.trigger = trigger;
         this.actions = actions;
-
-        TasksManager tm = TasksManager.getInstance(context);
-        tm.addTask(this);
     }
 
     public void start(Context context){
@@ -32,6 +29,10 @@ public class Task implements Serializable {
                 actions) {
             action.onExecute(context);
         }
+    }
+    public String getName(){return  name;}
+    public String triggerType(){
+        return  trigger.getClass().getSimpleName();
     }
 
 

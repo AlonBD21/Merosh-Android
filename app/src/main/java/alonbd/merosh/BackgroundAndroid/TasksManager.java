@@ -11,7 +11,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import alonbd.merosh.TaskLogic.BTTrigger;
 import alonbd.merosh.TaskLogic.Task;
+import alonbd.merosh.TaskLogic.ToastAction;
 
 //TODO, fix reace conditions with 'synchronized'
 public class TasksManager {
@@ -25,12 +27,18 @@ public class TasksManager {
     private TasksManager(Context context) {
         this.context = context;
         loadData();
+        if (data == null){
+            data = new ArrayList<>();
+            saveData();
+        }
+        if (data.size() == 0){
+            addTask(new Task(context,new BTTrigger(),"hardcoded hope",new ToastAction("will i work?",true)));
+        }
     }
 
     public void saveData() {
-        FileOutputStream fos = null;
         try {
-            fos = context.openFileOutput(FILE, Context.MODE_PRIVATE);
+            FileOutputStream fos = context.openFileOutput(FILE, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(data);
             oos.close();

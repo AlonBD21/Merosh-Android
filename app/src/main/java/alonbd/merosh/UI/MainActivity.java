@@ -7,6 +7,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
@@ -18,6 +19,7 @@ import android.view.View;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import alonbd.merosh.BackgroundAndroid.TasksManager;
 import alonbd.merosh.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,13 +30,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout rootDrawer;
     Toolbar toolbar;
     FloatingActionButton fab;
+    TasksManager tasksManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
 
 
         toolbar = findViewById(R.id.toolbar);
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         fab = findViewById(R.id.fab);
         coordLayout = findViewById(R.id.coord_layout);
+        tasksManager = TasksManager.getInstance(this);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,17 +57,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_burgermenu_white);
 
-        //if (dataManager.getOrderAsc()){ TODO, check order
-            nav.setCheckedItem(R.id.order_asc);
-        //}else{
-            nav.setCheckedItem(R.id.order_des);
-        //}
+
 
         nav.setNavigationItemSelectedListener(this);
-
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-        //TODO Add recycler adapter callbacks and touchhelper
+        //if (dataManager.getOrderAsc()){ TODO, check order
+        //        nav.setCheckedItem(R.id.order_asc);
+        //        //}else{
+        //        nav.setCheckedItem(R.id.order_des);
+        //        //}
+        //recyclerView.setHasFixedSize(true); TODO?
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));//TODO false is order
+        recyclerView.setAdapter(new RecyclerViewAdapter(tasksManager.loadData()));
+        //TODO callbacks and touchHelper
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
