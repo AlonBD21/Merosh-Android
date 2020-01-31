@@ -1,36 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp">
-    <LinearLayout android:orientation="horizontal"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_bluetooth_blue_24dp"/>
+            android:src="@drawable/ic_bluetooth_blue_24dp" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
             android:text="Bluetooth Activation"
-            android:typeface="serif"
-            android:textColor="@color/secondaryTextColor"/>
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="20sp"
+            android:typeface="serif" />
     </LinearLayout>
+
     <CheckBox
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="On Connection"/>
+        android:layout_marginBottom="10dp"
+        android:textSize="20sp"
+        android:text="On Connection"
+        android:id="@+id/connection_cb"/>
+
     <CheckBox
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="On Disconnect"
-        android:checked="true" />
-    <ListView
-        android:layout_margin="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="20sp"
+        android:checked="true"
+        android:text="On Disconnection"
+        android:id="@+id/disconnection_cb"/>
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:textSize="17sp"
+        android:text="Choose Device:"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:id="@+id/bt_err_tv"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="5dp"
+        >
+
+        <RadioGroup
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/radio_group">
+
+        </RadioGroup>
+    </ScrollView>
+
 </LinearLayout>

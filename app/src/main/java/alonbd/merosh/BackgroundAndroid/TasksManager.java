@@ -33,7 +33,7 @@ public class TasksManager {
             saveData();
         }
         if (data.size() == 0){
-            addTask(new Task(context,new BTTrigger(true,true,null),"hardcoded hope",new ToastAction("will i work?",true)));
+            addTask(new Task(context,new BTTrigger(true,true,null,null),"hardcoded hope",new ToastAction("will i work?",true)));
         }
     }
 
