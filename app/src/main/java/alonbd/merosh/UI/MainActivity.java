@@ -46,12 +46,10 @@ protected void onCreate(Bundle savedInstanceState) {
     coordLayout = findViewById(R.id.coord_layout);
     tasksManager = TasksManager.getInstance(this);
 
-    fab.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+    fab.setOnClickListener(v->{
             Intent intent = new Intent(MainActivity.this, AddTriggerActivity.class);
             startActivity(intent);
-        }
+
     });
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
@@ -59,12 +57,11 @@ protected void onCreate(Bundle savedInstanceState) {
 
 
     nav.setNavigationItemSelectedListener(this);
-    //if (dataManager.getOrderAsc()){ TODO, check order
     //        nav.setCheckedItem(R.id.order_asc);
     //        //}else{
     //        nav.setCheckedItem(R.id.order_des);
     //        //}
-    //recyclerView.setHasFixedSize(true); TODO?
+    recyclerView.setHasFixedSize(true);//?
     recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));//TODO false is order
     recyclerView.setAdapter(new RecyclerViewAdapter(tasksManager.loadData()));
     //TODO callbacks and touchHelper
@@ -81,11 +78,11 @@ public boolean onOptionsItemSelected(MenuItem item) {
 
 @Override
 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        /*TODO Fix
+
         if (menuItem.getItemId() == R.id.menu_add) {
-            Intent intent = new Intent(ContactsActivity.this, AddContactActivity.class);
+            Intent intent = new Intent(MainActivity.this, AddTriggerActivity.class);
             startActivity(intent);
-        }
+        }/*TODO Fix
         if (menuItem.getItemId() == R.id.order_asc) {
             nav.setCheckedItem(R.id.order_asc);
             dataManager.sort(true);
@@ -113,13 +110,5 @@ public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 */
     rootDrawer.closeDrawer(GravityCompat.START);
     return false;
-}
-
-@Override
-protected void onResume() {
-    super.onResume();
-    //TODO, fix
-    //((ContactsRecyclerAdapter) recyclerView.getAdapter()).dataChange(dataManager.getContacts());
-    //recyclerView.getAdapter().notifyDataSetChanged();
 }
 }

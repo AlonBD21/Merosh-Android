@@ -3,17 +3,19 @@ package alonbd.merosh.TaskLogic;
 import android.content.Context;
 import android.widget.Toast;
 
-public class ToastAction implements Action {
-    private String msg;
-    private boolean quick;
+import java.io.Serializable;
 
-    public ToastAction(String msg, boolean quick) {
-        this.msg = msg;
-        this.quick = quick;
+public class ToastAction implements Action, Serializable {
+    ;
+    int duration;
+    String txt;
+
+    public ToastAction(String txt, int duration) {
+        this.duration = duration;
+        this.txt = txt;
     }
 
     @Override
-    public void onExecute(Context context) {
-        Toast.makeText(context,msg,quick ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG);
-    }
+    public void onExecute(Context context) {Toast.makeText(context, txt, duration).show();}
+
 }

@@ -11,12 +11,12 @@ import alonbd.merosh.BackgroundAndroid.TasksManager;
 
 public class Task implements Serializable {
     private Trigger trigger;
-    private Action[] actions;
+    private ArrayList<Action> actions;
 
     private String name;
     private Date date;
 
-    public Task(Context context, Trigger trigger, String name, Action... actions) {
+    public Task(Trigger trigger, String name, ArrayList<Action> actions) {
         date = new Date();
         this.name = name;
         this.trigger = trigger;

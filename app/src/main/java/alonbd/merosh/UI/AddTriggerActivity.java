@@ -1,12 +1,8 @@
 package alonbd.merosh.UI;
 
 import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -31,7 +27,7 @@ import alonbd.merosh.TaskLogic.Trigger;
 import alonbd.merosh.R;
 
 public class AddTriggerActivity extends AppCompatActivity {
-    public static final String ACTION_EXTRA = "actionType";
+    public static final String ACTIONTYPE_EXTRA = "actionType";
     public static final String TRIGGER_EXTRA = "triggerExtra";
     ImageButton button;
     ViewPager viewPager;
@@ -48,23 +44,7 @@ public class AddTriggerActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         button.setOnClickListener((View v) -> {
-            String[] actionTypes = new String[ActionType.values().length];
-            for(int i = 0; i < actionTypes.length; i++)
-                actionTypes[i] = ActionType.values()[i].name();
-            Trigger trigger = makeTrigger();
-            if(trigger == null) return;
-            AlertDialog.Builder builder = new AlertDialog.Builder(AddTriggerActivity.this);
-            AlertDialog dialog = builder.setTitle("Choose Task's Action Type")
-                    .setNegativeButton("Cancel", (DialogInterface dialogInterface, int which) -> {
-                        dialogInterface.dismiss();
-                    })
-                    .setCancelable(true).setItems(actionTypes, (DialogInterface dialogInterface, int which) -> {
-                        Intent intent = new Intent(AddTriggerActivity.this, AddActionActivity.class);
-                        intent.putExtra(ACTION_EXTRA, ActionType.values()[which]);
-                        intent.putExtra(TRIGGER_EXTRA, trigger);
-                        startActivity(intent);
-                    }).create();
-            dialog.show();
+            AddActionActivity.preDialog(AddTriggerActivity.this,makeTrigger(),null);
         });
     }
 

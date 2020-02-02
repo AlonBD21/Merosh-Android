@@ -3,6 +3,7 @@ package alonbd.merosh.BackgroundAndroid;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,12 +33,9 @@ public class TasksManager {
             data = new ArrayList<>();
             saveData();
         }
-        if (data.size() == 0){
-            addTask(new Task(context,new BTTrigger(true,true,null,null),"hardcoded hope",new ToastAction("will i work?",true)));
-        }
     }
 
-    public void saveData() {
+    private void saveData() {
         try {
             FileOutputStream fos = context.openFileOutput(FILE, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);

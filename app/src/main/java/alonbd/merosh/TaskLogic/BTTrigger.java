@@ -2,7 +2,9 @@ package alonbd.merosh.TaskLogic;
 
 import android.bluetooth.BluetoothDevice;
 
-public class BTTrigger extends Trigger {
+import java.io.Serializable;
+
+public class BTTrigger extends Trigger implements Serializable {
     private boolean onConnection;
     private boolean onDisconnection;
     private String deviceAdress;
