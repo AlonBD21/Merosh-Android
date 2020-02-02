@@ -12,16 +12,9 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/primaryColor"
-                app:titleTextColor="@color/primaryTextColor"
-                app:layout_scrollFlags="scroll|enterAlways"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -41,6 +34,16 @@
             android:background="@color/secondaryColor"
             android:src="@drawable/ic_add_plus_black"
             />
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primaryColor"
+            app:layout_anchor="@+id/appBarLayout"
+            app:layout_anchorGravity="center"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:titleTextColor="@color/primaryTextColor" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

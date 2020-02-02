@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="alonbd.merosh">
+    package="alonbd.simpler">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="Manifest.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UI.MainActivity">
+        <activity android:name="alonbd.simpler.UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.AddTriggerActivity"/>
-        <activity android:name=".UI.AddActionActivity"/>
-        <activity android:name=".UI.AddTaskActivity"/>
+        <activity android:name="alonbd.simpler.UI.AddTriggerActivity"/>
+        <activity android:name="alonbd.simpler.UI.AddActionActivity"/>
+        <activity android:name="alonbd.simpler.UI.AddTaskActivity"/>
 
-        <receiver android:name=".BackgroundAndroid.BTReceiver">
+        <receiver android:name="alonbd.simpler.BackgroundAndroid.BTReceiver">
             <intent-filter>
                 <action android:name="android.bluetooth.device.action.ACL_CONNECTED"/>
                 <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED"/>
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".BackgroundAndroid.WiFiReceiver">
+        <receiver android:name="alonbd.simpler.BackgroundAndroid.WiFiReceiver">
             <intent-filter>
                 <action android:name="android.net.wifi.STATE_CHANGE"/>
             </intent-filter>
