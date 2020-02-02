@@ -1,4 +1,4 @@
-# Merosh-Android
+# Simpler!
 One app to remember it all. 
 
 ColorPaletteUsed:
