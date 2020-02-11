@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/primaryDarkColor"
     android:gravity="bottom"
     android:orientation="vertical"
     android:theme="@style/Base.ThemeOverlay.AppCompat.Dark">
@@ -15,7 +14,6 @@
         android:fontFamily="serif"
         android:gravity="center"
         android:text="Options"
-        android:textColor="@color/primaryTextColor"
         android:textSize="35sp"
         android:textStyle="bold|italic" />
 
@@ -24,7 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:text="byALONBENDOV"
-        android:textColor="@color/primaryLightColor"
         android:textSize="12sp"
         android:textStyle="bold" />
 </LinearLayout>

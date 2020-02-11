@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/menu_add"
-        android:icon="@drawable/ic_add_plus_black"
+        android:icon="@drawable/ic_add_plus_white"
         android:title="Add Task"/>
     <item android:title="Sort Order">
         <menu>

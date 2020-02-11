@@ -22,63 +22,62 @@ import alonbd.simpler.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-RecyclerView recyclerView;
-NavigationView nav;
-CoordinatorLayout coordLayout;
-DrawerLayout rootDrawer;
-Toolbar toolbar;
-FloatingActionButton fab;
-TasksManager tasksManager;
+    RecyclerView recyclerView;
+    NavigationView nav;
+    CoordinatorLayout coordLayout;
+    DrawerLayout rootDrawer;
+    Toolbar toolbar;
+    FloatingActionButton fab;
+    TasksManager tasksManager;
 
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
 
-    toolbar = findViewById(R.id.toolbar);
-    rootDrawer = findViewById(R.id.drawer_root);
-    nav = findViewById(R.id.nav_view);
-    recyclerView = findViewById(R.id.recycler);
-    setSupportActionBar(toolbar);
-    fab = findViewById(R.id.fab);
-    coordLayout = findViewById(R.id.coord_layout);
-    tasksManager = TasksManager.getInstance(this);
+        toolbar = findViewById(R.id.toolbar);
+        rootDrawer = findViewById(R.id.drawer_root);
+        nav = findViewById(R.id.nav_view);
+        recyclerView = findViewById(R.id.recycler);
+        setSupportActionBar(toolbar);
+        fab = findViewById(R.id.fab);
+        coordLayout = findViewById(R.id.coord_layout);
+        tasksManager = TasksManager.getInstance(this);
 
-    fab.setOnClickListener(v->{
+        fab.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddTriggerActivity.class);
             startActivity(intent);
 
-    });
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setHomeAsUpIndicator(R.drawable.ic_burgermenu_white);
+        });
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_burgermenu_black);
 
 
-    nav.setNavigationItemSelectedListener(this);
-    //        nav.setCheckedItem(R.id.order_asc);
-    //        //}else{
-    //        nav.setCheckedItem(R.id.order_des);
-    //        //}
-    recyclerView.setHasFixedSize(true);//?
-    recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));//TODO false is order
-    recyclerView.setAdapter(new RecyclerViewAdapter(tasksManager.loadData()));
-    //TODO callbacks and touchHelper
-}
-
-@Override
-public boolean onOptionsItemSelected(MenuItem item) {
-
-    if(item.getItemId() == android.R.id.home) {
-        rootDrawer.openDrawer(GravityCompat.START);
+        nav.setNavigationItemSelectedListener(this);
+        //        nav.setCheckedItem(R.id.order_asc);
+        //        //}else{
+        //        nav.setCheckedItem(R.id.order_des);
+        //        //}
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));//TODO false is order
+        recyclerView.setAdapter(new RecyclerViewAdapter(tasksManager.loadData()));
+        //TODO callbacks and touchHelper
     }
-    return super.onOptionsItemSelected(item);
-}
 
-@Override
-public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (menuItem.getItemId() == R.id.menu_add) {
+        if(item.getItemId() == android.R.id.home) {
+            rootDrawer.openDrawer(GravityCompat.START);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        if(menuItem.getItemId() == R.id.menu_add) {
             Intent intent = new Intent(MainActivity.this, AddTriggerActivity.class);
             startActivity(intent);
         }/*TODO Fix
@@ -107,7 +106,7 @@ public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             }).run();
             Snackbar.make(coordLayout,"Order Changed",Snackbar.LENGTH_SHORT).show();}
 */
-    rootDrawer.closeDrawer(GravityCompat.START);
-    return false;
-}
+        rootDrawer.closeDrawer(GravityCompat.START);
+        return false;
+    }
 }

@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="0dp">
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/title"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:minHeight="?actionBarSize"
-            android:text="Action Properties"
-            android:textColor="#fff" />
+            android:layout_height="?attr/actionBarSize"
+            app:layout_anchor="@+id/appBarLayout"
+            app:layout_anchorGravity="center"
+            app:title="Task Action"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:id="@+id/fragment_container"/>
+        android:orientation="vertical" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/add_action_btn"
         style="@style/Widget.MaterialComponents.Button"
@@ -39,6 +40,7 @@
         android:padding="20dp"
         android:text="Add Another Action"
         android:textSize="15sp" />
+
     <ImageButton
         android:id="@+id/next_btn"
         style="@style/Widget.MaterialComponents.Button"
@@ -49,6 +51,6 @@
         android:layout_marginBottom="20dp"
         android:gravity="center"
         android:padding="20dp"
-        android:src="@drawable/ic_arrow_forward_black_24dp"
+        android:src="@drawable/ic_arrow_forward_white"
         android:textSize="30sp" />
 </LinearLayout>

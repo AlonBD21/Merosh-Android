@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     android:padding="5dp"
-    app:cardBackgroundColor="@color/secondaryDarkColor"
     app:cardCornerRadius="10dp"
     app:cardElevation="4dp"
     app:contentPadding="2dp">
@@ -21,7 +20,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:text="AAA"
-            android:textColor="@color/primaryTextColor"
             android:textSize="15sp"
             android:textStyle="bold"/>
 
@@ -31,7 +29,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="BBB"
-            android:textColor="@color/primaryTextColor"
             android:textSize="30sp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

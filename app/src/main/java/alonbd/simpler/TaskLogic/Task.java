@@ -31,7 +31,7 @@ public class Task implements Serializable {
     public String triggerType(){
         return  trigger.getClass().getSimpleName();
     }
-
+    public Trigger getTrigger() {return trigger;}
 
 
 
