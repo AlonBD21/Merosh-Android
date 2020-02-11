@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tasksManager = TasksManager.getInstance(this);
 
         fab.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AddTriggerActivity.class);
+            Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
             startActivity(intent);
 
         });
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
         if(menuItem.getItemId() == R.id.menu_add) {
-            Intent intent = new Intent(MainActivity.this, AddTriggerActivity.class);
+            Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
             startActivity(intent);
         }/*TODO Fix
         if (menuItem.getItemId() == R.id.order_asc) {

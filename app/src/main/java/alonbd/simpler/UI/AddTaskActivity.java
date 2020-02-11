@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -18,8 +19,9 @@ import alonbd.simpler.TaskLogic.Task;
 import alonbd.simpler.TaskLogic.Trigger;
 
 public class AddTaskActivity extends AppCompatActivity {
+    public final static String EXTRA_TASKNAME="ExtraTaskName";
     EditText name;
-    Button button;
+    ImageButton button;
     Trigger trigger;
     ArrayList<Action> actions;
 
@@ -39,12 +41,8 @@ public class AddTaskActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please enter a name", Toast.LENGTH_SHORT).show();
                 return;
             }else{
-                TasksManager.getInstance(this).addTask(new Task(trigger,name.getText().toString(),actions));
-
-
-
-                Intent intent = new Intent(this,MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent intent = new Intent(this,AddTriggerActivity.class);
+                intent.putExtra(EXTRA_TASKNAME,name.getText().toString());
                 startActivity(intent);
             }
 

@@ -28,6 +28,7 @@ public class AddTriggerActivity extends AppCompatActivity {
     ImageButton button;
     ViewPager viewPager;
     TabLayout tabLayout;
+    String taskName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,9 +39,9 @@ public class AddTriggerActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabs);
         viewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
         tabLayout.setupWithViewPager(viewPager);
-
+        taskName = getIntent().getStringExtra(AddTaskActivity.EXTRA_TASKNAME);
         button.setOnClickListener((View v) -> {
-            AddActionActivity.preDialog(AddTriggerActivity.this,makeTrigger(),null);
+            AddActionActivity.preDialog(AddTriggerActivity.this,makeTrigger(),taskName,null);
         });
     }
 

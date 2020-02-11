@@ -16,18 +16,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
+import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
 import alonbd.simpler.TaskLogic.Action;
+import alonbd.simpler.TaskLogic.Task;
 import alonbd.simpler.TaskLogic.Trigger;
 
 public class AddActionActivity extends AppCompatActivity {
     final static String ACTIONS_EXTRA = "actionsExtra";
     Trigger trigger;
     LinearLayout fragmentContainer;
-    ImageButton next;
+    Button next;
     Button addActionBtn;
     Action.ActionType actionType;
     ArrayList<Action> actions;
+    String taskName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class AddActionActivity extends AppCompatActivity {
         //Data From Intent
         Intent cause = getIntent();
         trigger = (Trigger) cause.getSerializableExtra(AddTriggerActivity.TRIGGER_EXTRA);
+        taskName = cause.getStringExtra(AddTaskActivity.EXTRA_TASKNAME);
         fragmentContainer = findViewById(R.id.fragment_container);
         actionType = (Action.ActionType) cause.getSerializableExtra(AddTriggerActivity.ACTIONTYPE_EXTRA);
         actions = (ArrayList<Action>) cause.getSerializableExtra(ACTIONS_EXTRA);
@@ -55,16 +59,19 @@ public class AddActionActivity extends AppCompatActivity {
             Action newAction = genAction();
             if(newAction == null) return;
             actions.add(newAction);
-            preDialog(this, trigger, actions);
+            preDialog(this,trigger,taskName, actions);
 
         });
         next.setOnClickListener((View v) -> {
             Action newAction = genAction();
             if(newAction == null) return;
             actions.add(newAction);
-            Intent intent = new Intent(this, AddTaskActivity.class);
-            intent.putExtra(ACTIONS_EXTRA, actions);
-            intent.putExtra(AddTriggerActivity.TRIGGER_EXTRA, trigger);
+            TasksManager.getInstance(this).addTask(new Task(trigger,taskName,actions));
+
+
+
+            Intent intent = new Intent(this,MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         });
     }
@@ -79,10 +86,11 @@ public class AddActionActivity extends AppCompatActivity {
         return null;
     }
 
-    private static Intent createIntent(Context context, Action.ActionType actionType, Trigger trigger, ArrayList<Action> actions) {
+    private static Intent createIntent(Context context, Action.ActionType actionType, Trigger trigger,String taskName, ArrayList<Action> actions) {
         Intent intent = new Intent(context, AddActionActivity.class);
         intent.putExtra(AddTriggerActivity.ACTIONTYPE_EXTRA, actionType);
         intent.putExtra(AddTriggerActivity.TRIGGER_EXTRA, trigger);
+        intent.putExtra(AddTaskActivity.EXTRA_TASKNAME,taskName);
         if(actions == null) actions = new ArrayList<>();
         if(actions.size() > 0) {
             intent.putExtra(ACTIONS_EXTRA, actions);
@@ -90,7 +98,7 @@ public class AddActionActivity extends AppCompatActivity {
         return intent;
     }
 
-    public static void preDialog(Context context, Trigger trigger, ArrayList<Action> actions) {
+    public static void preDialog(Context context, Trigger trigger,String taskName ,ArrayList<Action> actions) {
         String[] actionTypes = new String[Action.ActionType.values().length];
         for(int i = 0; i < actionTypes.length; i++)
             actionTypes[i] = Action.ActionType.values()[i].name();
@@ -102,7 +110,7 @@ public class AddActionActivity extends AppCompatActivity {
                     dialogInterface.dismiss();
                 })
                 .setCancelable(true).setItems(actionTypes, (DialogInterface dialogInterface, int which) -> {
-                    Intent intent = AddActionActivity.createIntent(context, Action.ActionType.values()[which], trigger, actions);
+                    Intent intent = AddActionActivity.createIntent(context, Action.ActionType.values()[which], trigger,taskName, actions);
                     context.startActivity(intent);
                 }).create();
         dialog.show();
