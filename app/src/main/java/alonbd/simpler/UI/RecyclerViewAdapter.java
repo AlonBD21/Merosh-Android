@@ -1,5 +1,6 @@
 package alonbd.simpler.UI;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
 import alonbd.simpler.TaskLogic.Task;
 
@@ -26,12 +28,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    List<Task> tasks;
+    private List<Task> tasks;
 
-    public RecyclerViewAdapter(List<Task> tasks) {
-        this.tasks = tasks;
+    public RecyclerViewAdapter(Context context) {
+        tasks = TasksManager.getInstance(context).loadData();
     }
-
+    public void RefreshData(Context context){
+        tasks = TasksManager.getInstance(context).loadData();
+    }
     @NonNull
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
