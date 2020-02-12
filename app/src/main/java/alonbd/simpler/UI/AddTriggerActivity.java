@@ -1,5 +1,6 @@
 package alonbd.simpler.UI;
 
+import android.app.Notification;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -19,16 +20,15 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import alonbd.simpler.TaskLogic.BTTrigger;
+import alonbd.simpler.TaskLogic.TaskBuilder;
 import alonbd.simpler.TaskLogic.Trigger;
 import alonbd.simpler.R;
 
 public class AddTriggerActivity extends AppCompatActivity {
-    public static final String ACTIONTYPE_EXTRA = "actionType";
-    public static final String TRIGGER_EXTRA = "triggerExtra";
     ImageButton button;
     ViewPager viewPager;
     TabLayout tabLayout;
-    String taskName;
+    TaskBuilder builder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,9 +39,11 @@ public class AddTriggerActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabs);
         viewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
         tabLayout.setupWithViewPager(viewPager);
-        taskName = getIntent().getStringExtra(AddTaskActivity.EXTRA_TASKNAME);
+        builder = (TaskBuilder) getIntent().getSerializableExtra(TaskBuilder.EXTRA_TAG);
+
         button.setOnClickListener((View v) -> {
-            AddActionActivity.preDialog(AddTriggerActivity.this,makeTrigger(),taskName,null);
+            builder.setTrigger(makeTrigger());
+            AddActionActivity.preDialog(AddTriggerActivity.this,builder);
         });
     }
 

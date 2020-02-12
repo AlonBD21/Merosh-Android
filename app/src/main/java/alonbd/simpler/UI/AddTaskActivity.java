@@ -1,5 +1,6 @@
 package alonbd.simpler.UI;
 
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -16,33 +17,30 @@ import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
 import alonbd.simpler.TaskLogic.Action;
 import alonbd.simpler.TaskLogic.Task;
+import alonbd.simpler.TaskLogic.TaskBuilder;
 import alonbd.simpler.TaskLogic.Trigger;
 
 public class AddTaskActivity extends AppCompatActivity {
-    public final static String EXTRA_TASKNAME="ExtraTaskName";
     EditText name;
     ImageButton button;
-    Trigger trigger;
-    ArrayList<Action> actions;
+    TaskBuilder builder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addtask);
+        builder = new TaskBuilder();
         name = findViewById(R.id.name_et);
         button = findViewById(R.id.btn);
-
-        Intent cause = getIntent();
-        trigger = (Trigger)cause.getSerializableExtra(AddTriggerActivity.TRIGGER_EXTRA);
-        actions = (ArrayList<Action>)cause.getSerializableExtra(AddActionActivity.ACTIONS_EXTRA);
 
         button.setOnClickListener(v -> {
             if(name.getText().length() == 0) {
                 Toast.makeText(this, "Please enter a name", Toast.LENGTH_SHORT).show();
                 return;
             }else{
+                builder.setTaskName(name.getText().toString());
                 Intent intent = new Intent(this,AddTriggerActivity.class);
-                intent.putExtra(EXTRA_TASKNAME,name.getText().toString());
+                intent.putExtra(TaskBuilder.EXTRA_TAG,builder);
                 startActivity(intent);
             }
 
