@@ -25,10 +25,10 @@ import java.util.Set;
 
 import alonbd.simpler.R;
 
-public class BTTriggerFragment extends Fragment {
+public class BluetoothTriggerFragment extends Fragment {
     private BroadcastReceiver mBTTurnedOnReceiver;
     private RadioGroup mDeviceRadioGroup;
-    private TextView mBTErrTv;
+    private TextView mBtErrTv;
 
 
 
@@ -37,7 +37,7 @@ public class BTTriggerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_trigger_bt, container, false);
         mDeviceRadioGroup = root.findViewById(R.id.radio_group);
-        mBTErrTv = root.findViewById(R.id.bt_err_tv);
+        mBtErrTv = root.findViewById(R.id.bt_err_tv);
         return root;
     }
 
@@ -47,7 +47,7 @@ public class BTTriggerFragment extends Fragment {
         if(BluetoothAdapter.getDefaultAdapter().isEnabled()) {
             updateDeviceList();
         } else {
-            mBTErrTv.setText("Please turn on bluetooth to see list");
+            mBtErrTv.setText("Please turn on bluetooth to see list");
         }
         mBTTurnedOnReceiver = new BroadcastReceiver() {
             @Override
@@ -81,7 +81,7 @@ public class BTTriggerFragment extends Fragment {
             newButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
             mDeviceRadioGroup.addView(newButton, lp);
         }
-        mBTErrTv.setText("");
+        mBtErrTv.setText("");
     }
 
     @Override

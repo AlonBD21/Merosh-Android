@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import alonbd.simpler.TaskLogic.Task;
 
-public class BtReceiver extends BroadcastReceiver {
+public class BluetoothReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {

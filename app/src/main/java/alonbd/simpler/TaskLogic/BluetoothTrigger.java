@@ -5,14 +5,14 @@ import android.content.Intent;
 
 import java.io.Serializable;
 
-public class BtTrigger extends Trigger implements Serializable {
+public class BluetoothTrigger extends Trigger implements Serializable {
     private boolean mOnConnection;
     private boolean mOnDisconnection;
     private String mDeviceAddress;
     private String mDeviceName;
 
 
-    public BtTrigger(boolean mOnConnection, boolean mOnDisconnection, String mDeviceName, String mDeviceAddress) {
+    public BluetoothTrigger(boolean mOnConnection, boolean mOnDisconnection, String mDeviceName, String mDeviceAddress) {
         this.mOnConnection = mOnConnection;
         this.mOnDisconnection = mOnDisconnection;
         this.mDeviceAddress = mDeviceAddress;

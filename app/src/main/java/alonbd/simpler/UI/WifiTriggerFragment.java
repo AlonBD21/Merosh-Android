@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import alonbd.simpler.R;
 
-public class WiFiTriggerFragment extends Fragment {
+public class WifiTriggerFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

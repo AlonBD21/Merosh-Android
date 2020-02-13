@@ -18,7 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
-import alonbd.simpler.TaskLogic.BtTrigger;
+import alonbd.simpler.TaskLogic.BluetoothTrigger;
 import alonbd.simpler.TaskLogic.TaskBuilder;
 import alonbd.simpler.TaskLogic.Trigger;
 import alonbd.simpler.R;
@@ -58,9 +58,9 @@ public class AddTriggerActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch(position) {
                 case 0:
-                    return new BTTriggerFragment();
+                    return new BluetoothTriggerFragment();
                 case 1:
-                    return new WiFiTriggerFragment();
+                    return new WifiTriggerFragment();
                 case 2:
                     return new LocationTriggerFragment();
                 default:
@@ -97,7 +97,7 @@ public class AddTriggerActivity extends AppCompatActivity {
                     return null;
                 }
                 Toast.makeText(this, "checked id is " + radioGroup.getCheckedRadioButtonId(), Toast.LENGTH_LONG).show();
-                return new BtTrigger(connection.isChecked(), disconnection.isChecked(), radioButton.getTag().toString(), radioButton.getText().toString());
+                return new BluetoothTrigger(connection.isChecked(), disconnection.isChecked(), radioButton.getTag().toString(), radioButton.getText().toString());
             default:
                 return null;
 
