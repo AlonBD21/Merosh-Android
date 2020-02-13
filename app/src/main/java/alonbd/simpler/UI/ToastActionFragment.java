@@ -11,17 +11,16 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import alonbd.simpler.R;
 import alonbd.simpler.TaskLogic.Action;
 import alonbd.simpler.TaskLogic.ToastAction;
 
 public class ToastActionFragment extends ActionFragment implements View.OnClickListener {
-    ToggleButton shorter;
-    ToggleButton longer;
-    Button tryBtn;
-    EditText msg;
+    private ToggleButton mShorterToggle;
+    private ToggleButton mLongerToggle;
+    private Button mTryToastBtn;
+    private EditText mToastTxtEt;
 
     @Nullable
     @Override
@@ -32,33 +31,33 @@ public class ToastActionFragment extends ActionFragment implements View.OnClickL
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        shorter = view.findViewById(R.id.length_short);
-        longer = view.findViewById(R.id.length_long);
-        tryBtn = view.findViewById(R.id.try_btn);
-        msg = view.findViewById(R.id.toast_msg);
+        mShorterToggle = view.findViewById(R.id.length_short);
+        mLongerToggle = view.findViewById(R.id.length_long);
+        mTryToastBtn = view.findViewById(R.id.try_btn);
+        mToastTxtEt = view.findViewById(R.id.toast_msg);
 
-        shorter.setChecked(true);
-        shorter.setOnClickListener(this);
-        longer.setOnClickListener(this);
-        tryBtn.setOnClickListener((View v) -> {
+        mShorterToggle.setChecked(true);
+        mShorterToggle.setOnClickListener(this);
+        mLongerToggle.setOnClickListener(this);
+        mTryToastBtn.setOnClickListener((View v) -> {
             genAction().onExecute(getContext());
         });
 
     }
 
     public Action genAction() {
-        return new ToastAction(msg.getText().toString(), shorter.isChecked() ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG);
+        return new ToastAction(mToastTxtEt.getText().toString(), mShorterToggle.isChecked() ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG);
     }
 
     @Override
     public void onClick(View v) {
         if(!((ToggleButton) v).isChecked()) {
-            shorter.setChecked(true);
-            longer.setChecked(true);
+            mShorterToggle.setChecked(true);
+            mLongerToggle.setChecked(true);
             ((ToggleButton) v).setChecked(false);
         } else {
-            shorter.setChecked(false);
-            longer.setChecked(false);
+            mShorterToggle.setChecked(false);
+            mLongerToggle.setChecked(false);
             ((ToggleButton) v).setChecked(true);
         }
     }

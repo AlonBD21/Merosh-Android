@@ -15,54 +15,51 @@ import androidx.appcompat.app.AppCompatActivity;
 import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
 import alonbd.simpler.TaskLogic.Action;
-import alonbd.simpler.TaskLogic.Task;
 import alonbd.simpler.TaskLogic.TaskBuilder;
 
 public class AddActionActivity extends AppCompatActivity {
-
     private static final String ACTIONTYPE_EXTRA = "actionTypeExtra";
-    LinearLayout fragmentContainer;
-    Button finishBtn;
-    Button addActionBtn;
-    Action.ActionType actionType;
-    TaskBuilder builder;
+    //vars
+    private Button mFinishBtn;
+    private Button mAddActionBtn;
+    private Action.ActionType mActionType;
+    private TaskBuilder mBuilder;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addaction);
-        finishBtn = findViewById(R.id.next_btn);
-        addActionBtn = findViewById(R.id.add_action_btn);
+        mFinishBtn = findViewById(R.id.next_btn);
+        mAddActionBtn = findViewById(R.id.add_action_btn);
         //Data From Intent
         Intent cause = getIntent();
-        builder = (TaskBuilder)cause.getSerializableExtra(TaskBuilder.EXTRA_TAG);
-        fragmentContainer = findViewById(R.id.fragment_container);
-        actionType = (Action.ActionType) cause.getSerializableExtra(ACTIONTYPE_EXTRA);
+        mBuilder = (TaskBuilder)cause.getSerializableExtra(TaskBuilder.EXTRA_TAG);
+        mActionType = (Action.ActionType) cause.getSerializableExtra(ACTIONTYPE_EXTRA);
         //Add Fragment
-        switch(actionType) {
+        switch(mActionType) {
             case Toast:
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new ToastActionFragment()).commit();
                 break;
             case Notification:
-                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new NotificationActionFragment(builder.getTaskName())).commit();
+                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new NotificationActionFragment()).commit();
                 break;
         }
 
 
 
-        addActionBtn.setOnClickListener((View v) -> {
+        mAddActionBtn.setOnClickListener((View v) -> {
             Action newAction = ((ActionFragment)getSupportFragmentManager().getFragments().get(0)).genAction();
             if(newAction == null) return;
-            builder.addAction(newAction);
-            preDialog(this,builder);
+            mBuilder.addAction(newAction);
+            preDialog(this, mBuilder);
 
         });
-        finishBtn.setOnClickListener((View v) -> {
+        mFinishBtn.setOnClickListener((View v) -> {
             Action newAction = ((ActionFragment)getSupportFragmentManager().getFragments().get(0)).genAction();
             if(newAction == null) return;
-            builder.addAction(newAction);
-            TasksManager.getInstance(this).addTask(builder.build());
+            mBuilder.addAction(newAction);
+            TasksManager.getInstance(this).addTask(mBuilder.build());
 
 
 

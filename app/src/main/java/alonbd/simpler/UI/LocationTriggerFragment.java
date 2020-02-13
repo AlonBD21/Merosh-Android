@@ -1,16 +1,13 @@
 package alonbd.simpler.UI;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,8 +18,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import alonbd.simpler.R;
@@ -31,11 +29,12 @@ public class LocationTriggerFragment extends Fragment {
     private static final int SERVICES_ERROR_DIALOG_REQ = 9001;
     private static final int LOCATION_PERMISSION_REQ_CODE = 1234;
     private static final String TAG = "LocationTriggerFragment";
-
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
 
-    private boolean locationPermissionGranted;
-    private GoogleMap map;
+    private boolean mLocationPermissionGranted;
+    private GoogleMap mMap;
+    private FusedLocationProviderClient mLocationClient;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,7 +63,7 @@ public class LocationTriggerFragment extends Fragment {
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(getActivity(), available, SERVICES_ERROR_DIALOG_REQ);
             dialog.show();
         } else {
-            Toast.makeText(getContext(), "Can't activate Google map", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Can't activate Google Map", Toast.LENGTH_SHORT).show();
         }
         return false;
     }
@@ -74,7 +73,7 @@ public class LocationTriggerFragment extends Fragment {
 
         if(ContextCompat.checkSelfPermission(getContext(), FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            locationPermissionGranted = true;
+            mLocationPermissionGranted = true;
             initMap();
         } else {
             ActivityCompat.requestPermissions(getActivity(), permissions, LOCATION_PERMISSION_REQ_CODE);
@@ -82,24 +81,28 @@ public class LocationTriggerFragment extends Fragment {
 
     }
 
-    private void initMap(){
-        Log.d(TAG,"Initializing Map");
-        SupportMapFragment mapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map);
+    private void getDeviceLocation() {
+        mLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+    }
+
+    private void initMap() {
+        Log.d(TAG, "Initializing Map");
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(googleMap -> {
-            map = googleMap;
-            Log.d(TAG,"Map initialized");
+            mMap = googleMap;
+            Log.d(TAG, "Map initialized");
         });
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        locationPermissionGranted = false;
+        mLocationPermissionGranted = false;
         switch(requestCode) {
             case LOCATION_PERMISSION_REQ_CODE: {
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    locationPermissionGranted =true;
-                }else{
-                    locationPermissionGranted = false;
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mLocationPermissionGranted = true;
+                } else {
+                    mLocationPermissionGranted = false;
                 }
             }
             initMap();

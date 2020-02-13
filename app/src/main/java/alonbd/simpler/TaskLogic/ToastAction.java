@@ -6,16 +6,15 @@ import android.widget.Toast;
 import java.io.Serializable;
 
 public class ToastAction implements Action, Serializable {
-    ;
-    int duration;
-    String txt;
+    private int mDuration;
+    private String mTxt;
 
-    public ToastAction(String txt, int duration) {
-        this.duration = duration;
-        this.txt = txt;
+    public ToastAction(String mTxt, int mDuration) {
+        this.mDuration = mDuration;
+        this.mTxt = mTxt;
     }
 
     @Override
-    public void onExecute(Context context) {Toast.makeText(context, txt, duration).show();}
+    public void onExecute(Context context) {Toast.makeText(context, mTxt, mDuration).show();}
 
 }

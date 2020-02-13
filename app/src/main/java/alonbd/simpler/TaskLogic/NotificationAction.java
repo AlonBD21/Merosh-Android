@@ -14,14 +14,14 @@ public class NotificationAction implements Action, Serializable {
     public final static String CHANNEL_ID = "NotificationActionChannel";
     public final static CharSequence CHANNEL_NAME = "Simpler";
     public final static int ID = 5;//Change to dynamic id
-    final static int IMPOERTANCE = NotificationManager.IMPORTANCE_DEFAULT;
+    final static int IMPORTANCE = NotificationManager.IMPORTANCE_DEFAULT;
 
-    String content;
-    String taskName;
+    private String mContent;
+    private String mTaskName;
 
-    public NotificationAction(String content, String taskName) {
-        this.content = content;
-        this.taskName = taskName;
+    public NotificationAction(String mContent, String mTaskName) {
+        this.mContent = mContent;
+        this.mTaskName = mTaskName;
 
     }
 
@@ -33,7 +33,7 @@ public class NotificationAction implements Action, Serializable {
         if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             channel = manager.getNotificationChannel(CHANNEL_ID);
             if(channel == null) {
-                channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPOERTANCE);
+                channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE);
                 channel.enableLights(true);
                 channel.setLightColor(Color.CYAN);
                 channel.enableVibration(true);
@@ -42,8 +42,8 @@ public class NotificationAction implements Action, Serializable {
             builder.setChannelId(CHANNEL_ID);
         }
         builder.setSmallIcon(R.drawable.ic_notification_bell);
-        builder.setContentTitle(taskName + " got triggered");
-        builder.setContentText(content);
+        builder.setContentTitle(mTaskName + " got triggered");
+        builder.setContentText(mContent);
         manager.notify(ID, builder.build());
 
     }

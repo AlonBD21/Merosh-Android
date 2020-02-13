@@ -26,12 +26,18 @@ import java.util.Set;
 import alonbd.simpler.R;
 
 public class BTTriggerFragment extends Fragment {
+    private BroadcastReceiver mBTTurnedOnReceiver;
+    private RadioGroup mDeviceRadioGroup;
+    private TextView mBTErrTv;
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_trigger_bt, container, false);
-        radioGroup = root.findViewById(R.id.radio_group);
-        btErr = root.findViewById(R.id.bt_err_tv);
+        mDeviceRadioGroup = root.findViewById(R.id.radio_group);
+        mBTErrTv = root.findViewById(R.id.bt_err_tv);
         return root;
     }
 
@@ -41,9 +47,9 @@ public class BTTriggerFragment extends Fragment {
         if(BluetoothAdapter.getDefaultAdapter().isEnabled()) {
             updateDeviceList();
         } else {
-            btErr.setText("Please turn on bluetooth to see list");
+            mBTErrTv.setText("Please turn on bluetooth to see list");
         }
-        btOnReciever = new BroadcastReceiver() {
+        mBTTurnedOnReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if(intent.getAction().equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
@@ -55,12 +61,8 @@ public class BTTriggerFragment extends Fragment {
             }
         };
         IntentFilter btOnFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
-        getContext().registerReceiver(btOnReciever, btOnFilter);
+        getContext().registerReceiver(mBTTurnedOnReceiver, btOnFilter);
     }
-
-    BroadcastReceiver btOnReciever;
-    RadioGroup radioGroup;
-    TextView btErr;
 
     private void updateDeviceList() {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -77,15 +79,15 @@ public class BTTriggerFragment extends Fragment {
             newButton.setText(device.getName());
             newButton.setTag(device.getAddress());
             newButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
-            radioGroup.addView(newButton, lp);
+            mDeviceRadioGroup.addView(newButton, lp);
         }
-        btErr.setText("");
+        mBTErrTv.setText("");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getContext().unregisterReceiver(btOnReciever);
+        getContext().unregisterReceiver(mBTTurnedOnReceiver);
     }
 
 }

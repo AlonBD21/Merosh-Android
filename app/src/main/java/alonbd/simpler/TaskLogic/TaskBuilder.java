@@ -5,39 +5,40 @@ import java.util.ArrayList;
 
 public class TaskBuilder implements Serializable {
     public final static String EXTRA_TAG = "taskBuilderExtra";
-    String taskName;
-    Trigger trigger;
-    ArrayList<Action> actions;
+
+    private String mTaskName;
+    private Trigger mTrigger;
+    private ArrayList<Action> mActions;
 
     public TaskBuilder() {
-        actions = new ArrayList<>();
+        mActions = new ArrayList<>();
     }
 
     public String getTaskName() {
-        return taskName;
+        return mTaskName;
     }
 
     public void setTaskName(String taskName) {
-        this.taskName = taskName;
+        this.mTaskName = taskName;
     }
 
     public Trigger getTrigger() {
-        return trigger;
+        return mTrigger;
     }
 
     public void setTrigger(Trigger trigger) {
-        this.trigger = trigger;
+        this.mTrigger = trigger;
     }
 
-    public ArrayList<alonbd.simpler.TaskLogic.Action> getActions() {
-        return actions;
+    public ArrayList<alonbd.simpler.TaskLogic.Action> getmActions() {
+        return mActions;
     }
 
     public void addAction(Action action) {
-        actions.add(action);
+        mActions.add(action);
     }
 
     public Task build(){
-        return new Task(trigger,taskName,actions);
+        return new Task(mTrigger, mTaskName, mActions);
     }
 }

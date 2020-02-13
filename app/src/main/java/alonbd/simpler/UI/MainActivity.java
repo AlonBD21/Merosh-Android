@@ -12,15 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -28,13 +23,11 @@ import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    RecyclerView recyclerView;
-    NavigationView nav;
-    CoordinatorLayout coordLayout;
-    DrawerLayout rootDrawer;
-    Toolbar toolbar;
-    FloatingActionButton fab;
-    TasksManager tasksManager;
+    private RecyclerView mRecyclerView;
+    private NavigationView mNav;
+    private DrawerLayout mRootDrawerLayout;
+    private Toolbar mToolbar;
+    private FloatingActionButton mFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +35,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
 
-        toolbar = findViewById(R.id.toolbar);
-        rootDrawer = findViewById(R.id.drawer_root);
-        nav = findViewById(R.id.nav_view);
-        recyclerView = findViewById(R.id.recycler);
-        setSupportActionBar(toolbar);
-        fab = findViewById(R.id.fab);
-        coordLayout = findViewById(R.id.coord_layout);
-        tasksManager = TasksManager.getInstance(this);
+        mToolbar = findViewById(R.id.toolbar);
+        mRootDrawerLayout = findViewById(R.id.drawer_root);
+        mNav = findViewById(R.id.nav_view);
+        mRecyclerView = findViewById(R.id.recycler);
+        setSupportActionBar(mToolbar);
+        mFab = findViewById(R.id.fab);
 
-        fab.setOnClickListener(v -> {
+        mFab.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
             startActivity(intent);
 
@@ -61,13 +52,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         actionBar.setHomeAsUpIndicator(R.drawable.ic_burgermenu_black);
 
 
-        nav.setNavigationItemSelectedListener(this);
+        mNav.setNavigationItemSelectedListener(this);
         //        nav.setCheckedItem(R.id.order_asc);
         //        //}else{
         //        nav.setCheckedItem(R.id.order_des);
         //        //}
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));//TODO false is order
-        recyclerView.setAdapter(new RecyclerViewAdapter(this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));//TODO false is order
+        mRecyclerView.setAdapter(new RecyclerViewAdapter(this));
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.END) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -84,23 +75,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         TasksManager tm = TasksManager.getInstance(MainActivity.this);
                         int position = viewHolder.getAdapterPosition();
                         tm.removeTaskAt(position);
-                        ((RecyclerViewAdapter)recyclerView.getAdapter()).RefreshData(MainActivity.this);
-                        recyclerView.getAdapter().notifyItemRemoved(position);
+                        ((RecyclerViewAdapter)mRecyclerView.getAdapter()).RefreshData(MainActivity.this);
+                        mRecyclerView.getAdapter().notifyItemRemoved(position);
                     }).setNeutralButton("Cancel", (dialog, which) -> {
                         int position = viewHolder.getAdapterPosition();
                         dialog.dismiss();
-                        recyclerView.getAdapter().notifyItemChanged(position);
+                        mRecyclerView.getAdapter().notifyItemChanged(position);
                     }).setMessage("Are you sure you want to delete this Task?").setTitle("Task Deletion").setCancelable(true).setOnCancelListener(dialog -> {
                         int position = viewHolder.getAdapterPosition();
                         dialog.dismiss();
-                        recyclerView.getAdapter().notifyItemChanged(position);
+                        mRecyclerView.getAdapter().notifyItemChanged(position);
                     })
                             .create().show();
                 }
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
     }
 
@@ -110,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if(item.getItemId() == android.R.id.home) {
-            rootDrawer.openDrawer(GravityCompat.START);
+            mRootDrawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -147,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }).run();
             Snackbar.make(coordLayout,"Order Changed",Snackbar.LENGTH_SHORT).show();}
 */
-        rootDrawer.closeDrawer(GravityCompat.START);
+        mRootDrawerLayout.closeDrawer(GravityCompat.START);
         return false;
     }
 }

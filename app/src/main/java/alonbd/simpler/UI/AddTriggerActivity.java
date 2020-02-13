@@ -1,6 +1,5 @@
 package alonbd.simpler.UI;
 
-import android.app.Notification;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -19,31 +18,31 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
-import alonbd.simpler.TaskLogic.BTTrigger;
+import alonbd.simpler.TaskLogic.BtTrigger;
 import alonbd.simpler.TaskLogic.TaskBuilder;
 import alonbd.simpler.TaskLogic.Trigger;
 import alonbd.simpler.R;
 
 public class AddTriggerActivity extends AppCompatActivity {
-    ImageButton button;
-    ViewPager viewPager;
-    TabLayout tabLayout;
-    TaskBuilder builder;
+    private ImageButton mButton;
+    private ViewPager mViewPager;
+    private TabLayout mTabsLayout;
+    private TaskBuilder mBuilder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addtrigger);
-        button = findViewById(R.id.next_btn);
-        viewPager = findViewById(R.id.view_pager);
-        tabLayout = findViewById(R.id.tabs);
-        viewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
-        tabLayout.setupWithViewPager(viewPager);
-        builder = (TaskBuilder) getIntent().getSerializableExtra(TaskBuilder.EXTRA_TAG);
+        mButton = findViewById(R.id.next_btn);
+        mViewPager = findViewById(R.id.view_pager);
+        mTabsLayout = findViewById(R.id.tabs);
+        mViewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
+        mTabsLayout.setupWithViewPager(mViewPager);
+        mBuilder = (TaskBuilder) getIntent().getSerializableExtra(TaskBuilder.EXTRA_TAG);
 
-        button.setOnClickListener((View v) -> {
-            builder.setTrigger(makeTrigger());
-            AddActionActivity.preDialog(AddTriggerActivity.this,builder);
+        mButton.setOnClickListener((View v) -> {
+            mBuilder.setTrigger(makeTrigger());
+            AddActionActivity.preDialog(AddTriggerActivity.this, mBuilder);
         });
     }
 
@@ -82,7 +81,7 @@ public class AddTriggerActivity extends AppCompatActivity {
     }
 
     public Trigger makeTrigger() {
-        int tabIndex = viewPager.getCurrentItem();
+        int tabIndex = mViewPager.getCurrentItem();
         switch(tabIndex) {
             case 0:
                 RadioGroup radioGroup = findViewById(R.id.radio_group);
@@ -98,7 +97,7 @@ public class AddTriggerActivity extends AppCompatActivity {
                     return null;
                 }
                 Toast.makeText(this, "checked id is " + radioGroup.getCheckedRadioButtonId(), Toast.LENGTH_LONG).show();
-                return new BTTrigger(connection.isChecked(), disconnection.isChecked(), radioButton.getTag().toString(), radioButton.getText().toString());
+                return new BtTrigger(connection.isChecked(), disconnection.isChecked(), radioButton.getTag().toString(), radioButton.getText().toString());
             default:
                 return null;
 

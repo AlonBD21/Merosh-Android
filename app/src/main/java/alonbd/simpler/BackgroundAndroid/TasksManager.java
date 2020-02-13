@@ -13,29 +13,30 @@ import java.util.ArrayList;
 
 import alonbd.simpler.TaskLogic.Task;
 
-//TODO, fix reace conditions with 'synchronized'
+//TODO, fix race conditions with 'synchronized'
 public class TasksManager {
+    //Constants
     private final static Object SYNCHRO = new Object();
     private final static String FILE = "TasksArrayListFile";
-    private ArrayList<Task> data;
-    private Context context;
-    private static TasksManager instance;
+    //vars
+    private ArrayList<Task> mData;
+    private Context mContext;
+    private static TasksManager sInstance;
 
-    //Private
+    //Methods
     private TasksManager(Context context) {
-        this.context = context;
+        this.mContext = context;
         loadData();
-        if (data == null){
-            data = new ArrayList<>();
+        if (mData == null){
+            mData = new ArrayList<>();
             saveData();
         }
     }
-
     private void saveData() {
         try {
-            FileOutputStream fos = context.openFileOutput(FILE, Context.MODE_PRIVATE);
+            FileOutputStream fos = mContext.openFileOutput(FILE, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(data);
+            oos.writeObject(mData);
             oos.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -45,9 +46,9 @@ public class TasksManager {
     }
     public ArrayList<Task> loadData(){
         try {
-            FileInputStream fis = context.openFileInput(FILE);
+            FileInputStream fis = mContext.openFileInput(FILE);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            data = (ArrayList<Task>) ois.readObject();
+            mData = (ArrayList<Task>) ois.readObject();
             ois.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -56,24 +57,23 @@ public class TasksManager {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return data;
+        return mData;
     }
-    //Public
     public static TasksManager getInstance(Context context) {
-        if (instance != null) return instance;
+        if (sInstance != null) return sInstance;
         else {
-            instance = new TasksManager(context);
-            return instance;
+            sInstance = new TasksManager(context);
+            return sInstance;
         }
     }
     public void addTask(Task task){
         loadData();
-        data.add(task);
+        mData.add(task);
         saveData();
     }
     public void removeTaskAt(int index){
         loadData();
-        data.remove(index);
+        mData.remove(index);
         saveData();
     }
 }

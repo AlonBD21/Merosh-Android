@@ -17,24 +17,23 @@ import alonbd.simpler.TaskLogic.Task;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.TaskViewHolder>{
     class TaskViewHolder extends RecyclerView.ViewHolder{
-        TextView typeTv;
-        TextView nameTv;
-
-
+        private TextView mTypeTv;
+        private TextView mTaskNameTv;
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
-            nameTv = itemView.findViewById(R.id.txt_name);
-            typeTv = itemView.findViewById(R.id.txt_trigger_type);
+            mTaskNameTv = itemView.findViewById(R.id.txt_name);
+            mTypeTv = itemView.findViewById(R.id.txt_trigger_type);
         }
     }
 
-    private List<Task> tasks;
+    private List<Task> mTasks;
+
 
     public RecyclerViewAdapter(Context context) {
-        tasks = TasksManager.getInstance(context).loadData();
+        mTasks = TasksManager.getInstance(context).loadData();
     }
     public void RefreshData(Context context){
-        tasks = TasksManager.getInstance(context).loadData();
+        mTasks = TasksManager.getInstance(context).loadData();
     }
     @NonNull
     @Override
@@ -45,13 +44,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
-        Task t = tasks.get(position);
-        holder.typeTv.setText(t.triggerType());
-        holder.nameTv.setText(t.getName());
+        Task t = mTasks.get(position);
+        holder.mTypeTv.setText(t.triggerType());
+        holder.mTaskNameTv.setText(t.getName());
     }
 
     @Override
     public int getItemCount() {
-        return tasks.size();
+        return mTasks.size();
     }
 }

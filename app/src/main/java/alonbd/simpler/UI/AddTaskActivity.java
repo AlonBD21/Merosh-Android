@@ -21,26 +21,27 @@ import alonbd.simpler.TaskLogic.TaskBuilder;
 import alonbd.simpler.TaskLogic.Trigger;
 
 public class AddTaskActivity extends AppCompatActivity {
-    EditText name;
-    ImageButton button;
-    TaskBuilder builder;
+
+    private EditText mName;
+    private ImageButton mButton;
+    private TaskBuilder mBuilder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addtask);
-        builder = new TaskBuilder();
-        name = findViewById(R.id.name_et);
-        button = findViewById(R.id.btn);
+        mBuilder = new TaskBuilder();
+        mName = findViewById(R.id.name_et);
+        mButton = findViewById(R.id.btn);
 
-        button.setOnClickListener(v -> {
-            if(name.getText().length() == 0) {
+        mButton.setOnClickListener(v -> {
+            if(mName.getText().length() == 0) {
                 Toast.makeText(this, "Please enter a name", Toast.LENGTH_SHORT).show();
                 return;
             }else{
-                builder.setTaskName(name.getText().toString());
+                mBuilder.setTaskName(mName.getText().toString());
                 Intent intent = new Intent(this,AddTriggerActivity.class);
-                intent.putExtra(TaskBuilder.EXTRA_TAG,builder);
+                intent.putExtra(TaskBuilder.EXTRA_TAG,mBuilder);
                 startActivity(intent);
             }
 

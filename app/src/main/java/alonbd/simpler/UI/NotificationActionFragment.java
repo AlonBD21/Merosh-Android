@@ -14,19 +14,15 @@ import org.w3c.dom.Text;
 import alonbd.simpler.R;
 import alonbd.simpler.TaskLogic.Action;
 import alonbd.simpler.TaskLogic.NotificationAction;
+import alonbd.simpler.TaskLogic.TaskBuilder;
 
 public class NotificationActionFragment extends ActionFragment {
 
-    EditText content;
-    String taskName;
+    private EditText mContentEt;
     @Override
     public Action genAction() {
-        return new NotificationAction(content.getText().toString(),taskName);
-    }
-
-    public NotificationActionFragment(String taskName){
-        super();
-        this.taskName = taskName;
+        String taskName = ((TaskBuilder)getActivity().getIntent().getParcelableExtra(TaskBuilder.EXTRA_TAG)).getTaskName();
+        return new NotificationAction(mContentEt.getText().toString(),taskName);
     }
 
     @Nullable
@@ -39,6 +35,6 @@ public class NotificationActionFragment extends ActionFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        content = view.findViewById(R.id.content);
+        mContentEt = view.findViewById(R.id.content);
     }
 }

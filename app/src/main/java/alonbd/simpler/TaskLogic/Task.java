@@ -7,31 +7,30 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Task implements Serializable {
-    private Trigger trigger;
-    private ArrayList<Action> actions;
 
-    private String name;
-    private Date date;
+    private Trigger mTrigger;
+    private ArrayList<Action> mActions;
+    private String mName;
+    private Date mDate;
 
-    public Task(Trigger trigger, String name, ArrayList<Action> actions) {
-        date = new Date();
-        this.name = name;
-        this.trigger = trigger;
-        this.actions = actions;
+    public Task(Trigger mTrigger, String mName, ArrayList<Action> mActions) {
+        mDate = new Date();
+        this.mName = mName;
+        this.mTrigger = mTrigger;
+        this.mActions = mActions;
     }
 
     public void start(Context context){
-        trigger.setConsumedTrue();
         for (Action action :
-                actions) {
+                mActions) {
             action.onExecute(context);
         }
     }
-    public String getName(){return  name;}
+    public String getName(){return mName;}
     public String triggerType(){
-        return  trigger.getClass().getSimpleName();
+        return  mTrigger.getClass().getSimpleName();
     }
-    public Trigger getTrigger() {return trigger;}
+    public Trigger getTrigger() {return mTrigger;}
 
 
 

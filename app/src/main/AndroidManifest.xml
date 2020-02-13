@@ -25,7 +25,7 @@
         <activity android:name="alonbd.simpler.UI.AddActionActivity"/>
         <activity android:name="alonbd.simpler.UI.AddTaskActivity"/>
 
-        <receiver android:name=".BackgroundAndroid.BTReceiver">
+        <receiver android:name=".BackgroundAndroid.BtReceiver">
             <intent-filter>
                 <action android:name="android.bluetooth.device.action.ACL_CONNECTED"/>
                 <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED"/>
