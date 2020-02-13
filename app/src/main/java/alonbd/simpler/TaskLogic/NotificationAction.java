@@ -1,6 +1,5 @@
 package alonbd.simpler.TaskLogic;
 
-
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -20,8 +19,9 @@ public class NotificationAction implements Action, Serializable {
     String content;
     String taskName;
 
-    public NotificationAction(String content, String taskName){
+    public NotificationAction(String content, String taskName) {
         this.content = content;
+        this.taskName = taskName;
 
     }
 
@@ -32,8 +32,8 @@ public class NotificationAction implements Action, Serializable {
         Notification.Builder builder = new Notification.Builder(context);
         if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             channel = manager.getNotificationChannel(CHANNEL_ID);
-            if(channel == null){
-                channel = new NotificationChannel(CHANNEL_ID,CHANNEL_NAME,IMPOERTANCE);
+            if(channel == null) {
+                channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPOERTANCE);
                 channel.enableLights(true);
                 channel.setLightColor(Color.CYAN);
                 channel.enableVibration(true);
@@ -42,9 +42,9 @@ public class NotificationAction implements Action, Serializable {
             builder.setChannelId(CHANNEL_ID);
         }
         builder.setSmallIcon(R.drawable.ic_notification_bell);
-        builder.setContentTitle(taskName+" got triggered");
+        builder.setContentTitle(taskName + " got triggered");
         builder.setContentText(content);
-        manager.notify(ID,builder.build());
+        manager.notify(ID, builder.build());
 
     }
 }

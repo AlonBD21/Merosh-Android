@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="alonbd.simpler">
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="Manifest.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
@@ -12,7 +14,7 @@
         android:roundIcon="@mipmap/app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="alonbd.simpler.UI.MainActivity">
+        <activity android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -23,18 +25,19 @@
         <activity android:name="alonbd.simpler.UI.AddActionActivity"/>
         <activity android:name="alonbd.simpler.UI.AddTaskActivity"/>
 
-        <receiver android:name="alonbd.simpler.BackgroundAndroid.BTReceiver">
+        <receiver android:name=".BackgroundAndroid.BTReceiver">
             <intent-filter>
                 <action android:name="android.bluetooth.device.action.ACL_CONNECTED"/>
                 <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED"/>
+                <action android:name="android.net.wifi.supplicant.CONNECTION_CHANGE"/>
             </intent-filter>
         </receiver>
-
-        <receiver android:name="alonbd.simpler.BackgroundAndroid.WiFiReceiver">
-            <intent-filter>
-                <action android:name="android.net.wifi.STATE_CHANGE"/>
-            </intent-filter>
-        </receiver>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCqpZJBN9tBm8UG_qsRmjYQgQQg6e_CwN4"/>
 
     </application>
 </manifest>

@@ -13,21 +13,21 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
-import alonbd.simpler.TaskLogic.Task;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
     RecyclerView recyclerView;
     NavigationView nav;
     CoordinatorLayout coordLayout;
@@ -101,7 +101,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
