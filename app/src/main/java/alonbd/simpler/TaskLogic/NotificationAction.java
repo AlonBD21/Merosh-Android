@@ -11,9 +11,9 @@ import java.io.Serializable;
 import alonbd.simpler.R;
 
 public class NotificationAction implements Action, Serializable {
-    public final static String CHANNEL_ID = "NotificationActionChannel";
-    public final static CharSequence CHANNEL_NAME = "Simpler";
-    public final static int ID = 5;//Change to dynamic id
+    private final static String CHANNEL_ID = "NotificationActionChannel";
+    private final static CharSequence CHANNEL_NAME = "Simpler";
+    private final static int ID = 5;//TODO Change to dynamic id
     final static int IMPORTANCE = NotificationManager.IMPORTANCE_DEFAULT;
 
     private String mContent;
@@ -22,7 +22,6 @@ public class NotificationAction implements Action, Serializable {
     public NotificationAction(String mContent, String mTaskName) {
         this.mContent = mContent;
         this.mTaskName = mTaskName;
-
     }
 
     @Override

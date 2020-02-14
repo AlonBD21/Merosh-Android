@@ -18,6 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import alonbd.simpler.BuildConfig;
 import alonbd.simpler.TaskLogic.BluetoothTrigger;
 import alonbd.simpler.TaskLogic.TaskBuilder;
 import alonbd.simpler.TaskLogic.Trigger;
@@ -44,6 +45,8 @@ public class AddTriggerActivity extends AppCompatActivity {
             mBuilder.setTrigger(makeTrigger());
             AddActionActivity.preDialog(AddTriggerActivity.this, mBuilder);
         });
+
+        Toast.makeText(this, "SecretKey: "+BuildConfig.MAPS_KEY, Toast.LENGTH_SHORT).show();//TODO remove line
     }
 
     class TabsPagerAdapter extends FragmentPagerAdapter {
@@ -96,7 +99,6 @@ public class AddTriggerActivity extends AppCompatActivity {
                     Toast.makeText(this, "Please choose a device", Toast.LENGTH_SHORT).show();
                     return null;
                 }
-                Toast.makeText(this, "checked id is " + radioGroup.getCheckedRadioButtonId(), Toast.LENGTH_LONG).show();
                 return new BluetoothTrigger(connection.isChecked(), disconnection.isChecked(), radioButton.getTag().toString(), radioButton.getText().toString());
             default:
                 return null;
