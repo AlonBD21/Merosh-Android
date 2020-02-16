@@ -6,6 +6,7 @@ import android.widget.Toast;
 import java.io.Serializable;
 
 public class ToastAction implements Action, Serializable {
+    private static final ActionType ACTION_TYPE = ActionType.Toast;
     private int mDuration;
     private String mTxt;
 
@@ -16,5 +17,11 @@ public class ToastAction implements Action, Serializable {
 
     @Override
     public void onExecute(Context context) {Toast.makeText(context, mTxt, mDuration).show();}
+
+    @Override
+    public ActionType getActionType() {
+        return ACTION_TYPE;
+    }
+
 
 }

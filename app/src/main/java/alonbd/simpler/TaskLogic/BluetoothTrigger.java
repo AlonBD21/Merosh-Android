@@ -13,6 +13,7 @@ public class BluetoothTrigger extends Trigger implements Serializable {
 
 
     public BluetoothTrigger(boolean mOnConnection, boolean mOnDisconnection, String mDeviceName, String mDeviceAddress) {
+        super();
         this.mOnConnection = mOnConnection;
         this.mOnDisconnection = mOnDisconnection;
         this.mDeviceAddress = mDeviceAddress;

@@ -15,7 +15,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
         TasksManager tm = TasksManager.getInstance(context);
         ArrayList<Task> data = tm.loadData();
         for(Task t : data) {
-            if(t.getTrigger().matchIntent(intent))
+            if(t.triggerMatchIntent(intent))
                 t.start(context);
         }
     }

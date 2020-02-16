@@ -11,6 +11,7 @@ import java.io.Serializable;
 import alonbd.simpler.R;
 
 public class NotificationAction implements Action, Serializable {
+    private final static ActionType ACTION_TYPE = ActionType.Notification;
     private final static String CHANNEL_ID = "NotificationActionChannel";
     private final static CharSequence CHANNEL_NAME = "Simpler";
     private final static int ID = 5;//TODO Change to dynamic id
@@ -45,5 +46,10 @@ public class NotificationAction implements Action, Serializable {
         builder.setContentText(mContent);
         manager.notify(ID, builder.build());
 
+    }
+
+    @Override
+    public ActionType getActionType() {
+        return ACTION_TYPE;
     }
 }

@@ -16,10 +16,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.tabs.TabLayout;
 
 import alonbd.simpler.BuildConfig;
 import alonbd.simpler.TaskLogic.BluetoothTrigger;
+import alonbd.simpler.TaskLogic.LocationTrigger;
 import alonbd.simpler.TaskLogic.TaskBuilder;
 import alonbd.simpler.TaskLogic.Trigger;
 import alonbd.simpler.R;
@@ -29,6 +31,10 @@ public class AddTriggerActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabsLayout;
     private TaskBuilder mBuilder;
+
+    private BluetoothTriggerFragment bluetoothTriggerFragment;
+    private WifiTriggerFragment wifiTriggerFragment;
+    private LocationTriggerFragment locationTriggerFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,12 +47,12 @@ public class AddTriggerActivity extends AppCompatActivity {
         mTabsLayout.setupWithViewPager(mViewPager);
         mBuilder = (TaskBuilder) getIntent().getSerializableExtra(TaskBuilder.EXTRA_TAG);
 
+
         mButton.setOnClickListener((View v) -> {
             mBuilder.setTrigger(makeTrigger());
             AddActionActivity.preDialog(AddTriggerActivity.this, mBuilder);
         });
 
-        Toast.makeText(this, "SecretKey: "+BuildConfig.MAPS_KEY, Toast.LENGTH_SHORT).show();//TODO remove line
     }
 
     class TabsPagerAdapter extends FragmentPagerAdapter {
@@ -61,11 +67,16 @@ public class AddTriggerActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch(position) {
                 case 0:
-                    return new BluetoothTriggerFragment();
+                    if(bluetoothTriggerFragment == null)
+                        bluetoothTriggerFragment = new BluetoothTriggerFragment();
+                    return bluetoothTriggerFragment;
                 case 1:
-                    return new WifiTriggerFragment();
+                    if(wifiTriggerFragment == null) wifiTriggerFragment = new WifiTriggerFragment();
+                    return wifiTriggerFragment;
                 case 2:
-                    return new LocationTriggerFragment();
+                    if(locationTriggerFragment == null)
+                        locationTriggerFragment = new LocationTriggerFragment();
+                    return locationTriggerFragment;
                 default:
                     return null;
             }
@@ -100,6 +111,13 @@ public class AddTriggerActivity extends AppCompatActivity {
                     return null;
                 }
                 return new BluetoothTrigger(connection.isChecked(), disconnection.isChecked(), radioButton.getTag().toString(), radioButton.getText().toString());
+            case 2:
+                Marker marker = locationTriggerFragment.getMarker();
+                if(marker == null) {
+                    Toast.makeText(this, "Put a marker on the map to selecet activation location", Toast.LENGTH_SHORT).show();
+                    return null;
+                }
+                return new LocationTrigger(marker.getPosition());
             default:
                 return null;
 

@@ -32,6 +32,16 @@
             android:textSize="25sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Switch
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:checked="true"
+        android:id="@+id/only_once_switch"
+        android:text="Only Once"
+        />
+
     <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

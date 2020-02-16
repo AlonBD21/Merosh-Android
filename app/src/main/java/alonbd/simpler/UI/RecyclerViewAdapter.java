@@ -19,10 +19,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     class TaskViewHolder extends RecyclerView.ViewHolder{
         private TextView mTypeTv;
         private TextView mTaskNameTv;
+        private TextView mOnlyOnce;
+        private TextView mConsumed;
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             mTaskNameTv = itemView.findViewById(R.id.txt_name);
             mTypeTv = itemView.findViewById(R.id.txt_trigger_type);
+            mOnlyOnce = itemView.findViewById(R.id.txt_only_once);
+            mConsumed = itemView.findViewById(R.id.txt_trigger_consumed);
         }
     }
 
@@ -47,6 +51,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Task t = mTasks.get(position);
         holder.mTypeTv.setText(t.triggerType());
         holder.mTaskNameTv.setText(t.getName());
+        holder.mOnlyOnce.setText("Action Only Once: "+t.isOnceOnly());
+        holder.mConsumed.setText("Used Once Already: "+t.isTriggerUsed());
     }
 
     @Override
