@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import alonbd.simpler.BackgroundAndroid.TasksManager;
@@ -16,7 +17,7 @@ import alonbd.simpler.R;
 import alonbd.simpler.TaskLogic.Task;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.TaskViewHolder>{
-    class TaskViewHolder extends RecyclerView.ViewHolder{
+    public static class TaskViewHolder extends RecyclerView.ViewHolder{
         private TextView mTypeTv;
         private TextView mTaskNameTv;
         private TextView mOnlyOnce;
@@ -33,11 +34,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<Task> mTasks;
 
 
-    public RecyclerViewAdapter(Context context) {
-        mTasks = TasksManager.getInstance(context).loadData();
-    }
-    public void RefreshData(Context context){
-        mTasks = TasksManager.getInstance(context).loadData();
+    public RecyclerViewAdapter(ArrayList<Task> mTasks) {
+        this.mTasks = mTasks;
     }
     @NonNull
     @Override
@@ -49,7 +47,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task t = mTasks.get(position);
-        holder.mTypeTv.setText(t.triggerType());
+        holder.mTypeTv.setText(t.getTriggerClass().getSimpleName());
         holder.mTaskNameTv.setText(t.getName());
         holder.mOnlyOnce.setText("Action Only Once: "+t.isOnceOnly());
         holder.mConsumed.setText("Used Once Already: "+t.isTriggerUsed());

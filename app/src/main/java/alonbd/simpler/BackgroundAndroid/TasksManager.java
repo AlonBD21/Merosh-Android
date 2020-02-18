@@ -2,6 +2,7 @@ package alonbd.simpler.BackgroundAndroid;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,6 +16,7 @@ import alonbd.simpler.TaskLogic.Task;
 
 //TODO, fix race conditions with 'synchronized'
 public class TasksManager {
+    private final static String TAG = "ThugTasksManager";
     //Constants
     private final static Object SYNCHRO = new Object();
     private final static String FILE = "TasksArrayListFile";
@@ -29,10 +31,10 @@ public class TasksManager {
         loadData();
         if (mData == null){
             mData = new ArrayList<>();
-            saveData();
         }
     }
-    private void saveData() {
+    public void saveData() {
+        Log.d(TAG, "saveData: ");
         try {
             FileOutputStream fos = mContext.openFileOutput(FILE, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -44,7 +46,8 @@ public class TasksManager {
             e.printStackTrace();
         }
     }
-    public ArrayList<Task> loadData(){
+    private void loadData(){
+        Log.d(TAG, "loadData: ");
         try {
             FileInputStream fis = mContext.openFileInput(FILE);
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -57,6 +60,8 @@ public class TasksManager {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+    public ArrayList<Task> getData(){
         return mData;
     }
     public static TasksManager getInstance(Context context) {
@@ -67,12 +72,10 @@ public class TasksManager {
         }
     }
     public void addTask(Task task){
-        loadData();
         mData.add(task);
         saveData();
     }
     public void removeTaskAt(int index){
-        loadData();
         mData.remove(index);
         saveData();
     }

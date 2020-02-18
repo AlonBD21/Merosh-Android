@@ -1,5 +1,7 @@
 package alonbd.simpler.UI;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +21,10 @@ import alonbd.simpler.TaskLogic.TaskBuilder;
 public class NotificationActionFragment extends ActionFragment {
 
     private EditText mContentEt;
+    private String mTaskName;
     @Override
     public Action genAction() {
-        String taskName = ((TaskBuilder)getActivity().getIntent().getParcelableExtra(TaskBuilder.EXTRA_TAG)).getTaskName();
-        return new NotificationAction(mContentEt.getText().toString(),taskName);
+        return new NotificationAction(mContentEt.getText().toString(),mTaskName);
     }
 
     @Nullable
@@ -36,5 +38,9 @@ public class NotificationActionFragment extends ActionFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mContentEt = view.findViewById(R.id.content);
+        Activity activity = getActivity();
+        Intent intent = activity.getIntent();
+        TaskBuilder builder =(TaskBuilder) intent.getSerializableExtra(TaskBuilder.EXTRA_TAG);
+        mTaskName = builder.getTaskName();
     }
 }

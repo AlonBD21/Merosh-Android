@@ -1,6 +1,7 @@
 package alonbd.simpler.UI;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -27,6 +28,8 @@ import alonbd.simpler.TaskLogic.Trigger;
 import alonbd.simpler.R;
 
 public class AddTriggerActivity extends AppCompatActivity {
+    private static final String TAG = "ThugAddTriggerActivity";
+
     private ImageButton mButton;
     private ViewPager mViewPager;
     private TabLayout mTabsLayout;
@@ -110,7 +113,7 @@ public class AddTriggerActivity extends AppCompatActivity {
                     Toast.makeText(this, "Please choose a device", Toast.LENGTH_SHORT).show();
                     return null;
                 }
-                return new BluetoothTrigger(connection.isChecked(), disconnection.isChecked(), radioButton.getTag().toString(), radioButton.getText().toString());
+                return new BluetoothTrigger(connection.isChecked(), disconnection.isChecked(), radioButton.getText().toString(),radioButton.getTag().toString());
             case 2:
                 Marker marker = locationTriggerFragment.getMarker();
                 if(marker == null) {

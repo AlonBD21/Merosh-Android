@@ -2,6 +2,7 @@ package alonbd.simpler.TaskLogic;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.location.Location;
 
 import java.io.Serializable;
 
@@ -30,6 +31,11 @@ public class BluetoothTrigger extends Trigger implements Serializable {
             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
             if(device.getAddress().equals(mDeviceAddress) )return true;
         }
+        return false;
+    }
+
+    @Override
+    public boolean matchLocation(Location location) {
         return false;
     }
 }

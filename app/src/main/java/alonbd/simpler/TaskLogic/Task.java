@@ -1,11 +1,20 @@
 package alonbd.simpler.TaskLogic;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+
+import androidx.core.app.ActivityManagerCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+
+import alonbd.simpler.BackgroundAndroid.TasksManager;
+import alonbd.simpler.UI.MainActivity;
+import alonbd.simpler.UI.RecyclerViewAdapter;
 
 public class Task implements Serializable {
 
@@ -14,6 +23,7 @@ public class Task implements Serializable {
     private String mName;
     private boolean mOnceOnly;
     private Date mDate;
+    private static RecyclerViewAdapter mRecyclerViewAdapter;
 
     public Task(Trigger mTrigger, String mName, boolean mOnceOnly, ArrayList<Action> mActions) {
         mDate = new Date();
@@ -32,7 +42,18 @@ public class Task implements Serializable {
                 action.onExecute(context);
             }
             mTrigger.setUsedTrue();
+            TasksManager.getInstance(context).saveData();
+            if(mRecyclerViewAdapter != null){
+                mRecyclerViewAdapter.notifyDataSetChanged();
+            }
         }
+    }
+
+    public static void setRecyclerViewAdapter(RecyclerViewAdapter mRecyclerViewAdapter) {
+        Task.mRecyclerViewAdapter = mRecyclerViewAdapter;
+    }
+    public static void removeRecyclerViewAdapter(){
+        mRecyclerViewAdapter = null;
     }
 
     public String getName() {return mName;}
@@ -45,12 +66,12 @@ public class Task implements Serializable {
         return mTrigger.isUsed();
     }
 
-    public String triggerType() {
-        return mTrigger.getClass().getSimpleName();
+    public Class getTriggerClass() {
+        return mTrigger.getClass();
     }
 
     public boolean triggerMatchIntent(Intent intent) {return mTrigger.matchIntent(intent);}
-
+    public boolean triggerMatchLocation(Location location) {return mTrigger.matchLocation(location);}
 
 }
 

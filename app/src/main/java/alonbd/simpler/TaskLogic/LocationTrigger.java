@@ -1,23 +1,39 @@
 package alonbd.simpler.TaskLogic;
 
 import android.content.Intent;
+import android.location.Location;
+import android.util.Log;
 
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.Serializable;
 
+
 public class LocationTrigger extends Trigger implements Serializable {
-    private double lat;
-    private double lng;
+    private final static String TAG = LocationTrigger.class.getSimpleName();
+    private double mLat;
+    private double mLng;
+    private double mRadius;
 
     public LocationTrigger(LatLng mLatLng) {
         super();
-        lat = mLatLng.latitude;
-        lng = mLatLng.longitude;
+        mLat = mLatLng.latitude;
+        mLng = mLatLng.longitude;
+        mRadius = 50;
     }
 
     @Override
     public boolean matchIntent(Intent intent) {
         return false;
+    }
+
+    @Override
+    public boolean matchLocation(Location location) {
+        float[] results = new float[3];
+        Location.distanceBetween(mLat,mLng,location.getLatitude(),location.getLongitude(),results);
+        Log.d(TAG, "matchLocation: Results: Distance-"+results[0]+",BearingA-"+results[1]+",BearingB-"+results[2]);
+        if(results[0] <= mRadius) return true;
+        return true;
     }
 }

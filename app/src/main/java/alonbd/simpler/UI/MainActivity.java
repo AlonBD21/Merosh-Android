@@ -14,27 +14,34 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
+import alonbd.simpler.BackgroundAndroid.LocationService;
 import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
+import alonbd.simpler.TaskLogic.Task;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private final String TAG = "ThugMainActivity";
     private RecyclerView mRecyclerView;
     private NavigationView mNav;
     private DrawerLayout mRootDrawerLayout;
     private Toolbar mToolbar;
     private FloatingActionButton mFab;
+    private CoordinatorLayout mCoordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        mCoordinatorLayout = findViewById(R.id.coordinator_layout);
         mToolbar = findViewById(R.id.toolbar);
         mRootDrawerLayout = findViewById(R.id.drawer_root);
         mNav = findViewById(R.id.nav_view);
@@ -58,7 +65,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //        nav.setCheckedItem(R.id.order_des);
         //        //}
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));//TODO false is order
-        mRecyclerView.setAdapter(new RecyclerViewAdapter(this));
+        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(TasksManager.getInstance(this).getData());
+        Task.setRecyclerViewAdapter(recyclerViewAdapter);
+        mRecyclerView.setAdapter(recyclerViewAdapter);
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.END) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -75,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         TasksManager tm = TasksManager.getInstance(MainActivity.this);
                         int position = viewHolder.getAdapterPosition();
                         tm.removeTaskAt(position);
-                        ((RecyclerViewAdapter)mRecyclerView.getAdapter()).RefreshData(MainActivity.this);
+                        tm.saveData();
                         mRecyclerView.getAdapter().notifyItemRemoved(position);
                     }).setNeutralButton("Cancel", (dialog, which) -> {
                         int position = viewHolder.getAdapterPosition();
@@ -93,9 +102,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
+        Intent intent = new Intent(this,LocationService.class);
+        startService(intent);
+
     }
 
+    public void addedTaskSnackBar(){
+        String newName = getIntent().getStringExtra(AddActionActivity.NEW_TASK_NAME_EXTRA_STRING);
+        if(newName != null){
+            Snackbar.make(mCoordinatorLayout,"A task named '"+newName+"' have been added successfully.",Snackbar.LENGTH_LONG);
+        }
+    }
 
+    @Override
+    protected void onStart() {
+        Log.d(TAG, "onStart: ");
+        addedTaskSnackBar();
+        super.onStart();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart: ");
+        addedTaskSnackBar();
+        super.onStart();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -112,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(menuItem.getItemId() == R.id.menu_add) {
             Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
             startActivity(intent);
-        }/*TODO Fix
+        }/*TODO Fix ordering
         if (menuItem.getItemId() == R.id.order_asc) {
             nav.setCheckedItem(R.id.order_asc);
             dataManager.sort(true);
@@ -140,5 +172,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 */
         mRootDrawerLayout.closeDrawer(GravityCompat.START);
         return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Task.removeRecyclerViewAdapter();
     }
 }
