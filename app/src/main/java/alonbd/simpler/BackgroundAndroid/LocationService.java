@@ -23,7 +23,7 @@ import alonbd.simpler.TaskLogic.LocationTrigger;
 import alonbd.simpler.TaskLogic.Task;
 
 public class LocationService extends Service {
-    private static final String TAG = LocationService.class.getSimpleName();
+    private static final String TAG = "ThugLocationService";
 
     private Location mLastLocation;
     private LocationRequest mLocationRequest;
@@ -39,7 +39,14 @@ public class LocationService extends Service {
 
     @Override
     public void onCreate() {
+        Log.d(TAG, "onCreate: ");
         super.onCreate();
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setInterval(15000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
 
         mLocationCallback = new LocationCallback() {
             @Override
@@ -56,39 +63,34 @@ public class LocationService extends Service {
                 }
             }
         };
-
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-        mLocationRequest = LocationRequest.create();
-        mLocationRequest.setInterval(15000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
         mFusedLocationProviderClient.requestLocationUpdates(
                 mLocationRequest, mLocationCallback, Looper.getMainLooper()
         );
-
     }
 
     private void loadLocationTasks() {
-        TasksManager manager = TasksManager.getInstance(this);
-        ArrayList<Task> tmp = manager.getData();
+        ArrayList<Task> tmp = TasksManager.getInstance(this).getData();
         mLocationTasks = new ArrayList<>();
         for(Task t : tmp) {
             if(t.getTriggerClass() == LocationTrigger.class) {
                 mLocationTasks.add(t);
             }
         }
-        if(mLocationTasks.size() == 0) stopSelf();
+        if(mLocationTasks.size() == 0) {
+            Log.d(TAG, "loadLocationTasks: SERVICE STOP SELF");
+            stopSelf();}
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "onStartCommand: ");
         loadLocationTasks();
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
+        Log.d(TAG, "onDestroy: ");
         super.onDestroy();
         mFusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
     }

@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 
 public class LocationTrigger extends Trigger implements Serializable {
-    private final static String TAG = LocationTrigger.class.getSimpleName();
+    private final static String TAG = "ThugLocationTrigger";
     private double mLat;
     private double mLng;
     private double mRadius;

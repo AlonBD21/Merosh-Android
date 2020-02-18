@@ -17,9 +17,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
 
 import alonbd.simpler.BackgroundAndroid.LocationService;
 import alonbd.simpler.BackgroundAndroid.TasksManager;
@@ -101,24 +104,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
-
-        Intent intent = new Intent(this,LocationService.class);
-        startService(intent);
-
     }
 
     public void addedTaskSnackBar(){
-        String newName = getIntent().getStringExtra(AddActionActivity.NEW_TASK_NAME_EXTRA_STRING);
+        String newName = getIntent().getStringExtra(AddActionActivity.NEW_TASK_NAME_EXTRA_STRING);//TODO tofix
         if(newName != null){
             Snackbar.make(mCoordinatorLayout,"A task named '"+newName+"' have been added successfully.",Snackbar.LENGTH_LONG);
         }
     }
 
+
     @Override
     protected void onStart() {
+        super.onStart();
         Log.d(TAG, "onStart: ");
         addedTaskSnackBar();
-        super.onStart();
+
+
+        Intent intent = new Intent(this,LocationService.class);
+        startService(intent);
     }
 
     @Override
@@ -176,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onDestroy() {
+        Log.d(TAG, "onDestroy: ");
         super.onDestroy();
         Task.removeRecyclerViewAdapter();
     }
