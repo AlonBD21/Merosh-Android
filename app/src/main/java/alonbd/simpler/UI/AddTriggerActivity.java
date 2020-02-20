@@ -60,7 +60,7 @@ public class AddTriggerActivity extends AppCompatActivity {
 
     class TabsPagerAdapter extends FragmentPagerAdapter {
         private final String[] TAB_TITLES =
-                new String[]{"Bluetooth", "WiFi", "Location"};
+                new String[]{"Bluetooth", "Location","WiFi" };
 
         public TabsPagerAdapter(@NonNull FragmentManager fm, int behavior) {
             super(fm, behavior);
@@ -73,10 +73,10 @@ public class AddTriggerActivity extends AppCompatActivity {
                     if(bluetoothTriggerFragment == null)
                         bluetoothTriggerFragment = new BluetoothTriggerFragment();
                     return bluetoothTriggerFragment;
+        //        case 2:
+       //             if(wifiTriggerFragment == null) wifiTriggerFragment = new WifiTriggerFragment();
+        //            return wifiTriggerFragment;
                 case 1:
-                    if(wifiTriggerFragment == null) wifiTriggerFragment = new WifiTriggerFragment();
-                    return wifiTriggerFragment;
-                case 2:
                     if(locationTriggerFragment == null)
                         locationTriggerFragment = new LocationTriggerFragment();
                     return locationTriggerFragment;
@@ -93,7 +93,8 @@ public class AddTriggerActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            //return 3;
+            return 2;
         }
     }
 
@@ -114,7 +115,7 @@ public class AddTriggerActivity extends AppCompatActivity {
                     return null;
                 }
                 return new BluetoothTrigger(connection.isChecked(), disconnection.isChecked(), radioButton.getText().toString(),radioButton.getTag().toString());
-            case 2:
+            case 1:
                 Marker marker = locationTriggerFragment.getMarker();
                 if(marker == null) {
                     Toast.makeText(this, "Put a marker on the map to selecet activation location", Toast.LENGTH_SHORT).show();

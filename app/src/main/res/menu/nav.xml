@@ -5,7 +5,7 @@
         android:id="@+id/menu_add"
         android:icon="@drawable/ic_add_plus_white"
         android:title="Add Task"/>
-    <item android:title="Sort By">
+<item android:title="Sort By">
         <menu>
             <group android:checkableBehavior="single" android:id="@+id/order_by">
                 <item

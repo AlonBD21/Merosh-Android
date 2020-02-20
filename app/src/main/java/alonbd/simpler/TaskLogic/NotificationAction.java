@@ -13,16 +13,15 @@ import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
 
 public class NotificationAction implements Action, Serializable {
-    private final static String CHANNEL_ID = "NotificationActionChannel";
+    public final static String CHANNEL_ID = "NotificationActionChannel";
     private final static CharSequence CHANNEL_NAME = "SimplerTasks";
     final static int IMPORTANCE = NotificationManager.IMPORTANCE_HIGH;
 
     private int notificationId;
     private String mContent;
     private String mTaskName;
-    private NotificationManager mManager;
 
-    public NotificationAction(int notificationId,String mContent, String mTaskName) {
+    public NotificationAction(int notificationId, String mContent, String mTaskName) {
         this.notificationId = notificationId;
         this.mContent = mContent;
         this.mTaskName = mTaskName;
@@ -30,32 +29,37 @@ public class NotificationAction implements Action, Serializable {
 
     @Override
     public void onExecute(Context context) {
-        mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mManager.notify(notificationId, generateNotification(context));
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(notificationId, generateNotification(context));
     }
-    private Notification generateNotification(Context context){
 
-        NotificationChannel channel;
+    private Notification generateNotification(Context context) {
         Notification.Builder builder = new Notification.Builder(context);
+        builder.setSmallIcon(android.R.drawable.ic_popup_reminder);
+        builder.setContentTitle(mContent);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            channel = mManager.getNotificationChannel(CHANNEL_ID);
+            setChannel(context);
+            builder.setChannelId(CHANNEL_ID);
+        }
+        builder.setContentText("The task '" + mTaskName + "' just got triggered.");
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setColor(context.getResources().getColor(R.color.primaryLightColor));
+        }
+        return builder.build();
+    }
+
+    public static void setChannel(Context context) {
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationChannel channel = null;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            channel = manager.getNotificationChannel(CHANNEL_ID);
             if(channel == null) {
                 channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE);
                 channel.enableLights(true);
                 channel.setLightColor(Color.MAGENTA);
                 channel.enableVibration(true);
-                mManager.createNotificationChannel(channel);
+                manager.createNotificationChannel(channel);
             }
-            builder.setChannelId(CHANNEL_ID);
-            builder.setSubText("Notification Task");
         }
-        builder.setSmallIcon(android.R.drawable.ic_popup_reminder);
-        builder.setContentTitle(mContent);
-        builder.setWhen(System.currentTimeMillis());
-        builder.setContentText("The task '"+mTaskName+"' just got triggered.");
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setColor(context.getResources().getColor(R.color.primaryLightColor));
-        }
-        return builder.build();
     }
 }

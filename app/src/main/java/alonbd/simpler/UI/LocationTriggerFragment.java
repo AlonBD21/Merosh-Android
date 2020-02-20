@@ -52,7 +52,7 @@ public class LocationTriggerFragment extends Fragment {
     private static final int SERVICES_ERROR_DIALOG_REQ = 9001;
     private static final int LOCATION_PERMISSION_REQ_CODE = 1234;
     private static final float DEFAULT_ZOOM = 15f;
-    private static final String TAG = "ThugLocationTriggerFragment";
+    private static final String TAG = "ThugLocationFragment";
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
 
     private boolean mLocationPermissionGranted;

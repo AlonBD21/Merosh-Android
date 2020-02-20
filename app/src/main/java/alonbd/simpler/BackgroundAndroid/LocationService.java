@@ -39,7 +39,7 @@ public class LocationService extends Service {
 
     private final static String CHANNEL_ID = "LocationServiceNotificationChannel";
     private final static CharSequence CHANNEL_NAME = "SimplerService";
-    private final static int NOTIF_ID = -111;
+    private final static int NOTIF_ID = 111;
     private final static int REQ_CODE = -50;
     final static int IMPORTANCE = NotificationManager.IMPORTANCE_LOW;
 
@@ -72,7 +72,8 @@ public class LocationService extends Service {
                 mLastLocation = locationResult.getLastLocation();
                 Log.d(TAG, "onLocationResult: location: " + mLastLocation.getLatitude() + "," + mLastLocation.getLongitude());
                 if(TasksManager.startAllWithLocation(LocationService.this, mLastLocation)) {
-                    ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(NOTIF_ID, generateNotification());
+                    Notification notification = generateNotification();
+                    ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(NOTIF_ID, notification);
                 }
             }
         };
@@ -88,7 +89,6 @@ public class LocationService extends Service {
         if(intent.getAction() != null) {
             if(intent.getAction().equals(ACTION_STOP_SERVICE)) {
                 Toast.makeText(this, "Restart the app to restart Location Service.", Toast.LENGTH_LONG).show();
-                stopForeground(true);
                 stopSelf();
                 return Service.START_NOT_STICKY;
             }
@@ -110,7 +110,6 @@ public class LocationService extends Service {
         String notificationContent = TasksManager.getInstance(this).getLocationTasksString();
         if(notificationContent == null) {
             notificationContent = "No more actions to look for.";
-            stopForeground(true);
             stopSelf();
         }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
@@ -134,5 +133,7 @@ public class LocationService extends Service {
         Log.d(TAG, "onDestroy: ");
         super.onDestroy();
         mFusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
+        stopForeground(true);
+        ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(NOTIF_ID);
     }
 }
