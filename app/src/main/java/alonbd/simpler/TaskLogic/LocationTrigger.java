@@ -33,7 +33,6 @@ public class LocationTrigger extends Trigger implements Serializable {
         float[] results = new float[3];
         Location.distanceBetween(mLat,mLng,location.getLatitude(),location.getLongitude(),results);
         Log.d(TAG, "matchLocation: Results: Distance-"+results[0]+",BearingA-"+results[1]+",BearingB-"+results[2]);
-        if(results[0] <= mRadius) return true;
-        return true;
+        return results[0] <= mRadius;
     }
 }

@@ -63,10 +63,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         mNav.setNavigationItemSelectedListener(this);
-        //        nav.setCheckedItem(R.id.order_asc);
-        //        //}else{
-        //        nav.setCheckedItem(R.id.order_des);
-        //        //}
+        mNav.setCheckedItem(R.id.order_asc);
+        mNav.setCheckedItem(R.id.by_date);
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));//TODO false is order
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(TasksManager.getInstance(this).getData());
         Task.setRecyclerViewAdapter(recyclerViewAdapter);
@@ -82,13 +81,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(direction == ItemTouchHelper.END) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setPositiveButton("Yes, Remove", (dialog, which) -> {
-
                         dialog.dismiss();
                         TasksManager tm = TasksManager.getInstance(MainActivity.this);
                         int position = viewHolder.getAdapterPosition();
                         tm.removeTaskAt(position);
                         tm.saveData();
                         mRecyclerView.getAdapter().notifyItemRemoved(position);
+                        Intent intent = new Intent(MainActivity.this,LocationService.class);
+                        startService(intent);
                     }).setNeutralButton("Cancel", (dialog, which) -> {
                         int position = viewHolder.getAdapterPosition();
                         dialog.dismiss();
@@ -148,9 +148,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(menuItem.getItemId() == R.id.menu_add) {
             Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
             startActivity(intent);
-        }/*TODO Fix ordering
-        if (menuItem.getItemId() == R.id.order_asc) {
-            nav.setCheckedItem(R.id.order_asc);
+        }
+
+   /*     if (menuItem.getItemId() == R.id.order_asc) {
+            mNav.setCheckedItem(R.id.order_asc);
             dataManager.sort(true);
             recyclerView.getAdapter().notifyDataSetChanged();
             new Thread(new Runnable() {
@@ -173,8 +174,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }).run();
             Snackbar.make(coordLayout,"Order Changed",Snackbar.LENGTH_SHORT).show();}
-*/
-        mRootDrawerLayout.closeDrawer(GravityCompat.START);
+        mRootDrawerLayout.closeDrawer(GravityCompat.START);*/
+
+        if(menuItem.getGroupId() == R.id.order_dir){
+
+        }
+        if(menuItem.getGroupId() == R.id.order_by){
+
+        }
         return false;
     }
 

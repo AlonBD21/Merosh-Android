@@ -39,7 +39,7 @@
         android:textSize="20sp"
         android:checked="true"
         android:id="@+id/only_once_switch"
-        android:text="Only Once"
+        android:text="Activate just once"
         />
 
     <Space
@@ -49,7 +49,6 @@
 
     <ImageButton
         android:id="@+id/btn"
-        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -57,7 +56,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:padding="20dp"
+        android:padding="15dp"
         android:src="@drawable/ic_arrow_forward_white"
         android:textSize="30sp" />
 </LinearLayout>

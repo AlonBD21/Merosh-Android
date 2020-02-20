@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 
 import alonbd.simpler.BackgroundAndroid.TasksManager;
@@ -17,7 +18,6 @@ import alonbd.simpler.UI.MainActivity;
 import alonbd.simpler.UI.RecyclerViewAdapter;
 
 public class Task implements Serializable {
-
     private Trigger mTrigger;
     private ArrayList<Action> mActions;
     private String mName;
@@ -73,5 +73,21 @@ public class Task implements Serializable {
     public boolean triggerMatchIntent(Intent intent) {return mTrigger.matchIntent(intent);}
     public boolean triggerMatchLocation(Location location) {return mTrigger.matchLocation(location);}
 
+    public static class DefaultDateComparator implements Comparator<Task> {
+        private boolean mOrderAsc;
+
+        @Override
+        public int compare(Task o1, Task o2) {
+            int t = o1.mDate.compareTo(o2.mDate);
+            if(!mOrderAsc){
+                t =t*-1;
+            }
+            return t;
+        }
+
+        public DefaultDateComparator(boolean mOrderAsc) {
+            this.mOrderAsc = mOrderAsc;
+        }
+    }
 }
 
