@@ -90,6 +90,7 @@ public class LocationService extends Service {
                 Toast.makeText(this, "Restart the app to restart Location Service.", Toast.LENGTH_LONG).show();
                 stopForeground(true);
                 stopSelf();
+                return Service.START_NOT_STICKY;
             }
         }
         return Service.START_STICKY;

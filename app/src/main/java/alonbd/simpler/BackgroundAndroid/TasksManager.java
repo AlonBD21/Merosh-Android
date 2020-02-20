@@ -2,6 +2,7 @@ package alonbd.simpler.BackgroundAndroid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.util.Log;
 
@@ -136,5 +137,19 @@ public class TasksManager {
             }
         }
         return builder.toString();
+    }
+    public static class NotificationIdGenerator{
+        private static String SP_NAME = "NotificationIdGenerator";
+        private static String COUNTER_KEY = "CounterKey";
+        private static SharedPreferences sp;
+
+        public static int getNewId(Context context){
+            sp = context.getSharedPreferences(SP_NAME,Context.MODE_PRIVATE);
+            int counter = sp.getInt(COUNTER_KEY,777);
+            counter++;
+            sp.edit().putInt(COUNTER_KEY,counter).commit();
+            Log.d(TAG, "getNewId: New notification id generated: "+counter);
+            return counter;
+        }
     }
 }

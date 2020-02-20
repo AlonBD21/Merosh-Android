@@ -9,6 +9,7 @@ import android.os.Build;
 
 import java.io.Serializable;
 
+import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
 
 public class NotificationAction implements Action, Serializable {
@@ -16,32 +17,34 @@ public class NotificationAction implements Action, Serializable {
     private final static CharSequence CHANNEL_NAME = "SimplerTasks";
     final static int IMPORTANCE = NotificationManager.IMPORTANCE_HIGH;
 
-    private static Integer sCounter;
-
-    private int NOTIFICATION_ID;
+    private int notificationId;
     private String mContent;
     private String mTaskName;
+    private NotificationManager mManager;
 
-    public NotificationAction(String mContent, String mTaskName) {
-        if(sCounter == null) sCounter = 777;
-        this.NOTIFICATION_ID = ++sCounter;
+    public NotificationAction(int notificationId,String mContent, String mTaskName) {
+        this.notificationId = notificationId;
         this.mContent = mContent;
         this.mTaskName = mTaskName;
     }
 
     @Override
     public void onExecute(Context context) {
-        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mManager.notify(notificationId, generateNotification(context));
+    }
+    private Notification generateNotification(Context context){
+
         NotificationChannel channel;
         Notification.Builder builder = new Notification.Builder(context);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            channel = manager.getNotificationChannel(CHANNEL_ID);
+            channel = mManager.getNotificationChannel(CHANNEL_ID);
             if(channel == null) {
                 channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE);
                 channel.enableLights(true);
                 channel.setLightColor(Color.MAGENTA);
                 channel.enableVibration(true);
-                manager.createNotificationChannel(channel);
+                mManager.createNotificationChannel(channel);
             }
             builder.setChannelId(CHANNEL_ID);
             builder.setSubText("Notification Task");
@@ -53,7 +56,6 @@ public class NotificationAction implements Action, Serializable {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder.setColor(context.getResources().getColor(R.color.primaryLightColor));
         }
-        manager.notify(NOTIFICATION_ID, builder.build());
-
+        return builder.build();
     }
 }

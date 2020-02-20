@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 
 import org.w3c.dom.Text;
 
+import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
 import alonbd.simpler.TaskLogic.Action;
 import alonbd.simpler.TaskLogic.NotificationAction;
@@ -24,7 +25,7 @@ public class NotificationActionFragment extends ActionFragment {
     private String mTaskName;
     @Override
     public Action genAction() {
-        return new NotificationAction(mContentEt.getText().toString(),mTaskName);
+        return new NotificationAction(TasksManager.NotificationIdGenerator.getNewId(getContext()),mContentEt.getText().toString(),mTaskName);
     }
 
     @Nullable
