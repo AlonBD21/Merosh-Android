@@ -16,7 +16,7 @@ import alonbd.simpler.TaskLogic.Action;
 import alonbd.simpler.TaskLogic.TaskBuilder;
 import alonbd.simpler.TaskLogic.WhatsappAction;
 
-public class WhatsappFragment extends ActionFragment {
+public class WhatsappActionFragment extends ActionFragment {
     private EditText mContentEt;
     private String mTaskName;
     @Override

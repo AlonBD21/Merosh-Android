@@ -118,7 +118,7 @@ public class AddTriggerActivity extends AppCompatActivity {
             case 1:
                 Marker marker = locationTriggerFragment.getMarker();
                 if(marker == null) {
-                    Toast.makeText(this, "Put a marker on the map to selecet activation location", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Put a marker on the map to select activation location", Toast.LENGTH_SHORT).show();
                     return null;
                 }
                 return new LocationTrigger(marker.getPosition());

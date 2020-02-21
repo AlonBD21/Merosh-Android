@@ -16,7 +16,7 @@ import alonbd.simpler.TaskLogic.Action;
 import alonbd.simpler.TaskLogic.EmailAction;
 import alonbd.simpler.TaskLogic.TaskBuilder;
 
-public class EmailFragment extends ActionFragment {
+public class EmailActionFragment extends ActionFragment {
     private EditText mToEt;
     private EditText mSubjectEt;
     private EditText mContentEt;

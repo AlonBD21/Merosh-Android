@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +19,7 @@ import alonbd.simpler.TaskLogic.EmailAction;
 import alonbd.simpler.TaskLogic.NotificationAction;
 import alonbd.simpler.TaskLogic.TaskBuilder;
 import alonbd.simpler.TaskLogic.ToastAction;
+import alonbd.simpler.TaskLogic.WazeAction;
 import alonbd.simpler.TaskLogic.WhatsappAction;
 
 public class AddActionActivity extends AppCompatActivity {
@@ -48,9 +47,11 @@ public class AddActionActivity extends AppCompatActivity {
         else if(actionClass == NotificationAction.class)
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new NotificationActionFragment()).commit();
         else if(actionClass == EmailAction.class){
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new EmailFragment()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new EmailActionFragment()).commit();
         }else if(actionClass == WhatsappAction.class){
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new WhatsappFragment()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new WhatsappActionFragment()).commit();
+        }else if(actionClass == WazeAction.class){
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new WazeActionFragment()).commit();
         }
         else
             throw new IllegalStateException("Unexpected value: " + actionClass.getName());
@@ -86,8 +87,8 @@ public class AddActionActivity extends AppCompatActivity {
 
     public static void preDialog(Context context, TaskBuilder builder) {
         if(builder.getTrigger() == null) return;
-        String[] actionNames = {"Toast","Notification","Email","Whatsapp"};
-        Class[] actionClasses = {ToastAction.class,NotificationAction.class, EmailAction.class, WhatsappAction.class};
+        String[] actionNames = {"Display Toast","Push Notification","Send Email","Whatsapp Message","Waze Navigation"};
+        Class[] actionClasses = {ToastAction.class,NotificationAction.class, EmailAction.class, WhatsappAction.class, WazeAction.class};
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         AlertDialog dialog = dialogBuilder.setTitle("Choose Task's Action Type")
