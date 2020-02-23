@@ -118,7 +118,6 @@ public class LocationTriggerFragment extends Fragment {
     }
 
     private boolean isServicesOK() {
-        Log.d(TAG, "isServicesOK: Checking if Google Play Services are up to date.");
         int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(getContext());
         if(available == ConnectionResult.SUCCESS) {
             //A ok
@@ -126,11 +125,11 @@ public class LocationTriggerFragment extends Fragment {
             return true;
         } else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
             //Resolvable
-            Log.d(TAG, "isServicesOK: fixable error");
+            Log.d(TAG, "isServicesOK: Fixable error");
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(getActivity(), available, SERVICES_ERROR_DIALOG_REQ);
             dialog.show();
         } else {
-            Toast.makeText(getContext(), "Can't activate Google Map", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "isServiceOK: Can't activate Google Play services", Toast.LENGTH_SHORT).show();
         }
         return false;
     }
@@ -169,7 +168,6 @@ public class LocationTriggerFragment extends Fragment {
     }
 
     private void focusMap(LatLng latLng, float zoom) {
-        Log.d(TAG, "focusMap: focusing map");
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 
@@ -187,11 +185,9 @@ public class LocationTriggerFragment extends Fragment {
     }
 
     private void initMap() {
-        Log.d(TAG, "Initializing Map");
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(googleMap -> {
             mMap = googleMap;
-            Log.d(TAG, "Map initialized");
 
             if(mLocationPermissionGranted) {
                 selfLocate();

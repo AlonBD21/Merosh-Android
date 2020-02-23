@@ -52,19 +52,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(mToolbar);
         mFab = findViewById(R.id.fab);
 
-        mFab.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
-            startActivity(intent);
-
-        });
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_burgermenu_black);
 
-
         mNav.setNavigationItemSelectedListener(this);
-        mNav.setCheckedItem(R.id.order_asc);
-        mNav.setCheckedItem(R.id.by_date);
+        mNav.setCheckedItem(R.id.order_des);
+        mNav.setCheckedItem(R.id.by_name);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));//TODO false is order
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(TasksManager.getInstance(this).getData());
@@ -84,11 +78,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         dialog.dismiss();
                         TasksManager tm = TasksManager.getInstance(MainActivity.this);
                         int position = viewHolder.getAdapterPosition();
-                        tm.removeTaskAt(position);
+                        Task removed = tm.getData().remove(position);
                         tm.saveData();
                         mRecyclerView.getAdapter().notifyItemRemoved(position);
-                        Intent intent = new Intent(MainActivity.this,LocationService.class);
+                        Intent intent = new Intent(MainActivity.this, LocationService.class);
                         startService(intent);
+                        Snackbar.make(mCoordinatorLayout, "The task '" + removed.getName() + "' has been removed.", Snackbar.LENGTH_LONG).
+                        setAction("Cancel",(v) ->{
+                            tm.getData().add(position,removed);
+                            mRecyclerView.getAdapter().notifyItemInserted(position);
+                            Snackbar.make(mCoordinatorLayout, "The task '" + removed.getName() + "' has been added back.", Snackbar.LENGTH_LONG).show();
+                        }).show();
                     }).setNeutralButton("Cancel", (dialog, which) -> {
                         int position = viewHolder.getAdapterPosition();
                         dialog.dismiss();
@@ -102,35 +102,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         };
+
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
-    }
 
-    public void addedTaskSnackBar(){
-        String newName = getIntent().getStringExtra(AddActionActivity.NEW_TASK_NAME_EXTRA_STRING);//TODO tofix
-        if(newName != null){
-            Snackbar.make(mCoordinatorLayout,"A task named '"+newName+"' have been added successfully.",Snackbar.LENGTH_LONG);
-        }
-    }
+        mFab.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
+            startActivity(intent);
 
+        });
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart: ");
-        addedTaskSnackBar();
-
-
-        Intent intent = new Intent(this,LocationService.class);
+        Intent intent = new Intent(this, LocationService.class);
         startService(intent);
-    }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(TAG, "onRestart: ");
-        addedTaskSnackBar();
-        super.onStart();
+        String newName = getIntent().getStringExtra(AddActionActivity.NEW_TASK_NAME_EXTRA_STRING);
+        if(newName != null) {
+            Log.d(TAG, "onCreate: New task name is not null");
+            Snackbar.make(mCoordinatorLayout, "A task named '" + newName + "' has been added successfully.", Snackbar.LENGTH_LONG).show();
+        } else
+            Log.d(TAG, "onCreate: New task name is null");
+
     }
 
     @Override
@@ -176,10 +167,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Snackbar.make(coordLayout,"Order Changed",Snackbar.LENGTH_SHORT).show();}
         mRootDrawerLayout.closeDrawer(GravityCompat.START);*/
 
-        if(menuItem.getGroupId() == R.id.order_dir){
+        if(menuItem.getGroupId() == R.id.order_dir) {
 
         }
-        if(menuItem.getGroupId() == R.id.order_by){
+        if(menuItem.getGroupId() == R.id.order_by) {
 
         }
         return false;

@@ -19,8 +19,6 @@ import java.util.Iterator;
 
 import alonbd.simpler.TaskLogic.LocationTrigger;
 import alonbd.simpler.TaskLogic.Task;
-
-//TODO, fix race conditions with 'synchronized'
 public class TasksManager {
     private final static String TAG = "ThugTasksManager";
     //Constants
@@ -40,7 +38,7 @@ public class TasksManager {
         }
     }
 
-    public void saveData() {
+    public synchronized void saveData() {
         Log.d(TAG, "saveData: ");
         try {
             FileOutputStream fos = mContext.openFileOutput(FILE, Context.MODE_PRIVATE);
@@ -54,7 +52,7 @@ public class TasksManager {
         }
     }
 
-    private void loadData() {
+    private synchronized void loadData() {
         Log.d(TAG, "loadData: ");
         try {
             FileInputStream fis = mContext.openFileInput(FILE);
@@ -75,22 +73,21 @@ public class TasksManager {
         return mData;
     }
 
+    public void setData(ArrayList<Task> mData) {
+        if(mData != null) {
+            this.mData = mData;
+            saveData();
+        }else{
+            Log.d(TAG, "setData: cant set data to a null pointer.");
+        }
+    }
+
     public static TasksManager getInstance(Context context) {
         if(sInstance != null) return sInstance;
         else {
             sInstance = new TasksManager(context);
             return sInstance;
         }
-    }
-
-    public void addTask(Task task) {
-        mData.add(task);
-        saveData();
-    }
-
-    public void removeTaskAt(int index) {
-        mData.remove(index);
-        saveData();
     }
 
     public static boolean startAllWithIntent(Context context, Intent intent) {
@@ -138,17 +135,18 @@ public class TasksManager {
         }
         return builder.toString();
     }
-    public static class NotificationIdGenerator{
+
+    public static class NotificationIdGenerator {
         private static String SP_NAME = "NotificationIdGenerator";
         private static String COUNTER_KEY = "CounterKey";
         private static SharedPreferences sp;
 
-        public static int getNewId(Context context){
-            sp = context.getSharedPreferences(SP_NAME,Context.MODE_PRIVATE);
-            int counter = sp.getInt(COUNTER_KEY,777);
+        public static int getNewId(Context context) {
+            sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+            int counter = sp.getInt(COUNTER_KEY, 777);
             counter++;
-            sp.edit().putInt(COUNTER_KEY,counter).commit();
-            Log.d(TAG, "getNewId: New notification id generated: "+counter);
+            sp.edit().putInt(COUNTER_KEY, counter).commit();
+            Log.d(TAG, "getNewId: New notification id generated: " + counter);
             return counter;
         }
     }

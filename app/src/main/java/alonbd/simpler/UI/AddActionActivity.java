@@ -1,5 +1,6 @@
 package alonbd.simpler.UI;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +18,7 @@ import alonbd.simpler.R;
 import alonbd.simpler.TaskLogic.Action;
 import alonbd.simpler.TaskLogic.EmailAction;
 import alonbd.simpler.TaskLogic.NotificationAction;
+import alonbd.simpler.TaskLogic.Task;
 import alonbd.simpler.TaskLogic.TaskBuilder;
 import alonbd.simpler.TaskLogic.ToastAction;
 import alonbd.simpler.TaskLogic.WazeAction;
@@ -39,7 +41,6 @@ public class AddActionActivity extends AppCompatActivity {
         //Data From Intent
         Intent cause = getIntent();
         mBuilder = (TaskBuilder) cause.getSerializableExtra(TaskBuilder.EXTRA_TAG);
-        Log.d(TAG, "onCreate: mBuilder is null:" + (mBuilder == null));
         Class actionClass = ((Class) cause.getSerializableExtra(Action.ACTION_EXTRA_CLASS));
         //Add Fragment
         if(actionClass == ToastAction.class)
@@ -68,7 +69,8 @@ public class AddActionActivity extends AppCompatActivity {
             Action newAction = ((ActionFragment) getSupportFragmentManager().getFragments().get(0)).genAction();
             if(newAction == null) return;
             mBuilder.addAction(newAction);
-            TasksManager.getInstance(this).addTask(mBuilder.build());
+            TasksManager.getInstance(this).getData().add(mBuilder.build());
+            TasksManager.getInstance(this).saveData();
 
 
             Intent intent = new Intent(this, MainActivity.class);

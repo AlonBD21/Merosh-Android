@@ -4,9 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import java.util.ArrayList;
-
-import alonbd.simpler.TaskLogic.Task;
+import com.google.android.gms.tasks.Task;
 
 public class BluetoothReceiver extends BroadcastReceiver {
 
