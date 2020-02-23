@@ -1,6 +1,5 @@
 package alonbd.simpler.BackgroundAndroid;
 
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -8,16 +7,14 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -26,16 +23,11 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
-import java.util.ArrayList;
-
 import alonbd.simpler.R;
-import alonbd.simpler.TaskLogic.LocationTrigger;
-import alonbd.simpler.TaskLogic.NotificationAction;
-import alonbd.simpler.TaskLogic.Task;
 
 public class LocationService extends Service {
     private static final String TAG = "ThugLocationService";
-    private static final String ACTION_STOP_SERVICE = "actionStopService";
+    private static final String BOOLEAN_STOP_SERVICE_EXTRA = "actionStopService";
 
     private final static String CHANNEL_ID = "LocationServiceNotificationChannel";
     private final static CharSequence CHANNEL_NAME = "SimplerService";
@@ -59,12 +51,9 @@ public class LocationService extends Service {
         Log.d(TAG, "onCreate: ");
         super.onCreate();
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setInterval(15000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
@@ -86,12 +75,8 @@ public class LocationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand: ");
         startForeground(NOTIF_ID, generateNotification());
-        if(intent.getAction() != null) {
-            if(intent.getAction().equals(ACTION_STOP_SERVICE)) {
-                Toast.makeText(this, "Restart the app to restart Location Service.", Toast.LENGTH_LONG).show();
-                stopSelf();
-                return Service.START_NOT_STICKY;
-            }
+        if(intent.getBooleanExtra(BOOLEAN_STOP_SERVICE_EXTRA,false)){
+            stopSelf();
         }
         return Service.START_STICKY;
     }
@@ -118,13 +103,15 @@ public class LocationService extends Service {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder.setColor(getResources().getColor(R.color.primaryLightColor));
         }
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.app_icon_round));
         builder.setSubText("Location Service");
         builder.setContentTitle("Getting Location Updates...").setContentText("Looking for Tasks: " + notificationContent);
         //Action
         Intent stopIntent = new Intent(this, LocationService.class);
-        stopIntent.setAction(ACTION_STOP_SERVICE);
-        PendingIntent stopPending = PendingIntent.getService(this, REQ_CODE, stopIntent, PendingIntent.FLAG_NO_CREATE);
-        builder.addAction(android.R.drawable.ic_delete, "Stop", stopPending);
+        stopIntent.putExtra(BOOLEAN_STOP_SERVICE_EXTRA,true);
+        PendingIntent stopPending = PendingIntent.getService(this, REQ_CODE, stopIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        NotificationCompat.Action notifAction = new NotificationCompat.Action(android.R.drawable.ic_delete, "Stop", stopPending);
+        builder.addAction(notifAction);
         return builder.build();
     }
 
