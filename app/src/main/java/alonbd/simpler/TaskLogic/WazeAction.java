@@ -8,13 +8,16 @@ import android.net.Uri;
 
 import java.io.Serializable;
 
+import alonbd.simpler.R;
+
 public class WazeAction extends IntentAction implements Serializable {
     private double mLat;
     private double mLng;
+    private String mLocationName;
 
     @Override
     public String getNotificationContentString() {
-        return "Destination: "+mLat+", "+mLng;
+        return "Destination: "+ mLocationName;
     }
 
     @Override
@@ -24,7 +27,7 @@ public class WazeAction extends IntentAction implements Serializable {
 
     @Override
     public int getNotificationIconID() {
-        return android.R.drawable.ic_menu_compass;
+        return R.drawable.ic_notification_compass;
     }
 
     @Override
@@ -40,9 +43,10 @@ public class WazeAction extends IntentAction implements Serializable {
         return PendingIntent.getActivity(context,getNotificationId(),intent,0);
     }
 
-    public WazeAction(int notificationId, String mTaskName, double mLat, double mLng) {
+    public WazeAction(int notificationId, String mTaskName, String mLocationName, double mLat, double mLng) {
         super(notificationId, mTaskName);
         this.mLat = mLat;
         this.mLng = mLng;
+        this.mLocationName = mLocationName;
     }
 }

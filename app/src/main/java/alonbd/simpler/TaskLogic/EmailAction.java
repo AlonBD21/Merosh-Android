@@ -8,6 +8,8 @@ import android.net.Uri;
 
 import java.io.Serializable;
 
+import alonbd.simpler.R;
+
 public class EmailAction extends IntentAction implements Serializable {
     private String mTo;
     private String mSubject;
@@ -26,7 +28,7 @@ public class EmailAction extends IntentAction implements Serializable {
 
     @Override
     public int getNotificationIconID() {
-        return android.R.drawable.sym_action_email;
+        return R.drawable.ic_notification_email;
     }
 
     @Override

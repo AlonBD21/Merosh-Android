@@ -99,11 +99,10 @@ public class LocationService extends Service {
         }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
         builder.setChannelId(CHANNEL_ID);
-        builder.setSmallIcon(android.R.drawable.ic_menu_mylocation);
+        builder.setSmallIcon(R.drawable.ic_notification_service);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder.setColor(getResources().getColor(R.color.primaryLightColor));
         }
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.app_icon_round));
         builder.setSubText("Location Service");
         builder.setContentTitle("Getting Location Updates...").setContentText("Looking for Tasks: " + notificationContent);
         //Action

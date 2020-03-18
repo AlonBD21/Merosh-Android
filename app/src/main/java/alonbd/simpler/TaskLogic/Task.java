@@ -1,12 +1,9 @@
 package alonbd.simpler.TaskLogic;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 
-import androidx.core.app.ActivityManagerCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +11,6 @@ import java.util.Comparator;
 import java.util.Date;
 
 import alonbd.simpler.BackgroundAndroid.TasksManager;
-import alonbd.simpler.UI.MainActivity;
 import alonbd.simpler.UI.RecyclerViewAdapter;
 
 public class Task implements Serializable {
@@ -23,7 +19,7 @@ public class Task implements Serializable {
     private String mName;
     private boolean mOnceOnly;
     private Date mDate;
-    private static RecyclerViewAdapter mRecyclerViewAdapter;
+    private static RecyclerViewAdapter sRecyclerViewAdapter;
 
     public Task(Trigger mTrigger, String mName, boolean mOnceOnly, ArrayList<Action> mActions) {
         mDate = new Date();
@@ -34,26 +30,24 @@ public class Task implements Serializable {
     }
 
     public void start(Context context) {
-        if(mTrigger.isUsed() && isOnceOnly()) {
-            //action is have been used already
-        } else {
+        if(isReady()) {
             for(Action action :
                     mActions) {
                 action.onExecute(context);
             }
             mTrigger.setUsedTrue();
             TasksManager.getInstance(context).saveData();
-            if(mRecyclerViewAdapter != null){
-                mRecyclerViewAdapter.notifyDataSetChanged();
+            if(sRecyclerViewAdapter != null){
+                sRecyclerViewAdapter.notifyDataSetChanged();
             }
         }
     }
 
     public static void setRecyclerViewAdapter(RecyclerViewAdapter mRecyclerViewAdapter) {
-        Task.mRecyclerViewAdapter = mRecyclerViewAdapter;
+        Task.sRecyclerViewAdapter = mRecyclerViewAdapter;
     }
     public static void removeRecyclerViewAdapter(){
-        mRecyclerViewAdapter = null;
+        sRecyclerViewAdapter = null;
     }
 
     public String getName() {return mName;}
@@ -65,6 +59,8 @@ public class Task implements Serializable {
     public boolean isTriggerUsed() {
         return mTrigger.isUsed();
     }
+
+    public boolean isReady() {return !(mTrigger.isUsed() && isOnceOnly());}
 
     public Class getTriggerClass() {
         return mTrigger.getClass();

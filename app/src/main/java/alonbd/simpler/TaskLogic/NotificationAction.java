@@ -35,7 +35,7 @@ public class NotificationAction implements Action, Serializable {
 
     private Notification generateNotification(Context context) {
         Notification.Builder builder = new Notification.Builder(context);
-        builder.setSmallIcon(android.R.drawable.ic_popup_reminder);
+        builder.setSmallIcon(R.drawable.ic_notification_bell);
         builder.setContentTitle(mContent);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             setChannel(context);

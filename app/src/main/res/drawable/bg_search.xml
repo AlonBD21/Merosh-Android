@@ -1,0 +1,38 @@
+<!-- drawable/bg_search.xml -->
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="287dp"
+    android:height="61dp"
+    android:viewportWidth="287"
+    android:viewportHeight="61"
+    >
+
+  <group>
+
+    <clip-path
+        android:pathData="M30.5 2H256.5C272.24 2 285 14.7599 285 30.5C285 46.2401 272.24 59 256.5 59H30.5C14.7599 59 2 46.2401 2 30.5C2 14.7599 14.7599 2 30.5 2Z"
+        />
+
+    <path
+        android:pathData="M2 2V59H285V2"
+        android:fillColor="#BFFFFFFF"
+        />
+
+  </group>
+
+  <group>
+
+    <clip-path
+        android:pathData="M0 0V61H287V0M30.5 2H256.5C272.24 2 285 14.7599 285 30.5C285 46.2401 272.24 59 256.5 59H30.5C14.7599 59 2 46.2401 2 30.5C2 14.7599 14.7599 2 30.5 2Z"
+        />
+
+    <path
+        android:pathData="M30.5 2H256.5C272.24 2 285 14.7599 285 30.5C285 46.2401 272.24 59 256.5 59H30.5C14.7599 59 2 46.2401 2 30.5C2 14.7599 14.7599 2 30.5 2Z"
+        android:strokeWidth="4"
+        android:strokeColor="#FFC691"
+        />
+
+  </group>
+
+</vector>

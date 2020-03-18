@@ -54,7 +54,20 @@ public class WazeActionFragment extends ActionFragment {
     public Action genAction() {
         int notifId = TasksManager.NotificationIdGenerator.getNewId(getContext());
         LatLng latLng = mMarker.getPosition();
-        return new WazeAction(notifId,mTaskName,latLng.latitude,latLng.longitude);
+
+        Geocoder geocoder = new Geocoder(getContext());
+        String addressName = latLng.latitude+", "+latLng.longitude;
+        try {
+            List<Address> results = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
+            if(results != null && results.size() > 0){
+                addressName = results.get(0).getAddressLine(0);
+            }
+        } catch(IOException e) {
+            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
+        }
+
+
+        return new WazeAction(notifId,mTaskName,addressName,latLng.latitude,latLng.longitude);
     }
 
     private static final int SERVICES_ERROR_DIALOG_REQ = 9001;

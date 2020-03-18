@@ -46,4 +46,8 @@ public class TaskBuilder implements Serializable {
     public void setOnlyOnce(boolean mOnlyOnce) {
         this.mOnlyOnce = mOnlyOnce;
     }
+
+    public boolean getOnlyOnce(){
+        return mOnlyOnce;
+    }
 }

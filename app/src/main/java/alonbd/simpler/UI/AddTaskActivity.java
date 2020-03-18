@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Checkable;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Switch;
@@ -24,9 +25,9 @@ import alonbd.simpler.TaskLogic.Trigger;
 public class AddTaskActivity extends AppCompatActivity {
 
     private EditText mName;
-    private ImageButton mButton;
+    private Button mButton;
     private TaskBuilder mBuilder;
-    private Switch mOnlyOnceSwitch;
+    private Button mOnlyOnceSwitch;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class AddTaskActivity extends AppCompatActivity {
         mBuilder = new TaskBuilder();
         mName = findViewById(R.id.name_et);
         mButton = findViewById(R.id.btn);
-        mOnlyOnceSwitch = findViewById(R.id.only_once_switch);
+        mOnlyOnceSwitch = findViewById(R.id.only_once);
 
         mButton.setOnClickListener(v -> {
             if(mName.getText().length() == 0) {
@@ -43,7 +44,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 return;
             }else{
                 mBuilder.setTaskName(mName.getText().toString());
-                mBuilder.setOnlyOnce(mOnlyOnceSwitch.isChecked());
+                mBuilder.setOnlyOnce(((Checkable)mOnlyOnceSwitch).isChecked());
                 Intent intent = new Intent(this,AddTriggerActivity.class);
                 intent.putExtra(TaskBuilder.EXTRA_TAG,mBuilder);
                 startActivity(intent);

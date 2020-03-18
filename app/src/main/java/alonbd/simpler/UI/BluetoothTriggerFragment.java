@@ -47,7 +47,7 @@ public class BluetoothTriggerFragment extends Fragment {
         if(BluetoothAdapter.getDefaultAdapter().isEnabled()) {
             updateDeviceList();
         } else {
-            mBtErrTv.setText("Please turn on bluetooth to see list");
+            mBtErrTv.setVisibility(View.VISIBLE);
         }
         mBTTurnedOnReceiver = new BroadcastReceiver() {
             @Override
@@ -81,7 +81,7 @@ public class BluetoothTriggerFragment extends Fragment {
             newButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
             mDeviceRadioGroup.addView(newButton, lp);
         }
-        mBtErrTv.setText("");
+        mBtErrTv.setVisibility(View.GONE);
     }
 
     @Override

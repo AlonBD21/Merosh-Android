@@ -1,22 +1,54 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/secondaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryLightColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryLightColor</item>
+        <item name="colorOnPrimary">@color/primaryTextColor</item>
+        <item name="colorOnSecondary">@color/secondaryTextColor</item>
         <item name="android:fontFamily">@font/heebo</item>
+        <item name="textInputStyle">@style/FormText</item>
+        <item name="toolbarStyle">@style/ToolbarStyle</item>
+        <item name="android:windowBackground">@drawable/bg_activity</item>
     </style>
 
-<!--    <style name="FormField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="ToolbarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="paddingEnd">20dp</item>
+    </style>
+
+
+    <style name="FormText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">40dp</item>
         <item name="android:layout_marginRight">40dp</item>
+        <item name="android:inputType">textImeMultiLine</item>
     </style>
 
-    <style name="DialogAnimation">
+    <style name="FormNextImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:src">@drawable/ic_arrow_forward</item>
+    </style>
+
+    <style name="FormButton" parent="@style/Widget.MaterialComponents.Button.TextButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <!--<style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/dialog_fade_in</item>
         <item name="android:windowExitAnimation">@anim/dialog_fade_out</item>
     </style>

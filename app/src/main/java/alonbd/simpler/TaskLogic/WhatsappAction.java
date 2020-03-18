@@ -7,6 +7,8 @@ import android.graphics.Color;
 
 import java.io.Serializable;
 
+import alonbd.simpler.R;
+
 public class WhatsappAction extends IntentAction implements Serializable {
     private String mContent;
 
@@ -21,9 +23,7 @@ public class WhatsappAction extends IntentAction implements Serializable {
     }
 
     @Override
-    public int getNotificationIconID() {
-        return android.R.drawable.ic_menu_call;
-    }
+    public int getNotificationIconID() { return R.drawable.ic_notification_whatsapp; }
 
     @Override
     public int getNotificationColorInt() {

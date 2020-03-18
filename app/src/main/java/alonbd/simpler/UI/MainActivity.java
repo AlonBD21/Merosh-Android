@@ -9,20 +9,30 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
+import androidx.vectordrawable.graphics.drawable.AnimationUtilsCompat;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Interpolator;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.ArrayList;
 
 import alonbd.simpler.BackgroundAndroid.LocationService;
 import alonbd.simpler.BackgroundAndroid.TasksManager;
@@ -34,9 +44,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView mRecyclerView;
     private NavigationView mNav;
     private DrawerLayout mRootDrawerLayout;
-    private Toolbar mToolbar;
     private FloatingActionButton mFab;
     private CoordinatorLayout mCoordinatorLayout;
+    private boolean mOrderUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,23 +55,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         mCoordinatorLayout = findViewById(R.id.coordinator_layout);
-        mToolbar = findViewById(R.id.toolbar);
         mRootDrawerLayout = findViewById(R.id.drawer_root);
         mNav = findViewById(R.id.nav_view);
         mRecyclerView = findViewById(R.id.recycler);
-        setSupportActionBar(mToolbar);
         mFab = findViewById(R.id.fab);
+        mOrderUp = false;
 
+        setSupportActionBar(findViewById(R.id.toolbar));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_burgermenu_black);
-
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_burgermenu);
         mNav.setNavigationItemSelectedListener(this);
-        mNav.setCheckedItem(R.id.order_des);
-        mNav.setCheckedItem(R.id.by_name);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));//TODO false is order
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(TasksManager.getInstance(this).getData());
+        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(TasksManager.getInstance(this).getData(), getResources());
         Task.setRecyclerViewAdapter(recyclerViewAdapter);
         mRecyclerView.setAdapter(recyclerViewAdapter);
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.END) {
@@ -84,11 +91,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Intent intent = new Intent(MainActivity.this, LocationService.class);
                         startService(intent);
                         Snackbar.make(mCoordinatorLayout, "The task '" + removed.getName() + "' has been removed.", Snackbar.LENGTH_LONG).
-                        setAction("Cancel",(v) ->{
-                            tm.getData().add(position,removed);
-                            mRecyclerView.getAdapter().notifyItemInserted(position);
-                            Snackbar.make(mCoordinatorLayout, "The task '" + removed.getName() + "' has been added back.", Snackbar.LENGTH_LONG).show();
-                        }).show();
+                                setAction("Cancel", (v) -> {
+                                    tm.getData().add(position, removed);
+                                    mRecyclerView.getAdapter().notifyItemInserted(position);
+                                    Snackbar.make(mCoordinatorLayout, "The task '" + removed.getName() + "' has been added back.", Snackbar.LENGTH_LONG).show();
+                                }).show();
                     }).setNeutralButton("Cancel", (dialog, which) -> {
                         int position = viewHolder.getAdapterPosition();
                         dialog.dismiss();
@@ -126,11 +133,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if(item.getItemId() == android.R.id.home) {
-            mRootDrawerLayout.openDrawer(GravityCompat.START);
+            if(mRootDrawerLayout.isDrawerOpen(GravityCompat.START))
+                mRootDrawerLayout.closeDrawer(GravityCompat.START);
+            else mRootDrawerLayout.openDrawer(GravityCompat.START);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_actionbar_options, menu);
+
+
+        ImageButton flipBtn = ((ImageButton) menu.findItem(R.id.order_flip).getActionView());
+        int scale = (int) Resources.getSystem().getDisplayMetrics().density;
+        flipBtn.setImageResource(R.drawable.ic_chevron_up);
+        flipBtn.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        flipBtn.setOnClickListener((v -> {
+            ImageButton ib = (ImageButton) v;
+            if(mOrderUp){
+                ib.setImageResource(R.drawable.ic_chevron_down);
+            }else{
+                ib.setImageResource(R.drawable.ic_chevron_up);
+            }
+            mOrderUp = !mOrderUp;
+            Animation animation = new RotateAnimation(-180, 0, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
+            animation.setDuration(250);
+            animation.setInterpolator(new DecelerateInterpolator());
+            ib.startAnimation(animation);
+        }));
+        return true;
     }
 
     @Override
@@ -166,14 +200,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }).run();
             Snackbar.make(coordLayout,"Order Changed",Snackbar.LENGTH_SHORT).show();}
         mRootDrawerLayout.closeDrawer(GravityCompat.START);*/
-
-        if(menuItem.getGroupId() == R.id.order_dir) {
-
-        }
-        if(menuItem.getGroupId() == R.id.order_by) {
-
-        }
-        return false;
+        mRootDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -20,8 +21,6 @@ import alonbd.simpler.R;
 import alonbd.simpler.TaskLogic.BluetoothTrigger;
 import alonbd.simpler.TaskLogic.LocationTrigger;
 import alonbd.simpler.TaskLogic.Task;
-import alonbd.simpler.TaskLogic.Trigger;
-import alonbd.simpler.TaskLogic.WifiTrigger;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.TaskViewHolder> {
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
@@ -29,20 +28,27 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private TextView mTaskNameTv;
         private TextView mOnlyOnceTv;
         private TextView mUsedTv;
+        private CardView mRoot;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             mTaskNameTv = itemView.findViewById(R.id.txt_name);
-            mTypeIv = itemView.findViewById(R.id.txt_trigger_icon);
+            mTypeIv = itemView.findViewById(R.id.trigger_icon);
             mOnlyOnceTv = itemView.findViewById(R.id.txt_only_once);
             mUsedTv = itemView.findViewById(R.id.txt_used);
+            mRoot = itemView.findViewById(R.id.root_cardview);
+
         }
     }
 
     private List<Task> mTasks;
+    private static Bitmap sMapBitmap;
+    private static Bitmap sBluetoothBitmap;
 
-    public RecyclerViewAdapter(ArrayList<Task> mTasks) {
+    public RecyclerViewAdapter(ArrayList<Task> mTasks, Resources res) {
         this.mTasks = mTasks;
+        sMapBitmap = BitmapFactory.decodeResource(res,R.drawable.ic_task_location);
+        sBluetoothBitmap = BitmapFactory.decodeResource(res,R.drawable.ic_task_bluetooth);
     }
 
     @NonNull
@@ -60,25 +66,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if(t.isOnceOnly()) {
             holder.mOnlyOnceTv.setText("One Time Action");
             if(t.isTriggerUsed()) {
-                holder.itemView.setBackgroundColor(context.getResources().getColor(android.R.color.holo_red_light));
-                holder.mUsedTv.setText("Used Already");
+                holder.mRoot.setBackgroundColor(context.getResources().getColor(android.R.color.holo_red_light));
+                holder.mUsedTv.setText("Done");
             } else {
-                holder.itemView.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
+                holder.mRoot.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
                 holder.mUsedTv.setText("Ready");
             }
         } else {
-            holder.itemView.setBackgroundColor(context.getResources().getColor(android.R.color.holo_blue_light));
+            holder.mRoot.setBackgroundColor(context.getResources().getColor(android.R.color.holo_blue_light));
             holder.mOnlyOnceTv.setText("Reusable Action");
             holder.mUsedTv.setText("Ready");
         }
 
         Class c = mTasks.get(position).getTriggerClass();
         if(c == BluetoothTrigger.class) {
-            holder.mTypeIv.setImageResource(R.drawable.ic_bluetooth_black);
+            holder.mTypeIv.setImageResource(R.drawable.ic_task_bluetooth);
         } else if(c == LocationTrigger.class) {
-            holder.mTypeIv.setImageResource(R.drawable.ic_location_black);
-        } else if(c == WifiTrigger.class) {
-            holder.mTypeIv.setImageResource(R.drawable.ic_wifi_black_);
+            holder.mTypeIv.setImageResource(R.drawable.ic_task_location);
         } else {
             holder.mTypeIv.setImageBitmap(null);
         }

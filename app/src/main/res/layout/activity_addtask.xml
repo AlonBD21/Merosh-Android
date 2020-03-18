@@ -1,62 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <ImageView
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:src="@drawable/ic_pencil"
+        android:layout_above="@id/inputs_ll"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="130dp"/>
+    
+    <LinearLayout
+        android:id="@+id/inputs_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/appBarLayout">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_anchor="@+id/appBarLayout"
-            app:layout_anchorGravity="center"
-            app:title="Add Task"/>
-    </com.google.android.material.appbar.AppBarLayout>
-
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/bg_input"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        android:elevation="10dp"
+        >
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/name_et_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name of Task">
+        android:layout_above="@id/btn"
+        android:hint="TASK NAME"
+        android:padding="0dp"
+        android:elevation="5dp"
+        app:endIconMode="clear_text"
+        android:layout_marginBottom="10dp">
+
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/name_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textImeMultiLine"
-            android:textSize="25sp" />
+            android:inputType="textImeMultiLine" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Switch
-        android:padding="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:checked="true"
-        android:id="@+id/only_once_switch"
-        android:text="Activate just once"
-        />
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:checkable="true"
+            android:id="@+id/only_once"
+            android:text="ONE ACTIVATION ONLY"
+            />
 
-    <Space
+    <Button
+        android:id="@+id/btn"
+        style="@style/Widget.MaterialComponents.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
-
-    <ImageButton
-        android:id="@+id/btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginHorizontal="60dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:padding="15dp"
-        android:src="@drawable/ic_arrow_forward_white"
-        android:textSize="30sp" />
-</LinearLayout>
+        android:text="NEXT"
+        android:layout_gravity="center_horizontal"
+        app:icon="@drawable/ic_arrow_forward"
+        android:elevation="5dp"/>
+    </LinearLayout>
+</RelativeLayout>

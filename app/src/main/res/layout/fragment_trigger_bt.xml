@@ -13,14 +13,16 @@
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_bluetooth_secondary" />
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_bluetooth"
+            android:layout_gravity="center"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bluetooth Activation"
+            android:layout_gravity="center"
             android:textSize="20sp"
             android:typeface="serif" />
     </LinearLayout>
@@ -53,12 +55,15 @@
         android:layout_gravity="start"
         android:textSize="17sp"
         android:text="Choose Device:"/>
+
     <TextView
+        android:id="@+id/bt_err_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Please turn on bluetooth to see list"
+        android:visibility="gone"
         android:layout_gravity="center"
-        android:textSize="20sp"
-        android:id="@+id/bt_err_tv"/>
+        android:textSize="20sp" />
 
     <ScrollView
         android:layout_width="match_parent"

@@ -3,6 +3,7 @@ package alonbd.simpler.UI;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -30,13 +31,12 @@ import alonbd.simpler.R;
 public class AddTriggerActivity extends AppCompatActivity {
     private static final String TAG = "ThugAddTriggerActivity";
 
-    private ImageButton mButton;
+    private Button mButton;
     private ViewPager mViewPager;
     private TabLayout mTabsLayout;
     private TaskBuilder mBuilder;
 
     private BluetoothTriggerFragment bluetoothTriggerFragment;
-    private WifiTriggerFragment wifiTriggerFragment;
     private LocationTriggerFragment locationTriggerFragment;
 
     @Override
@@ -73,9 +73,6 @@ public class AddTriggerActivity extends AppCompatActivity {
                     if(bluetoothTriggerFragment == null)
                         bluetoothTriggerFragment = new BluetoothTriggerFragment();
                     return bluetoothTriggerFragment;
-        //        case 2:
-       //             if(wifiTriggerFragment == null) wifiTriggerFragment = new WifiTriggerFragment();
-        //            return wifiTriggerFragment;
                 case 1:
                     if(locationTriggerFragment == null)
                         locationTriggerFragment = new LocationTriggerFragment();
@@ -93,7 +90,6 @@ public class AddTriggerActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            //return 3;
             return 2;
         }
     }
