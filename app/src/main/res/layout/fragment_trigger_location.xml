@@ -41,7 +41,7 @@
                 android:layout_toRightOf="@id/ic_magnify"
                 android:layout_marginStart="4dp"
                 android:background="@null"
-                android:hint="Search for Location"
+                android:hint="Search for Destination"
                 android:imeOptions="actionSearch"
                 android:inputType="textImeMultiLine"
                 android:paddingHorizontal="5dp"

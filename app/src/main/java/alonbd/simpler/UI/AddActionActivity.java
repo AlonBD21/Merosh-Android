@@ -89,7 +89,7 @@ public class AddActionActivity extends AppCompatActivity {
 
     public static void preDialog(Context context, TaskBuilder builder) {
         if(builder.getTrigger() == null) return;
-        String[] actionNames = {"Display Toast","Push Notification","Send Email","Whatsapp Message","Waze Navigation"};
+        String[] actionNames = {"Display Toast","Push Notification","Send Email","WhatsApp Message","Waze Navigation"};
         Class[] actionClasses = {ToastAction.class,NotificationAction.class, EmailAction.class, WhatsappAction.class, WazeAction.class};
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);

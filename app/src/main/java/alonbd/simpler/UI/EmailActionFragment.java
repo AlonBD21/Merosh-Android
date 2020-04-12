@@ -6,9 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.android.gms.maps.internal.IMapFragmentDelegate;
 
 import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
@@ -21,6 +24,7 @@ public class EmailActionFragment extends ActionFragment {
     private EditText mSubjectEt;
     private EditText mContentEt;
     private String mTaskName;
+    private ImageView mPlaneIv;
 
     @Override
     public Action genAction() {
@@ -41,10 +45,11 @@ public class EmailActionFragment extends ActionFragment {
         mToEt = view.findViewById(R.id.to_et);
         mSubjectEt = view.findViewById(R.id.subject_et);
         mContentEt = view.findViewById(R.id.content_et);
+        mPlaneIv = view.findViewById(R.id.plane_iv);
+        Animator.animatePaperPlane(mPlaneIv);
         Intent intent = getActivity().getIntent();
         TaskBuilder builder = (TaskBuilder) intent.getSerializableExtra(TaskBuilder.EXTRA_TAG);
         mTaskName = builder.getTaskName();
-
 
     }
 }

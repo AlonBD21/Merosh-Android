@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="NOTIFICATION TEXT"
-        app:hintTextColor="#777"
         app:boxCornerRadiusBottomEnd="20dp"
         app:boxCornerRadiusBottomStart="20dp"
         app:boxCornerRadiusTopEnd="20sp"

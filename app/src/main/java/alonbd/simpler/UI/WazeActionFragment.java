@@ -117,6 +117,7 @@ public class WazeActionFragment extends ActionFragment {
             }
             return true;
         });
+        Toast.makeText(getContext(), "Choose destination for navigation!", Toast.LENGTH_LONG).show();
     }
 
     private void geoLocate() {
