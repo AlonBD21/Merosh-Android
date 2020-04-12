@@ -20,11 +20,13 @@ public class NotificationAction implements Action, Serializable {
     private int notificationId;
     private String mContent;
     private String mTaskName;
+    private int mColor;
 
-    public NotificationAction(int notificationId, String mContent, String mTaskName) {
+    public NotificationAction(int notificationId, String mContent, String mTaskName, int mColor) {
         this.notificationId = notificationId;
         this.mContent = mContent;
         this.mTaskName = mTaskName;
+        this.mColor = mColor;
     }
 
     @Override
@@ -43,7 +45,7 @@ public class NotificationAction implements Action, Serializable {
         }
         builder.setContentText("The task '" + mTaskName + "' just got triggered.");
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setColor(context.getResources().getColor(R.color.primaryLightColor));
+            builder.setColor(mColor);
         }
         return builder.build();
     }

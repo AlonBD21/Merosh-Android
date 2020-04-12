@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list android:oneshot="false" xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:drawable="@drawable/ic_star0" android:duration="400"/>
+<item android:drawable="@drawable/ic_star1" android:duration="400"/>
+<item android:drawable="@drawable/ic_star2" android:duration="400"/>
+<item android:drawable="@drawable/ic_star3" android:duration="400"/>
+<item android:drawable="@drawable/ic_star4" android:duration="400"/>
+<item android:drawable="@drawable/ic_star5" android:duration="3000"/>
+</animation-list>

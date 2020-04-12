@@ -3,10 +3,17 @@ package alonbd.simpler.UI;
 import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.OvershootInterpolator;
+import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.Checkable;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -23,16 +30,18 @@ import alonbd.simpler.TaskLogic.TaskBuilder;
 import alonbd.simpler.TaskLogic.Trigger;
 
 public class AddTaskActivity extends AppCompatActivity {
-
+    private static String TAG = "ThugAddTriggerActivity";
     private EditText mName;
     private Button mButton;
     private TaskBuilder mBuilder;
     private Button mOnlyOnceSwitch;
+    private ImageView mPencilIv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addtask);
+        mPencilIv = findViewById(R.id.pencil_iv);
         mBuilder = new TaskBuilder();
         mName = findViewById(R.id.name_et);
         mButton = findViewById(R.id.btn);
@@ -51,5 +60,12 @@ public class AddTaskActivity extends AppCompatActivity {
             }
 
         });
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Animator.animatePencil(mPencilIv);
     }
 }

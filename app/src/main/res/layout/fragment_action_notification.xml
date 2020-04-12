@@ -1,26 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="Enter Notification Content:"
-        android:layout_margin="10dp"/>
-
+    android:layout_height="match_parent"
+    android:padding="15dp">
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Notification Content"
+        android:hint="NOTIFICATION TEXT"
+        app:hintTextColor="#777"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20sp"
+        app:boxCornerRadiusTopStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         >
+
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:inputType="textImeMultiLine"
-            android:id="@+id/content"
-            android:textSize="25sp"/>
-
+            android:textSize="25sp" />
     </com.google.android.material.textfield.TextInputLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="10dp"
+        android:background="@android:color/darker_gray" />
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Color of Notification"
+        android:textSize="25sp"
+        android:textColor="#444"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginHorizontal="10dp"/>
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/colors_ll">
+        </LinearLayout>
+    </HorizontalScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="10dp"
+        android:background="@android:color/darker_gray" />
+    <ImageView
+    android:layout_width="240dp"
+    android:layout_height="240dp"
+        android:src="@drawable/ic_star_anim"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="50dp"
+        android:id="@+id/star_iv"/>
 </LinearLayout>
