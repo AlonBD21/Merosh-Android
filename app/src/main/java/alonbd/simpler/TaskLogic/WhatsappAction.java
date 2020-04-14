@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 
 import java.io.Serializable;
 
@@ -11,6 +12,7 @@ import alonbd.simpler.R;
 
 public class WhatsappAction extends IntentAction implements Serializable {
     private String mContent;
+    private String mTo;
 
     @Override
     public String getNotificationContentString() {
@@ -33,16 +35,16 @@ public class WhatsappAction extends IntentAction implements Serializable {
     @Override
     public PendingIntent getPendingIntent(Context context)
     {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, mContent);
-        sendIntent.setType("text/plain");
-        sendIntent.setPackage("com.whatsapp");
-        return PendingIntent.getActivity(context,getNotificationId(),sendIntent,0);
+        String uri = "https://api.whatsapp.com/send?phone=$&text=!";
+        uri = uri.replace("$",mTo);
+        uri = uri.replace("!",mContent);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        return PendingIntent.getActivity(context,getNotificationId(),intent,0);
     }
 
-    public WhatsappAction(int notificationId,String taskName,String mContent) {
+    public WhatsappAction(int notificationId,String taskName,String mContent, String mTo) {
         super(notificationId,taskName);
         this.mContent = mContent;
+        this.mTo = mTo;
     }
 }

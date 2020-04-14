@@ -58,13 +58,11 @@ public class EmailActionFragment extends ActionFragment {
         Intent intent = getActivity().getIntent();
         TaskBuilder builder = (TaskBuilder) intent.getSerializableExtra(TaskBuilder.EXTRA_TAG);
         mTaskName = builder.getTaskName();
-        mToTil.setEndIconOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(ContactsContract.CommonDataKinds.Email.CONTENT_TYPE);
-                startActivityForResult(Intent.createChooser(intent, "Choose Email address from..."), 55);
-            }
+
+        mToTil.setEndIconOnClickListener(v -> {
+            Intent intent1 = new Intent(Intent.ACTION_PICK);
+            intent1.setType(ContactsContract.CommonDataKinds.Email.CONTENT_TYPE);
+            startActivityForResult(Intent.createChooser(intent1, "Choose Email address from..."), REQ_PICK_EMAIL);
         });
 
     }
