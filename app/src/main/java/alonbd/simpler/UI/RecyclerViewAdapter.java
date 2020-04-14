@@ -1,6 +1,7 @@
 package alonbd.simpler.UI;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,9 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import alonbd.simpler.BackgroundAndroid.LocationService;
 import alonbd.simpler.R;
 import alonbd.simpler.TaskLogic.BluetoothTrigger;
 import alonbd.simpler.TaskLogic.LocationTrigger;
@@ -29,6 +33,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private TextView mOnlyOnceTv;
         private TextView mUsedTv;
         private CardView mRoot;
+        private TextView mLongPressTv;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -37,18 +42,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             mOnlyOnceTv = itemView.findViewById(R.id.txt_only_once);
             mUsedTv = itemView.findViewById(R.id.txt_used);
             mRoot = itemView.findViewById(R.id.root_cardview);
-
+            mLongPressTv = itemView.findViewById(R.id.txt_longpress);
         }
     }
 
     private List<Task> mTasks;
-    private static Bitmap sMapBitmap;
-    private static Bitmap sBluetoothBitmap;
 
-    public RecyclerViewAdapter(ArrayList<Task> mTasks, Resources res) {
+    public RecyclerViewAdapter(ArrayList<Task> mTasks) {
         this.mTasks = mTasks;
-        sMapBitmap = BitmapFactory.decodeResource(res,R.drawable.ic_task_location);
-        sBluetoothBitmap = BitmapFactory.decodeResource(res,R.drawable.ic_task_bluetooth);
     }
 
     @NonNull
@@ -63,11 +64,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Context context = holder.itemView.getContext();
         Task t = mTasks.get(position);
         holder.mTaskNameTv.setText(t.getName());
+        holder.mLongPressTv.setVisibility(View.INVISIBLE);
         if(t.isOnceOnly()) {
             holder.mOnlyOnceTv.setText("One Time Action");
             if(t.isTriggerUsed()) {
                 holder.mRoot.setBackgroundColor(context.getResources().getColor(android.R.color.holo_red_light));
                 holder.mUsedTv.setText("Done");
+                holder.mLongPressTv.setVisibility(View.VISIBLE);
+                holder.mRoot.setOnLongClickListener(v -> {
+                    t.setTriggerNotUsed();
+                    notifyDataSetChanged();
+                    if(t.getTriggerClass() == LocationTrigger.class){
+                        Intent intent = new Intent(context, LocationService.class);
+                        context.startService(intent);
+                    }
+                   return true;
+                });
             } else {
                 holder.mRoot.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
                 holder.mUsedTv.setText("Ready");

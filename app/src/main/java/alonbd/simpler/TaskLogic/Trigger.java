@@ -21,4 +21,5 @@ public abstract class Trigger implements Serializable {
     public void setUsedTrue(){
         mUsed = true;
     }
+    public void setReady() {mUsed = false;}
 }

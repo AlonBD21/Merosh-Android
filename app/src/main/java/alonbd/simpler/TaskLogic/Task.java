@@ -60,6 +60,10 @@ public class Task implements Serializable {
         return mTrigger.isUsed();
     }
 
+    public void setTriggerNotUsed(){
+        mTrigger.setReady();
+    }
+
     public boolean isReady() {return !(mTrigger.isUsed() && isOnceOnly());}
 
     public Class getTriggerClass() {

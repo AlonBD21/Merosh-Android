@@ -1,7 +1,11 @@
 package alonbd.simpler.UI;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.maps.internal.IMapFragmentDelegate;
+import com.google.android.material.textfield.TextInputLayout;
 
 import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
@@ -25,6 +30,8 @@ public class EmailActionFragment extends ActionFragment {
     private EditText mContentEt;
     private String mTaskName;
     private ImageView mPlaneIv;
+    private TextInputLayout mToTil;
+    private static final int REQ_PICK_EMAIL = 55;
 
     @Override
     public Action genAction() {
@@ -46,10 +53,43 @@ public class EmailActionFragment extends ActionFragment {
         mSubjectEt = view.findViewById(R.id.subject_et);
         mContentEt = view.findViewById(R.id.content_et);
         mPlaneIv = view.findViewById(R.id.plane_iv);
+        mToTil = view.findViewById(R.id.to_til);
         Animator.animatePaperPlane(mPlaneIv);
         Intent intent = getActivity().getIntent();
         TaskBuilder builder = (TaskBuilder) intent.getSerializableExtra(TaskBuilder.EXTRA_TAG);
         mTaskName = builder.getTaskName();
+        mToTil.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(ContactsContract.CommonDataKinds.Email.CONTENT_TYPE);
+                startActivityForResult(Intent.createChooser(intent, "Choose Email address from..."), 55);
+            }
+        });
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQ_PICK_EMAIL) {
+            if(resultCode == Activity.RESULT_OK) {
+                Uri contactUri = data.getData();
+                String[] projection = new String[]{ContactsContract.CommonDataKinds.Email.ADDRESS};
+                Cursor cursor = getContext().getContentResolver().query(contactUri, projection,
+                        null, null, null);
+                if(cursor != null && cursor.moveToFirst()) {
+                    int numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS);
+                    String email = cursor.getString(numberIndex);
+
+                    if(mToEt.getText().toString().equals("")) {
+                        mToEt.setText(email);
+                    } else {
+                        mToEt.setText(mToEt.getText()+", "+email);
+                    }
+
+                }
+            }
+        }
     }
 }

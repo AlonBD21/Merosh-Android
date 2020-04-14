@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.net.Uri;
 
 import java.io.Serializable;
+import java.util.regex.Pattern;
 
 import alonbd.simpler.R;
 
@@ -17,7 +18,7 @@ public class EmailAction extends IntentAction implements Serializable {
 
     @Override
     public String getNotificationContentString() {
-        return "To "+mSubject+" About "+mSubject;
+        return "To "+mTo+" About "+mSubject;
     }
 
     @Override
@@ -38,8 +39,10 @@ public class EmailAction extends IntentAction implements Serializable {
 
     @Override
     public PendingIntent getPendingIntent(Context context) {
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto",mTo, null));
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setType("text/plain");
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.putExtra(Intent.EXTRA_EMAIL,splitAddresses(mTo));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, mSubject);
         emailIntent.putExtra(Intent.EXTRA_TEXT, mContent);
         return PendingIntent.getActivity(context,getNotificationId(),Intent.createChooser(emailIntent, "Send email..."),0);
@@ -50,5 +53,9 @@ public class EmailAction extends IntentAction implements Serializable {
         this.mTo = mTo;
         this.mSubject = mSubject;
         this.mContent = mContent;
+    }
+    private static String[] splitAddresses(String addresses){
+        Pattern r = Pattern.compile("[,\\s]+");
+        return r.split(addresses);
     }
 }
