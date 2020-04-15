@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.view.View;
+import android.widget.TextView;
 
 import java.io.Serializable;
 import java.util.regex.Pattern;
@@ -57,5 +59,14 @@ public class EmailAction extends IntentAction implements Serializable {
     private static String[] splitAddresses(String addresses){
         Pattern r = Pattern.compile("[,\\s]+");
         return r.split(addresses);
+    }
+
+    @Override
+    public View getDescriptiveView(Context context) {
+        View view = View.inflate(context, R.layout.layout_view_email, null);
+        ((TextView) view.findViewById(R.id.to_tv)).setText(mTo);
+        ((TextView) view.findViewById(R.id.subject_tv)).setText(mSubject);
+        ((TextView) view.findViewById(R.id.content_tv)).setText(mContent);
+        return view;
     }
 }

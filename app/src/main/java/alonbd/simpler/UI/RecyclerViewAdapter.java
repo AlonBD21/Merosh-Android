@@ -2,9 +2,6 @@ package alonbd.simpler.UI;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +60,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Task t = mTasks.get(position);
         holder.mTaskNameTv.setText(t.getName());
         holder.mLongPressTv.setVisibility(View.INVISIBLE);
+        holder.mRoot.setOnClickListener((v -> {
+            ViewTaskActivity.startActivity(context, t);
+
+        }));
         if(t.isOnceOnly()) {
             holder.mOnlyOnceTv.setText("One Time Action");
             if(t.isTriggerUsed()) {

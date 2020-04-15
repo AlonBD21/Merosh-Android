@@ -7,7 +7,8 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.IBinder;
@@ -22,6 +23,10 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import alonbd.simpler.R;
 
@@ -121,5 +126,21 @@ public class LocationService extends Service {
         mFusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
         stopForeground(true);
         ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(NOTIF_ID);
+    }
+
+    public static String geoCode(Context context, double lat, double lng) {
+        String location = "" + lat + "," + lng;
+        Geocoder geocoder = new Geocoder(context);
+        List<Address> list = new ArrayList<>();
+        try {
+            list = geocoder.getFromLocation(lat, lng, 1);
+        } catch(IOException e) {
+            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
+        }
+        if(list.size() > 0) {
+            Address address = list.get(0);
+            location = address.getAddressLine(0);
+        }
+        return location;
     }
 }

@@ -6,16 +6,17 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.view.View;
+import android.widget.TextView;
 
 import java.io.Serializable;
 
-import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
 
 public class NotificationAction implements Action, Serializable {
     public final static String CHANNEL_ID = "NotificationActionChannel";
     private final static CharSequence CHANNEL_NAME = "SimplerTasks";
-    final static int IMPORTANCE = NotificationManager.IMPORTANCE_HIGH;
+    final private static int IMPORTANCE = NotificationManager.IMPORTANCE_HIGH;
 
     private int notificationId;
     private String mContent;
@@ -52,7 +53,7 @@ public class NotificationAction implements Action, Serializable {
 
     public static void setChannel(Context context) {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel channel = null;
+        NotificationChannel channel;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             channel = manager.getNotificationChannel(CHANNEL_ID);
             if(channel == null) {
@@ -63,5 +64,13 @@ public class NotificationAction implements Action, Serializable {
                 manager.createNotificationChannel(channel);
             }
         }
+    }
+
+    @Override
+    public View getDescriptiveView(Context context) {
+        View view = View.inflate(context, R.layout.layout_view_notif, null);
+        ((TextView) view.findViewById(R.id.content_tv)).setText(mContent);
+        view.findViewById(R.id.color_view).setBackgroundColor(mColor);
+        return view;
     }
 }

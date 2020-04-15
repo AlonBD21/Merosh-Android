@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.view.View;
+import android.widget.TextView;
 
 import java.io.Serializable;
 
@@ -48,5 +50,12 @@ public class WazeAction extends IntentAction implements Serializable {
         this.mLat = mLat;
         this.mLng = mLng;
         this.mLocationName = mLocationName;
+    }
+
+    @Override
+    public View getDescriptiveView(Context context) {
+        View view = View.inflate(context, R.layout.layout_view_waze, null);
+        ((TextView) view.findViewById(R.id.destination_tv)).setText(mLocationName);
+        return view;
     }
 }

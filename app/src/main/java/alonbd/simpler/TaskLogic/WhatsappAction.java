@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.view.View;
+import android.widget.TextView;
 
 import java.io.Serializable;
 
@@ -46,5 +48,13 @@ public class WhatsappAction extends IntentAction implements Serializable {
         super(notificationId,taskName);
         this.mContent = mContent;
         this.mTo = mTo;
+    }
+
+    @Override
+    public View getDescriptiveView(Context context) {
+        View view = View.inflate(context, R.layout.layout_view_whatsapp, null);
+        ((TextView) view.findViewById(R.id.to_tv)).setText(mTo);
+        ((TextView) view.findViewById(R.id.content_tv)).setText(mContent);
+        return view;
     }
 }
