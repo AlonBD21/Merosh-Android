@@ -4,6 +4,6 @@
     <item
         android:id="@+id/order_flip"
         android:title="Change Order"
-        app:actionViewClass="android.widget.ImageButton"
-        app:showAsAction="always"/>
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.ImageView" />
 </menu>

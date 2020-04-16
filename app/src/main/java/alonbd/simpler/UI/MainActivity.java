@@ -8,10 +8,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -39,7 +42,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mRootDrawerLayout;
     private FloatingActionButton mFab;
     private CoordinatorLayout mCoordinatorLayout;
-    private boolean mOrderUp;
+    private boolean mOrderFlip;
+    private ImageView mMenuFlipButton;
+    private boolean mLockFlipBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mNav = findViewById(R.id.nav_view);
         mRecyclerView = findViewById(R.id.recycler);
         mFab = findViewById(R.id.fab);
-        mOrderUp = false;
 
         setSupportActionBar(findViewById(R.id.toolbar));
         ActionBar actionBar = getSupportActionBar();
@@ -138,24 +142,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_actionbar_options, menu);
+        mOrderFlip = false;
 
+        mMenuFlipButton = (ImageView) menu.findItem(R.id.order_flip).getActionView();
+        mMenuFlipButton.setImageResource(R.drawable.ic_chevron_down);
+        mLockFlipBtn = false;
 
-        ImageButton flipBtn = ((ImageButton) menu.findItem(R.id.order_flip).getActionView());
-        int scale = (int) Resources.getSystem().getDisplayMetrics().density;
-        flipBtn.setImageResource(R.drawable.ic_chevron_up);
-        flipBtn.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-        flipBtn.setOnClickListener((v -> {
-            ImageButton ib = (ImageButton) v;
-            if(mOrderUp){
-                ib.setImageResource(R.drawable.ic_chevron_down);
+        mMenuFlipButton.setOnClickListener((v -> {
+            if(mLockFlipBtn) return;
+            mLockFlipBtn = true;
+            Animation animation;
+            mOrderFlip = !mOrderFlip;
+            if(mOrderFlip){
+                animation = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
             }else{
-                ib.setImageResource(R.drawable.ic_chevron_up);
+                animation = new RotateAnimation(180, 0, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
             }
-            mOrderUp = !mOrderUp;
-            Animation animation = new RotateAnimation(-180, 0, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
-            animation.setDuration(250);
-            animation.setInterpolator(new DecelerateInterpolator());
-            ib.startAnimation(animation);
+            animation.setFillAfter(true);
+            animation.setDuration(300);
+            animation.setInterpolator(new OvershootInterpolator());
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    mLockFlipBtn = false;
+                }
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            mMenuFlipButton.startAnimation(animation);
         }));
         return true;
     }
