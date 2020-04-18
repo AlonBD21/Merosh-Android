@@ -11,12 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.regex.Matcher;
@@ -28,7 +26,8 @@ import alonbd.simpler.TaskLogic.Action;
 import alonbd.simpler.TaskLogic.TaskBuilder;
 import alonbd.simpler.TaskLogic.WhatsappAction;
 
-public class WhatsappActionFragment extends ActionFragment {
+public class
+WhatsappActionFragment extends ActionFragment {
     private EditText mContentEt;
     private EditText mToEt;
     private String mTaskName;
@@ -60,7 +59,7 @@ public class WhatsappActionFragment extends ActionFragment {
 
         Animator.animateWavingHand(mHandIv);
 
-        mToTil.setEndIconOnClickListener((View.OnClickListener) v -> {
+        mToTil.setEndIconOnClickListener(v -> {
             Intent intent1 = new Intent(Intent.ACTION_PICK);
             intent1.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
             startActivityForResult(Intent.createChooser(intent1, "Choose Phone number from..."), REQ_PICK_PHONE);
@@ -72,8 +71,7 @@ public class WhatsappActionFragment extends ActionFragment {
         if(requestCode == REQ_PICK_PHONE) {
             if(resultCode == Activity.RESULT_OK) {
                 Uri contactUri = data.getData();
-                String[] projection = new String[]{ContactsContract.CommonDataKinds.Email.ADDRESS};
-                Cursor cursor = getContext().getContentResolver().query(contactUri, projection,
+                Cursor cursor = getContext().getContentResolver().query(contactUri, null,
                         null, null, null);
                 if(cursor != null && cursor.moveToFirst()) {
                     int numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);

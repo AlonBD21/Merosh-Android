@@ -36,18 +36,8 @@ public class Task implements Serializable {
         this.mOnceOnly = mOnceOnly;
     }
 
-    public void start(Context context) {
-        if(isReady()) {
-            for(Action action :
-                    mActions) {
-                action.onExecute(context);
-            }
-            mTrigger.setUsedTrue();
-            TasksManager.getInstance(context).saveData();
-            if(sRecyclerViewAdapter != null){
-                sRecyclerViewAdapter.notifyDataSetChanged();
-            }
-        }
+    public static void removeRecyclerViewAdapter() {
+        sRecyclerViewAdapter = null;
     }
 
     public View getDescriptiveView(Context context) {
@@ -71,8 +61,19 @@ public class Task implements Serializable {
     public static void setRecyclerViewAdapter(RecyclerViewAdapter mRecyclerViewAdapter) {
         Task.sRecyclerViewAdapter = mRecyclerViewAdapter;
     }
-    public static void removeRecyclerViewAdapter(){
-        sRecyclerViewAdapter = null;
+
+    public void start(Context context) {
+        if(isReady()) {
+            for(Action action :
+                    mActions) {
+                action.onExecute(context);
+            }
+            mTrigger.setUsed();
+            TasksManager.getInstance(context).saveData();
+            if(sRecyclerViewAdapter != null) {
+                sRecyclerViewAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     public String getName() {return mName;}
@@ -85,7 +86,7 @@ public class Task implements Serializable {
         return mTrigger.isUsed();
     }
 
-    public void setTriggerNotUsed(){
+    public void setTriggerNotUsed() {
         mTrigger.setReady();
     }
 
@@ -96,22 +97,64 @@ public class Task implements Serializable {
     }
 
     public boolean triggerMatchIntent(Intent intent) {return mTrigger.matchIntent(intent);}
+
     public boolean triggerMatchLocation(Location location) {return mTrigger.matchLocation(location);}
 
     public static class DefaultDateComparator implements Comparator<Task> {
-        private boolean mOrderAsc;
+        private boolean mDefaultOrder;
+
+        public DefaultDateComparator(boolean mDefaultOrder) {
+            this.mDefaultOrder = mDefaultOrder;
+        }
 
         @Override
         public int compare(Task o1, Task o2) {
-            int t = o1.mDate.compareTo(o2.mDate);
-            if(!mOrderAsc){
-                t =t*-1;
-            }
-            return t;
+            return o1.mDate.compareTo(o2.mDate) * (mDefaultOrder ? 1 : -1);
+        }
+    }
+
+    public static class NameComparator implements Comparator<Task> {
+        private boolean mDefaultOrder;
+
+        public NameComparator(boolean mDefaultOrder) {
+            this.mDefaultOrder = mDefaultOrder;
         }
 
-        public DefaultDateComparator(boolean mOrderAsc) {
-            this.mOrderAsc = mOrderAsc;
+        @Override
+        public int compare(Task o1, Task o2) {
+            return o1.mName.compareTo(o2.getName()) * (mDefaultOrder ? 1 : -1);
+        }
+    }
+
+    public static class TriggerComparator implements Comparator<Task> {
+        private boolean mDefaultOrder;
+
+        public TriggerComparator(boolean mDefaultOrder) {
+            this.mDefaultOrder = mDefaultOrder;
+        }
+
+        @Override
+        public int compare(Task o1, Task o2) {
+            return o1.getTriggerClass().getSimpleName().compareTo(o2.getTriggerClass().getSimpleName()) * (mDefaultOrder ? 1 : -1);
+        }
+    }
+
+    public static class StatusComparator implements Comparator<Task> {
+        private boolean mDefaultOrder;
+
+        public StatusComparator(boolean mDefaultOrder) {
+            this.mDefaultOrder = mDefaultOrder;
+        }
+
+        private static int getStatusNumber(Task t) {
+            if(!t.isOnceOnly()) return 3;
+            if(t.isReady()) return 2;
+            return 1;
+        }
+
+        @Override
+        public int compare(Task o1, Task o2) {
+            return getStatusNumber(o1) - getStatusNumber(o2) * (mDefaultOrder ? 1 : -1);
         }
     }
 }

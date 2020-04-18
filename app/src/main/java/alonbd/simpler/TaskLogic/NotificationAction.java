@@ -18,13 +18,13 @@ public class NotificationAction implements Action, Serializable {
     private final static CharSequence CHANNEL_NAME = "SimplerTasks";
     final private static int IMPORTANCE = NotificationManager.IMPORTANCE_HIGH;
 
-    private int notificationId;
+    private int mNotificationId;
     private String mContent;
     private String mTaskName;
     private int mColor;
 
-    public NotificationAction(int notificationId, String mContent, String mTaskName, int mColor) {
-        this.notificationId = notificationId;
+    public NotificationAction(int mNotificationId, String mContent, String mTaskName, int mColor) {
+        this.mNotificationId = mNotificationId;
         this.mContent = mContent;
         this.mTaskName = mTaskName;
         this.mColor = mColor;
@@ -33,7 +33,7 @@ public class NotificationAction implements Action, Serializable {
     @Override
     public void onExecute(Context context) {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(notificationId, generateNotification(context));
+        manager.notify(mNotificationId, generateNotification(context));
     }
 
     private Notification generateNotification(Context context) {

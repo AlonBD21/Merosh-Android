@@ -30,7 +30,7 @@ public abstract class Trigger implements Serializable {
         return mUsed;
     }
 
-    public void setUsedTrue() {
+    public void setUsed() {
         mUsed = true;
     }
 

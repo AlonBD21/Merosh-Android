@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.maps.internal.IMapFragmentDelegate;
 import com.google.android.material.textfield.TextInputLayout;
 
 import alonbd.simpler.BackgroundAndroid.TasksManager;
@@ -73,8 +72,7 @@ public class EmailActionFragment extends ActionFragment {
         if(requestCode == REQ_PICK_EMAIL) {
             if(resultCode == Activity.RESULT_OK) {
                 Uri contactUri = data.getData();
-                String[] projection = new String[]{ContactsContract.CommonDataKinds.Email.ADDRESS};
-                Cursor cursor = getContext().getContentResolver().query(contactUri, projection,
+                Cursor cursor = getContext().getContentResolver().query(contactUri, null,
                         null, null, null);
                 if(cursor != null && cursor.moveToFirst()) {
                     int numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS);

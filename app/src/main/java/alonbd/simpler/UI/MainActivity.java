@@ -2,18 +2,14 @@ package alonbd.simpler.UI;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.RotateAnimation;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +26,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Comparator;
+
 import alonbd.simpler.BackgroundAndroid.LocationService;
 import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
@@ -42,9 +40,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mRootDrawerLayout;
     private FloatingActionButton mFab;
     private CoordinatorLayout mCoordinatorLayout;
-    private boolean mOrderFlip;
+    private boolean mDefaultOrder;
     private ImageView mMenuFlipButton;
     private boolean mLockFlipBtn;
+    private RecyclerViewAdapter mAdapter;
+    private Comparator<Task> mComparator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mCoordinatorLayout = findViewById(R.id.coordinator_layout);
         mRootDrawerLayout = findViewById(R.id.drawer_root);
-        mNav = findViewById(R.id.nav_view);
+
         mRecyclerView = findViewById(R.id.recycler);
         mFab = findViewById(R.id.fab);
 
@@ -62,12 +62,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_burgermenu);
-        mNav.setNavigationItemSelectedListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(TasksManager.getInstance(this).getData());
-        Task.setRecyclerViewAdapter(recyclerViewAdapter);
-        mRecyclerView.setAdapter(recyclerViewAdapter);
+        mAdapter = new RecyclerViewAdapter(TasksManager.getInstance(this).getData());
+        Task.setRecyclerViewAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.END) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -121,11 +120,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         String newName = getIntent().getStringExtra(AddActionActivity.NEW_TASK_NAME_EXTRA_STRING);
         if(newName != null) {
-            Log.d(TAG, "onCreate: New task name is not null");
             Snackbar.make(mCoordinatorLayout, "A task named '" + newName + "' has been added successfully.", Snackbar.LENGTH_LONG).show();
-        } else
-            Log.d(TAG, "onCreate: New task name is null");
-
+        }
     }
 
     @Override
@@ -140,9 +136,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        mNav = findViewById(R.id.nav_view);
+        mNav.setCheckedItem(R.id.by_date);
+        mNav.setNavigationItemSelectedListener(this);
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_actionbar_options, menu);
-        mOrderFlip = false;
+        mDefaultOrder = false;
 
         mMenuFlipButton = (ImageView) menu.findItem(R.id.order_flip).getActionView();
         mMenuFlipButton.setImageResource(R.drawable.ic_chevron_down);
@@ -152,12 +151,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(mLockFlipBtn) return;
             mLockFlipBtn = true;
             Animation animation;
-            mOrderFlip = !mOrderFlip;
-            if(mOrderFlip){
+            mDefaultOrder = !mDefaultOrder;
+            if(mDefaultOrder) {
                 animation = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
             }else{
                 animation = new RotateAnimation(180, 0, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
             }
+            updateOrder(mNav.getCheckedItem().getItemId());
             animation.setFillAfter(true);
             animation.setDuration(300);
             animation.setInterpolator(new OvershootInterpolator());
@@ -177,44 +177,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             });
             mMenuFlipButton.startAnimation(animation);
         }));
+        updateOrder(mNav.getCheckedItem().getItemId());
         return true;
+
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
         if(menuItem.getItemId() == R.id.menu_add) {
             Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
             startActivity(intent);
         }
-
-   /*     if (menuItem.getItemId() == R.id.order_asc) {
-            mNav.setCheckedItem(R.id.order_asc);
-            dataManager.sort(true);
-            recyclerView.getAdapter().notifyDataSetChanged();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    dataManager.sort(true);
-                    recyclerView.getAdapter().notifyDataSetChanged();
-                }
-            }).run();
-            Snackbar.make(coordLayout,"Order Changed",Snackbar.LENGTH_SHORT).show();
-        }
-        if (menuItem.getItemId() == R.id.order_des) {
-            menuItem.setChecked(true);
-            nav.setCheckedItem(R.id.order_des);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    dataManager.sort(false);
-                    recyclerView.getAdapter().notifyDataSetChanged();
-                }
-            }).run();
-            Snackbar.make(coordLayout,"Order Changed",Snackbar.LENGTH_SHORT).show();}
-        mRootDrawerLayout.closeDrawer(GravityCompat.START);*/
         mRootDrawerLayout.closeDrawer(GravityCompat.START);
+        updateOrder(menuItem.getItemId());
         return true;
+    }
+
+    private void updateOrder(int checkedOrderByID) {
+        switch(checkedOrderByID) {
+            case R.id.by_name:
+                mComparator = new Task.NameComparator(mDefaultOrder);
+                break;
+            case R.id.by_status:
+                mComparator = new Task.StatusComparator(mDefaultOrder);
+                break;
+            case R.id.by_trigger:
+                mComparator = new Task.TriggerComparator(mDefaultOrder);
+                break;
+            default:
+                mComparator = new Task.DefaultDateComparator(mDefaultOrder);
+
+
+        }
+        TasksManager.getInstance(this).orderBy(mComparator);
+        mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
     @Override

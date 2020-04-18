@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,7 +17,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
+import java.util.List;
 
 import alonbd.simpler.TaskLogic.LocationTrigger;
 import alonbd.simpler.TaskLogic.Task;
@@ -25,7 +27,7 @@ public class TasksManager {
     private final static Object SYNCHRO = new Object();
     private final static String FILE = "TasksArrayListFile";
     //vars
-    private ArrayList<Task> mData;
+    private List<Task> mData;
     private Context mContext;
     private static TasksManager sInstance;
 
@@ -69,8 +71,16 @@ public class TasksManager {
         }
     }
 
-    public ArrayList<Task> getData() {
-        return mData;
+    public static boolean startAllWithIntent(Context context, Intent intent) {
+        boolean ret = false;
+        List<Task> data = getInstance(context).mData;
+        for(Task t : data) {
+            if(t.triggerMatchIntent(intent)) {
+                t.start(context);
+                ret = true;
+            }
+        }
+        return ret;
     }
 
     public void setData(ArrayList<Task> mData) {
@@ -90,21 +100,9 @@ public class TasksManager {
         }
     }
 
-    public static boolean startAllWithIntent(Context context, Intent intent) {
-        boolean ret = false;
-        ArrayList<Task> data = getInstance(context).mData;
-        for(Task t : data) {
-            if(t.triggerMatchIntent(intent)) {
-                t.start(context);
-                ret = true;
-            }
-        }
-        return ret;
-    }
-
     public static boolean startAllWithLocation(Context context, Location location) {
         boolean ret = false;
-        ArrayList<Task> data = getInstance(context).mData;
+        List<Task> data = getInstance(context).mData;
         for(Task t : data) {
             if(t.triggerMatchLocation(location)) {
                 t.start(context);
@@ -112,6 +110,10 @@ public class TasksManager {
             }
         }
         return ret;
+    }
+
+    public ArrayList<Task> getData() {
+        return (ArrayList<Task>) mData;
     }
 
     public String getLocationTasksString() {
@@ -149,5 +151,14 @@ public class TasksManager {
             Log.d(TAG, "getNewId: New notification id generated: " + counter);
             return counter;
         }
+    }
+
+    public void orderBy(Comparator<Task> comparator) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            mData.sort(comparator);
+        } else {
+            Toast.makeText(mContext, "Sorry, Ordering the list requires Android 24 at least.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

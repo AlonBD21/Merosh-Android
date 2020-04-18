@@ -1,12 +1,10 @@
 package alonbd.simpler.UI;
 
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,7 +16,6 @@ import alonbd.simpler.R;
 import alonbd.simpler.TaskLogic.Action;
 import alonbd.simpler.TaskLogic.EmailAction;
 import alonbd.simpler.TaskLogic.NotificationAction;
-import alonbd.simpler.TaskLogic.Task;
 import alonbd.simpler.TaskLogic.TaskBuilder;
 import alonbd.simpler.TaskLogic.ToastAction;
 import alonbd.simpler.TaskLogic.WazeAction;
@@ -31,6 +28,7 @@ public class AddActionActivity extends AppCompatActivity {
     private Button mFinishBtn;
     private Button mAddActionBtn;
     private TaskBuilder mBuilder;
+    private ActionFragment mActionFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
