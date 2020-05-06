@@ -154,7 +154,7 @@ public class Task implements Serializable {
 
         @Override
         public int compare(Task o1, Task o2) {
-            return getStatusNumber(o1) - getStatusNumber(o2) * (mDefaultOrder ? 1 : -1);
+            return (getStatusNumber(o1) - getStatusNumber(o2)) * (mDefaultOrder ? 1 : -1);
         }
     }
 }
