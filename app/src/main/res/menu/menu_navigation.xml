@@ -4,25 +4,25 @@
     <item
         android:id="@+id/menu_add"
         android:icon="@drawable/ic_reminder"
-        android:title="Add Task"/>
-<item android:title="Sort By">
+        android:title="@string/menu_add_task" />
+    <item android:title="@string/menu_sort_by">
         <menu>
             <group android:checkableBehavior="single" android:id="@+id/order_by">
                 <item
                     android:id="@+id/by_date"
-                    android:title="Date Created"
+                    android:title="@string/menu_date"
                     android:checkable="true" />
                 <item
                     android:id="@+id/by_name"
-                    android:title="Task Name"
+                    android:title="@string/menu_name"
                     android:checkable="true" />
                 <item
                     android:id="@+id/by_status"
-                    android:title="Task Status"
+                    android:title="@string/menu_status"
                     android:checkable="true" />
                 <item
                     android:id="@+id/by_trigger"
-                    android:title="Trigger Type"
+                    android:title="@string/menu_activation"
                     android:checkable="true" />
             </group>
         </menu>

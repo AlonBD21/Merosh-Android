@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
     <ImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:layout_marginEnd="15dp"
         android:src="@drawable/ic_toast" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="15dp"
+        android:layout_gravity="center"
         android:fontFamily="sans-serif-black"
-        android:text="Toast Action"
+        android:text="@string/action_toast"
         android:textColor="#444"
         android:textSize="25sp"
         android:textStyle="bold" />
-
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +37,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-medium"
             android:padding="2dp"
-            android:text="Text:"
+            android:text="@string/field_toast_text"
             android:textSize="20sp" />
 
         <TextView
@@ -41,7 +47,6 @@
             android:layout_marginStart="2dp"
             android:fontFamily="sans-serif-medium"
             android:padding="2dp"
-            android:text="BT/GPS"
             android:textColor="#444"
             android:textSize="20sp" />
 
@@ -58,7 +63,7 @@
             android:layout_gravity="center_vertical|start"
             android:fontFamily="sans-serif-condensed-medium"
             android:padding="2dp"
-            android:text="Duration:"
+            android:text="@string/btn_toast_duration"
             android:textSize="20sp" />
 
         <LinearLayout
@@ -74,7 +79,7 @@
                 android:layout_marginStart="2dp"
                 android:fontFamily="sans-serif-medium"
                 android:padding="2dp"
-                android:text="Shorter"
+                android:text="@string/btn_toast_shorter"
                 android:textColor="#444"
                 android:textSize="20sp" />
 
@@ -85,7 +90,8 @@
                 android:fontFamily="sans-serif-condensed-medium"
                 android:padding="2dp"
                 android:text="/"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/longer_tv"
@@ -94,7 +100,7 @@
                 android:layout_marginStart="2dp"
                 android:fontFamily="sans-serif-medium"
                 android:padding="2dp"
-                android:text="Longer"
+                android:text="@string/btn_toast_longer"
                 android:textColor="#444"
                 android:textSize="20sp" />
 

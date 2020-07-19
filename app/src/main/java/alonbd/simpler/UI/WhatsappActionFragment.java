@@ -62,7 +62,7 @@ WhatsappActionFragment extends ActionFragment {
         mToTil.setEndIconOnClickListener(v -> {
             Intent intent1 = new Intent(Intent.ACTION_PICK);
             intent1.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
-            startActivityForResult(Intent.createChooser(intent1, "Choose Phone number from..."), REQ_PICK_PHONE);
+            startActivityForResult(Intent.createChooser(intent1, getString(R.string.contact_chooser)), REQ_PICK_PHONE);
         });
     }
     @Override
@@ -79,6 +79,7 @@ WhatsappActionFragment extends ActionFragment {
                     num = formatPhone(num);
                         mToEt.setText(num);
                 }
+                cursor.close();
             }
         }
     }

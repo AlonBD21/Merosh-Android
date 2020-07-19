@@ -4,22 +4,52 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
     <ImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:layout_marginEnd="15dp"
         android:src="@drawable/ic_notification_service" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="15dp"
+        android:layout_gravity="center"
         android:fontFamily="sans-serif-black"
-        android:text="Location Trigger"
+        android:text="@string/tv_location_activation"
         android:textColor="#444"
         android:textSize="25sp"
         android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:padding="2dp"
+            android:text="@string/tv_location"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/location_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:fontFamily="sans-serif-medium"
+            android:padding="2dp"
+            android:text=""
+            android:textColor="#444"
+            android:textSize="20sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,18 +61,25 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-medium"
             android:padding="2dp"
-            android:text="Location:"
+            android:text="@string/tv_activation_radius"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/location_tv"
+            android:id="@+id/radius_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:fontFamily="sans-serif-medium"
             android:padding="2dp"
-            android:text="BT/GPS"
+            android:text=""
             android:textColor="#444"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/tv_meters"
             android:textSize="20sp" />
     </LinearLayout>
 

@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 if(direction == ItemTouchHelper.END) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setPositiveButton("Yes, Remove", (dialog, which) -> {
+                    builder.setPositiveButton(getString(R.string.main_positive_remove), (dialog, which) -> {
                         dialog.dismiss();
                         TasksManager tm = TasksManager.getInstance(MainActivity.this);
                         int position = viewHolder.getAdapterPosition();
@@ -86,17 +86,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         mRecyclerView.getAdapter().notifyItemRemoved(position);
                         Intent intent = new Intent(MainActivity.this, LocationService.class);
                         startService(intent);
-                        Snackbar.make(mCoordinatorLayout, "The task '" + removed.getName() + "' has been removed.", Snackbar.LENGTH_LONG).
-                                setAction("Cancel", (v) -> {
+                        Snackbar.make(mCoordinatorLayout, getString(R.string.main_snack_removed, removed.getName()), Snackbar.LENGTH_LONG).
+                                setAction(getString(R.string.main_cancel), (v) -> {
                                     tm.getData().add(position, removed);
                                     mRecyclerView.getAdapter().notifyItemInserted(position);
-                                    Snackbar.make(mCoordinatorLayout, "The task '" + removed.getName() + "' has been added back.", Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(mCoordinatorLayout, getString(R.string.main_snack_unremoved, removed.getName()), Snackbar.LENGTH_LONG).show();
                                 }).show();
-                    }).setNeutralButton("Cancel", (dialog, which) -> {
+                    }).setNeutralButton(getString(R.string.main_cancel), (dialog, which) -> {
                         int position = viewHolder.getAdapterPosition();
                         dialog.dismiss();
                         mRecyclerView.getAdapter().notifyItemChanged(position);
-                    }).setMessage("Are you sure you want to delete this Task?").setTitle("Task Deletion").setCancelable(true).setOnCancelListener(dialog -> {
+                    }).setMessage(getString(R.string.main_content_remove)).setTitle(getString(R.string.main_title_remove)).setCancelable(true).setOnCancelListener(dialog -> {
                         int position = viewHolder.getAdapterPosition();
                         dialog.dismiss();
                         mRecyclerView.getAdapter().notifyItemChanged(position);
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         String newName = getIntent().getStringExtra(AddActionActivity.NEW_TASK_NAME_EXTRA_STRING);
         if(newName != null) {
-            Snackbar.make(mCoordinatorLayout, "A task named '" + newName + "' has been added successfully.", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mCoordinatorLayout, getString(R.string.main_snack_new, newName), Snackbar.LENGTH_LONG).show();
         }
     }
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +16,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import org.w3c.dom.Text;
 
 import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
@@ -37,9 +36,11 @@ public class NotificationActionFragment extends ActionFragment {
     @Override
     public Action genAction() {
         if(mSelectedColor != 0)
-            return new NotificationAction(TasksManager.NotificationIdGenerator.getNewId(getContext()), mContentEt.getText().toString(), mTaskName,mSelectedColor);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                return new NotificationAction(TasksManager.NotificationIdGenerator.getNewId(getContext()), mContentEt.getText().toString(), mTaskName, mSelectedColor);
+            } else return null;
         else {
-            Toast.makeText(getContext(), "Please choose a color for the notification!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.notif_choose_color), Toast.LENGTH_SHORT).show();
             return null;
         }
     }

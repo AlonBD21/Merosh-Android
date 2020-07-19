@@ -15,20 +15,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:fontFamily="serif"
             android:padding="4dp"
-            android:text="AAAA"
             android:textColor="#444"
-            android:textSize="35sp" />
+            android:textSize="35sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/date_time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:fontFamily="sans-serif-medium"
             android:padding="2dp"
-            android:text="DDMMYYYY"
+            android:textStyle="italic"
             android:textColor="#444"
             android:textSize="20sp" />
 
@@ -39,7 +37,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="2dp"
             android:fontFamily="sans-serif-condensed-medium"
-            android:text="Trigger:"
+            android:text="@string/tv_trigger"
             android:textSize="20sp" />
 
         <androidx.cardview.widget.CardView
@@ -63,7 +61,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="2dp"
             android:fontFamily="sans-serif-condensed-medium"
-            android:text="Action/s:"
+            android:text="@string/tv_actions"
             android:textSize="20sp" />
 
         <LinearLayout

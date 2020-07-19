@@ -1,5 +1,6 @@
 package alonbd.simpler.UI;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -61,11 +62,12 @@ public class EmailActionFragment extends ActionFragment {
         mToTil.setEndIconOnClickListener(v -> {
             Intent intent1 = new Intent(Intent.ACTION_PICK);
             intent1.setType(ContactsContract.CommonDataKinds.Email.CONTENT_TYPE);
-            startActivityForResult(Intent.createChooser(intent1, "Choose Email address from..."), REQ_PICK_EMAIL);
+            startActivityForResult(Intent.createChooser(intent1, getString(R.string.contact_chooser)), REQ_PICK_EMAIL);
         });
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -85,6 +87,7 @@ public class EmailActionFragment extends ActionFragment {
                     }
 
                 }
+                cursor.close();
             }
         }
     }

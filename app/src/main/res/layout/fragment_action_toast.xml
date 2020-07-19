@@ -5,52 +5,58 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp">
+
     <TextView
-        android:paddingStart="10dp"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:text="What's a Toast?"
+        android:layout_marginTop="20dp"
         android:fontFamily="sans-serif-medium"
-        android:textColor="#444" />
-    <TextView
-        android:paddingStart="15dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-        android:text="Toast is a simple text notification that appears on the bottom part
-of the screen for few seconds.\nPress ''Try Toast'' to see!"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="@string/tv_whats_toast"
         android:textColor="#444"
-        android:layout_marginBottom="20dp"/>
+        android:textSize="30sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:text="@string/tv_toast_info"
+        android:textColor="#444" />
+
     <ImageView
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_toaster"
-        android:layout_marginBottom="25dp"/>
+        android:layout_marginBottom="25dp"
+        android:src="@drawable/ic_toaster" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_margin="10dp"
         android:background="@android:color/darker_gray" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Toast Message"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:hint="@string/field_toast_text"
         app:boxCornerRadiusBottomEnd="20dp"
         app:boxCornerRadiusBottomStart="20dp"
         app:boxCornerRadiusTopEnd="20sp"
-        app:boxCornerRadiusTopStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp">
+        app:boxCornerRadiusTopStart="20dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/toast_msg"
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:inputType="textImeMultiLine"/>
+            android:inputType="textImeMultiLine"
+            android:textSize="25sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,44 +65,44 @@ of the screen for few seconds.\nPress ''Try Toast'' to see!"
         android:layout_height="1dp"
         android:layout_margin="10dp"
         android:background="@android:color/darker_gray" />
-    <RelativeLayout
-        android:padding="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <TextView
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:textColor="#444"
-        android:fontFamily="sans-serif-medium"
-        android:text="Duration"
-        android:textSize="25sp" />
 
     <LinearLayout
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:layout_alignParentEnd="true">
+        android:padding="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="@string/btn_toast_duration"
+            android:textColor="#444"
+            android:textSize="25sp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <ToggleButton
             android:id="@+id/length_short"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textOff="Shorter"
-            android:textOn="Shorter"/>
+            android:textOff="@string/btn_toast_shorter"
+            android:textOn="@string/btn_toast_shorter" />
 
         <ToggleButton
             android:id="@+id/length_long"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textOff="Longer"
-            android:textOn="Longer" />
+            android:textOff="@string/btn_toast_longer"
+            android:textOn="@string/btn_toast_longer" />
     </LinearLayout>
-    </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -108,7 +114,7 @@ of the screen for few seconds.\nPress ''Try Toast'' to see!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
         android:padding="5dp"
-        android:text="Try Toast"
-        android:layout_marginTop="20dp"/>
+        android:text="@string/btn_try_toast" />
 </LinearLayout>

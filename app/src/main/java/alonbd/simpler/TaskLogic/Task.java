@@ -1,8 +1,6 @@
 package alonbd.simpler.TaskLogic;
 
 import android.content.Context;
-import android.content.Intent;
-import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -24,7 +22,6 @@ public class Task implements Serializable {
     private Trigger mTrigger;
     private ArrayList<Action> mActions;
     private String mName;
-    private boolean mOnceOnly;
     private Date mDate;
     private static RecyclerViewAdapter sRecyclerViewAdapter;
 
@@ -33,7 +30,6 @@ public class Task implements Serializable {
         this.mName = mName;
         this.mTrigger = mTrigger;
         this.mActions = mActions;
-        this.mOnceOnly = mOnceOnly;
     }
 
     public static void removeRecyclerViewAdapter() {
@@ -45,7 +41,7 @@ public class Task implements Serializable {
         ((TextView) root.findViewById(R.id.name_tv)).setText(mName);
         DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(context);
         ((TextView) root.findViewById(R.id.date_time_tv)).setText(dateFormat.format(mDate));
-        ((LinearLayout) root.findViewById(R.id.trigger_ll)).addView(mTrigger.getDescriptiveView(context, mOnceOnly));
+        ((LinearLayout) root.findViewById(R.id.trigger_ll)).addView(mTrigger.getDescriptiveView(context));
 
         LinearLayout actionsLL = root.findViewById(R.id.actions_ll);
         for(Action action : mActions) {
@@ -63,7 +59,7 @@ public class Task implements Serializable {
     }
 
     public void start(Context context) {
-        if(isReady()) {
+        if(mTrigger.isReady()) {
             for(Action action :
                     mActions) {
                 action.onExecute(context);
@@ -78,27 +74,21 @@ public class Task implements Serializable {
 
     public String getName() {return mName;}
 
-    public boolean isOnceOnly() {
-        return mOnceOnly;
-    }
-
-    public boolean isTriggerUsed() {
-        return mTrigger.isUsed();
-    }
-
     public void setTriggerNotUsed() {
         mTrigger.setReady();
     }
-
-    public boolean isReady() {return !(mTrigger.isUsed() && isOnceOnly());}
 
     public Class getTriggerClass() {
         return mTrigger.getClass();
     }
 
-    public boolean triggerMatchIntent(Intent intent) {return mTrigger.matchIntent(intent);}
+    public boolean isTriggerReady() {return mTrigger.isReady();}
 
-    public boolean triggerMatchLocation(Location location) {return mTrigger.matchLocation(location);}
+    public boolean isTriggerSingleUse() { return mTrigger.isSingleUse();}
+
+    public boolean triggerMatchCondition(Object object) {
+        return mTrigger.matchCondition(object);
+    }
 
     public static class DefaultDateComparator implements Comparator<Task> {
         private boolean mDefaultOrder;
@@ -146,15 +136,9 @@ public class Task implements Serializable {
             this.mDefaultOrder = mDefaultOrder;
         }
 
-        private static int getStatusNumber(Task t) {
-            if(!t.isOnceOnly()) return 3;
-            if(t.isReady()) return 2;
-            return 1;
-        }
-
         @Override
         public int compare(Task o1, Task o2) {
-            return (getStatusNumber(o1) - getStatusNumber(o2)) * (mDefaultOrder ? 1 : -1);
+            return (o1.mTrigger.compareTo(o2.mTrigger)) * (mDefaultOrder ? 1 : -1);
         }
     }
 }

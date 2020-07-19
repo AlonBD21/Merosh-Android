@@ -38,7 +38,6 @@ public class LocationService extends Service {
     private final static CharSequence CHANNEL_NAME = "SimplerService";
     private final static int NOTIF_ID = 111;
     private final static int REQ_CODE = -50;
-    final static int IMPORTANCE = NotificationManager.IMPORTANCE_LOW;
 
     private Location mLastLocation;
     private LocationRequest mLocationRequest;
@@ -65,7 +64,7 @@ public class LocationService extends Service {
                 super.onLocationResult(locationResult);
                 mLastLocation = locationResult.getLastLocation();
                 Log.d(TAG, "onLocationResult: location: " + mLastLocation.getLatitude() + "," + mLastLocation.getLongitude());
-                if(TasksManager.startAllWithLocation(LocationService.this, mLastLocation)) {
+                if(TasksManager.startWithCondition(LocationService.this, mLastLocation)) {
                     Notification notification = generateNotification();
                     ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(NOTIF_ID, notification);
                 }
@@ -92,7 +91,7 @@ public class LocationService extends Service {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             channel = manager.getNotificationChannel(CHANNEL_ID);
             if(channel == null) {
-                channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE);
+                channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW);
                 manager.createNotificationChannel(channel);
             }
         }
@@ -108,9 +107,9 @@ public class LocationService extends Service {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder.setColor(getResources().getColor(R.color.primaryLightColor));
         }
-        builder.setSubText("Location Service");
-        builder.setContentTitle("Getting Location Updates...").setContentText("Looking for Tasks: " + notificationContent);
-        //Action
+        builder.setSubText(getString(R.string.service_notif_sub));
+        builder.setContentTitle(getString(R.string.service_notif_title)).setContentText(getString(R.string.service_notif_content, notificationContent));
+        //Actions
         Intent stopIntent = new Intent(this, LocationService.class);
         stopIntent.putExtra(BOOLEAN_STOP_SERVICE_EXTRA,true);
         PendingIntent stopPending = PendingIntent.getService(this, REQ_CODE, stopIntent, PendingIntent.FLAG_CANCEL_CURRENT);

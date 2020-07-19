@@ -1,17 +1,12 @@
 package alonbd.simpler.TaskLogic;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Build;
 
 import java.io.Serializable;
-
-import alonbd.simpler.R;
 
 public abstract class IntentAction implements Action, Serializable {
     private int mNotificationId;
@@ -19,7 +14,9 @@ public abstract class IntentAction implements Action, Serializable {
 
     @Override
     public void onExecute(Context context) {
-        NotificationAction.setChannel(context);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            NotificationAction.setChannel(context);
+        }
         Notification.Builder builder = new Notification.Builder(context);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             builder.setChannelId(NotificationAction.CHANNEL_ID);

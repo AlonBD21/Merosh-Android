@@ -16,7 +16,6 @@ import alonbd.simpler.R;
 public class NotificationAction implements Action, Serializable {
     public final static String CHANNEL_ID = "NotificationActionChannel";
     private final static CharSequence CHANNEL_NAME = "SimplerTasks";
-    final private static int IMPORTANCE = NotificationManager.IMPORTANCE_HIGH;
 
     private int mNotificationId;
     private String mContent;
@@ -57,7 +56,7 @@ public class NotificationAction implements Action, Serializable {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             channel = manager.getNotificationChannel(CHANNEL_ID);
             if(channel == null) {
-                channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE);
+                channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
                 channel.enableLights(true);
                 channel.setLightColor(Color.MAGENTA);
                 channel.enableVibration(true);

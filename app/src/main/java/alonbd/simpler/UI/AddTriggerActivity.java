@@ -1,11 +1,9 @@
 package alonbd.simpler.UI;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -21,12 +19,11 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.tabs.TabLayout;
 
-import alonbd.simpler.BuildConfig;
+import alonbd.simpler.R;
 import alonbd.simpler.TaskLogic.BluetoothTrigger;
 import alonbd.simpler.TaskLogic.LocationTrigger;
 import alonbd.simpler.TaskLogic.TaskBuilder;
 import alonbd.simpler.TaskLogic.Trigger;
-import alonbd.simpler.R;
 
 public class AddTriggerActivity extends AppCompatActivity {
     private static final String TAG = "ThugAddTriggerActivity";
@@ -58,9 +55,39 @@ public class AddTriggerActivity extends AppCompatActivity {
 
     }
 
+    public Trigger makeTrigger() {
+        int tabIndex = mViewPager.getCurrentItem();
+        switch(tabIndex) {
+            case 0:
+                RadioGroup radioGroup = findViewById(R.id.radio_group);
+                CheckBox connection = findViewById(R.id.connection_cb);
+                CheckBox disconnection = findViewById(R.id.disconnection_cb);
+                int id = radioGroup.getCheckedRadioButtonId();
+                RadioButton radioButton = radioGroup.findViewById(id);
+                if(!(connection.isChecked() || disconnection.isChecked())) {
+                    Toast.makeText(this, getString(R.string.trigger_no_check_err), Toast.LENGTH_SHORT).show();
+                    return null;
+                } else if(radioButton == null) {
+                    Toast.makeText(this, getString(R.string.trigger_no_device_err), Toast.LENGTH_SHORT).show();
+                    return null;
+                }
+                return new BluetoothTrigger(mBuilder.getSingleUse(), connection.isChecked(), disconnection.isChecked(), radioButton.getText().toString(), radioButton.getTag().toString());
+            case 1:
+                Marker marker = locationTriggerFragment.getMarker();
+                if(marker == null) {
+                    Toast.makeText(this, getString(R.string.trigger_no_device_err), Toast.LENGTH_SHORT).show();
+                    return null;
+                }
+                return new LocationTrigger(mBuilder.getSingleUse(), marker.getPosition(), locationTriggerFragment.getSelectedActivationRadius());
+            default:
+                return null;
+
+        }
+    }
+
     class TabsPagerAdapter extends FragmentPagerAdapter {
         private final String[] TAB_TITLES =
-                new String[]{"Bluetooth", "Location","WiFi" };
+                new String[]{getString(R.string.tab_bt), getString(R.string.tab_location)};
 
         public TabsPagerAdapter(@NonNull FragmentManager fm, int behavior) {
             super(fm, behavior);
@@ -91,36 +118,6 @@ public class AddTriggerActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             return 2;
-        }
-    }
-
-    public Trigger makeTrigger() {
-        int tabIndex = mViewPager.getCurrentItem();
-        switch(tabIndex) {
-            case 0:
-                RadioGroup radioGroup = findViewById(R.id.radio_group);
-                CheckBox connection = findViewById(R.id.connection_cb);
-                CheckBox disconnection = findViewById(R.id.disconnection_cb);
-                int id = radioGroup.getCheckedRadioButtonId();
-                RadioButton radioButton = radioGroup.findViewById(id);
-                if(!(connection.isChecked() || disconnection.isChecked())) {
-                    Toast.makeText(this, "At least one checkbox must be checked", Toast.LENGTH_SHORT).show();
-                    return null;
-                } else if(radioButton == null) {
-                    Toast.makeText(this, "Please choose a device", Toast.LENGTH_SHORT).show();
-                    return null;
-                }
-                return new BluetoothTrigger(connection.isChecked(), disconnection.isChecked(), radioButton.getText().toString(),radioButton.getTag().toString());
-            case 1:
-                Marker marker = locationTriggerFragment.getMarker();
-                if(marker == null) {
-                    Toast.makeText(this, "Put a marker on the map to select activation location", Toast.LENGTH_SHORT).show();
-                    return null;
-                }
-                return new LocationTrigger(marker.getPosition());
-            default:
-                return null;
-
         }
     }
 

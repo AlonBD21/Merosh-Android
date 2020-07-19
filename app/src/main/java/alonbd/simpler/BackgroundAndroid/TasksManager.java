@@ -1,9 +1,7 @@
 package alonbd.simpler.BackgroundAndroid;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Location;
 import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,6 +19,7 @@ import java.util.List;
 
 import alonbd.simpler.TaskLogic.LocationTrigger;
 import alonbd.simpler.TaskLogic.Task;
+
 public class TasksManager {
     private final static String TAG = "ThugTasksManager";
     //Constants
@@ -71,11 +70,11 @@ public class TasksManager {
         }
     }
 
-    public static boolean startAllWithIntent(Context context, Intent intent) {
+    public static boolean startWithCondition(Context context, Object object) {
         boolean ret = false;
         List<Task> data = getInstance(context).mData;
         for(Task t : data) {
-            if(t.triggerMatchIntent(intent)) {
+            if(t.triggerMatchCondition(object)) {
                 t.start(context);
                 ret = true;
             }
@@ -87,7 +86,7 @@ public class TasksManager {
         if(mData != null) {
             this.mData = mData;
             saveData();
-        }else{
+        } else {
             Log.d(TAG, "setData: cant set data to a null pointer.");
         }
     }
@@ -100,18 +99,6 @@ public class TasksManager {
         }
     }
 
-    public static boolean startAllWithLocation(Context context, Location location) {
-        boolean ret = false;
-        List<Task> data = getInstance(context).mData;
-        for(Task t : data) {
-            if(t.triggerMatchLocation(location)) {
-                t.start(context);
-                ret = true;
-            }
-        }
-        return ret;
-    }
-
     public ArrayList<Task> getData() {
         return (ArrayList<Task>) mData;
     }
@@ -121,7 +108,7 @@ public class TasksManager {
         ArrayList<Task> tmp = new ArrayList<>();
         for(Task task : mData) {
             if(task.getTriggerClass() == LocationTrigger.class) {
-                if(task.isReady())
+                if(task.isTriggerReady())
                     tmp.add(task);
             }
         }

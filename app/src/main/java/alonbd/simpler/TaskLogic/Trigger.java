@@ -1,9 +1,7 @@
 package alonbd.simpler.TaskLogic;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
-import android.location.Location;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,21 +11,22 @@ import java.io.Serializable;
 
 import alonbd.simpler.R;
 
-public abstract class Trigger implements Serializable {
+public abstract class Trigger implements Serializable, Comparable<Trigger> {
+
     private boolean mUsed;
+    private boolean mSingleUse;
 
-    public abstract boolean matchIntent(Intent intent);
-
-    public abstract boolean matchLocation(Location location);
-
-    public Trigger() {
+    public Trigger(boolean mSingleUse) {
         mUsed = false;
+        this.mSingleUse = mSingleUse;
     }
+
+    public abstract boolean matchCondition(Object object);
 
     protected abstract View getTypeDescriptiveView(Context context);
 
-    public boolean isUsed() {
-        return mUsed;
+    public boolean isReady() {
+        return !(mUsed && mSingleUse);
     }
 
     public void setUsed() {
@@ -36,17 +35,21 @@ public abstract class Trigger implements Serializable {
 
     public void setReady() {mUsed = false;}
 
-    public View getDescriptiveView(Context context, boolean onlyOnce) {
+    public boolean isSingleUse() {
+        return mSingleUse;
+    }
+
+    public View getDescriptiveView(Context context) {
         View view = View.inflate(context, R.layout.layout_view_trigger, null);
-        ((TextView) view.findViewById(R.id.activation_tv)).setText(onlyOnce ? "One Time" : "Reusable");
+        ((TextView) view.findViewById(R.id.activation_tv)).setText(mSingleUse ? "One Time" : "Reusable");
         ((TextView) view.findViewById(R.id.status_tv)).setText(mUsed ? "Used Already" : "Ready");
-        view.findViewById(R.id.status_tv).setVisibility(onlyOnce ? View.VISIBLE : View.INVISIBLE);
+        view.findViewById(R.id.status_tv).setVisibility(mSingleUse ? View.VISIBLE : View.INVISIBLE);
 
         int color;
-        if(!onlyOnce)
+        if(!mSingleUse)
             color = context.getResources().getColor(android.R.color.holo_blue_light);
         else {
-            if(isUsed()) color = context.getResources().getColor(android.R.color.holo_red_light);
+            if(mUsed) color = context.getResources().getColor(android.R.color.holo_red_light);
             else
                 color = context.getResources().getColor(android.R.color.holo_green_light);
         }
@@ -60,5 +63,14 @@ public abstract class Trigger implements Serializable {
         return view;
     }
 
+    @Override
+    public int compareTo(Trigger o) {
+        return this.getStatusNumber() - o.getStatusNumber();
+    }
 
+    private int getStatusNumber() {
+        if(!mSingleUse) return 3;
+        if(isReady()) return 2;
+        return 1;
+    }
 }

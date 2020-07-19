@@ -4,22 +4,29 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_bluetooth" />
-
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="15dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Bluetooth Trigger"
-        android:textColor="#444"
-        android:textSize="25sp"
-        android:textStyle="bold" />
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/ic_bluetooth" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/tv_bt_activation"
+            android:textColor="#444"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +38,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-medium"
             android:padding="2dp"
-            android:text="Device:"
+            android:text="@string/tv_device"
             android:textSize="20sp" />
 
         <TextView
@@ -41,7 +48,6 @@
             android:layout_marginStart="2dp"
             android:fontFamily="sans-serif-medium"
             android:padding="2dp"
-            android:text="DEVICE"
             android:textColor="#444"
             android:textSize="20sp" />
     </LinearLayout>
@@ -53,7 +59,7 @@
         android:checked="true"
         android:enabled="false"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="Activate On Connection"
+        android:text="@string/tv_at_con"
         android:textColor="#616161"
         android:textSize="20sp" />
 
@@ -64,7 +70,7 @@
         android:checked="true"
         android:enabled="false"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="Activate On Disconnection"
+        android:text="@string/tv_at_dis"
         android:textColor="#616161"
         android:textSize="20sp" />
 </LinearLayout>

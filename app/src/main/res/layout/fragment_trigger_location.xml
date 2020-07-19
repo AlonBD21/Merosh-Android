@@ -1,54 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MapsActivity" />
+
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:id="@+id/layout_search"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="50dp"
+        android:background="@drawable/bg_search"
+        android:elevation="10dp">
 
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+        <ImageView
+            android:id="@+id/ic_magnify"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_search" />
+
+        <EditText
+            android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".MapsActivity" />
-
-        <RelativeLayout
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="50dp"
-            android:background="@drawable/bg_search"
-            android:elevation="10dp">
-
-            <ImageView
-                android:id="@+id/ic_magnify"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_search" />
-
-            <EditText
-                android:id="@+id/search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/ic_magnify"
-                android:layout_marginStart="4dp"
-                android:background="@null"
-                android:hint="Search for Destination"
-                android:imeOptions="actionSearch"
-                android:inputType="textImeMultiLine"
-                android:paddingHorizontal="5dp"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
-        </RelativeLayout>
-
+            android:layout_centerVertical="true"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/ic_magnify"
+            android:background="@null"
+            android:gravity="center"
+            android:hint="@string/field_search_a_place"
+            android:imeOptions="actionSearch"
+            android:inputType="textImeMultiLine"
+            android:paddingHorizontal="5dp"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
     </RelativeLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/header_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_search"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="15dp"
+            android:text="@string/tv_location_activation"
+            android:textColor="@color/primaryDarkColor"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_notification_service"
+            android:tint="@color/primaryDarkColor" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header_ll"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_activation_radius"
+            android:textColor="@color/primaryDarkColor"
+            android:textSize="15sp" />
+
+        <Spinner
+            android:id="@+id/radius_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center" />
+    </LinearLayout>
+
+</RelativeLayout>

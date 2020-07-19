@@ -9,7 +9,7 @@ public class TaskBuilder implements Serializable {
     private String mTaskName;
     private Trigger mTrigger;
     private ArrayList<Action> mActions;
-    private boolean mOnlyOnce;
+    private boolean mSingleUse;
 
     public TaskBuilder() {
         mActions = new ArrayList<>();
@@ -40,14 +40,14 @@ public class TaskBuilder implements Serializable {
     }
 
     public Task build(){
-        return new Task(mTrigger, mTaskName, mOnlyOnce,mActions);
+        return new Task(mTrigger, mTaskName, mSingleUse, mActions);
     }
 
-    public void setOnlyOnce(boolean mOnlyOnce) {
-        this.mOnlyOnce = mOnlyOnce;
+    public boolean getSingleUse() {
+        return mSingleUse;
     }
 
-    public boolean getOnlyOnce(){
-        return mOnlyOnce;
+    public void setSingleUse(boolean mSingleUse) {
+        this.mSingleUse = mSingleUse;
     }
 }

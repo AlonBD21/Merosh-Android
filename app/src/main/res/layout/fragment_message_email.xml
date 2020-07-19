@@ -9,7 +9,7 @@
         android:id="@+id/to_til"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="To:"
+        android:hint="@string/field_email_to"
         app:boxCornerRadiusBottomEnd="20dp"
         app:boxCornerRadiusBottomStart="20dp"
         app:boxCornerRadiusTopEnd="20sp"
@@ -30,7 +30,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Subject:"
+        android:hint="@string/field_subject"
         app:boxCornerRadiusBottomEnd="20dp"
         app:boxCornerRadiusBottomStart="20dp"
         app:boxCornerRadiusTopEnd="20sp"
@@ -48,7 +48,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Content:"
+        android:hint="@string/field_content"
         app:boxCornerRadiusBottomEnd="20dp"
         app:boxCornerRadiusBottomStart="20dp"
         app:boxCornerRadiusTopEnd="20sp"
@@ -74,7 +74,7 @@
             android:textSize="25sp"
             android:fontFamily="sans-serif-medium"
             android:textColor="#444"
-            android:text="TIP: " />
+            android:text="@string/tv_email_tip_tip" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
             android:fontFamily="sans-serif-light"
             android:textColor="#444"
             android:padding="3dp"
-            android:text="You can leave some of the fields empty for now and fill them later." />
+            android:text="@string/tv_email_tip_content" />
     </LinearLayout>
     <ImageView
         android:id="@+id/plane_iv"

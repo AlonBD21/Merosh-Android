@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true">
     <com.google.android.material.button.MaterialButton
         android:id="@+id/add_action_btn"
-        android:text="Add Another Action"
+        android:text="@string/btn_add_another_action"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="FINISH"
+        android:text="@string/btn_finish"
         app:icon="@drawable/ic_arrow_forward"
         android:elevation="10dp"/>
     </LinearLayout>

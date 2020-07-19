@@ -42,8 +42,7 @@ public class EmailAction extends IntentAction implements Serializable {
     @Override
     public PendingIntent getPendingIntent(Context context) {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-        emailIntent.setType("text/plain");
-        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setDataAndType(Uri.parse("mailto:"), "text/plain");
         emailIntent.putExtra(Intent.EXTRA_EMAIL,splitAddresses(mTo));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, mSubject);
         emailIntent.putExtra(Intent.EXTRA_TEXT, mContent);

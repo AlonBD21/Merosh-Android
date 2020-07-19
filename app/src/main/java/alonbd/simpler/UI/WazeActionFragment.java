@@ -117,7 +117,6 @@ public class WazeActionFragment extends ActionFragment {
             }
             return true;
         });
-        Toast.makeText(getContext(), "Choose destination for navigation!", Toast.LENGTH_LONG).show();
     }
 
     private void geoLocate() {
@@ -155,7 +154,7 @@ public class WazeActionFragment extends ActionFragment {
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(getActivity(), available, SERVICES_ERROR_DIALOG_REQ);
             dialog.show();
         } else {
-            Toast.makeText(getContext(), "Can't activate Google Map", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "ERROR: Can't activate Google Map", Toast.LENGTH_SHORT).show();
         }
         return false;
     }
@@ -184,11 +183,11 @@ public class WazeActionFragment extends ActionFragment {
                     setMarker(latLng);
                 } else {
                     Log.d(TAG, "selfLocate: onComplete: location is null");
-                    Toast.makeText(getContext(), "Could not find current location", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "ERROR: Could not find current location", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            Toast.makeText(getContext(), "Can not find current location without permission", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "ERROR: Can not find current location without permission", Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -202,7 +201,6 @@ public class WazeActionFragment extends ActionFragment {
         if(mMarkerOptions == null || mMarker==null) {
             mMarkerOptions = new MarkerOptions();
             mMarkerOptions.draggable(true);
-            mMarkerOptions.title("Task Activation Spot");
             mMarkerOptions.position(latLng);
             mMarker = mMap.addMarker(mMarkerOptions);
         } else {
@@ -234,11 +232,7 @@ public class WazeActionFragment extends ActionFragment {
         mLocationPermissionGranted = false;
         switch(requestCode) {
             case LOCATION_PERMISSION_REQ_CODE: {
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mLocationPermissionGranted = true;
-                } else {
-                    mLocationPermissionGranted = false;
-                }
+                mLocationPermissionGranted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
             }
             initMap();
         }

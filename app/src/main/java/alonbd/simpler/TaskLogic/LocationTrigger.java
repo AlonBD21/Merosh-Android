@@ -1,7 +1,6 @@
 package alonbd.simpler.TaskLogic;
 
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.util.Log;
 import android.view.View;
@@ -18,32 +17,40 @@ public class LocationTrigger extends Trigger implements Serializable {
     private final static String TAG = "ThugLocationTrigger";
     private double mLat;
     private double mLng;
-    private double mRadius;
+    private boolean mInCooldown;
+    private int mRadius;
 
-    public LocationTrigger(LatLng mLatLng) {
-        super();
+    public LocationTrigger(boolean mSingleUse, LatLng mLatLng, int mRadius) {
+        super(mSingleUse);
         mLat = mLatLng.latitude;
         mLng = mLatLng.longitude;
-        mRadius = 50;
+        this.mRadius = mRadius;
+        mInCooldown = false;
     }
 
     @Override
-    public boolean matchIntent(Intent intent) {
+    public boolean matchCondition(Object object) {
+        if(object instanceof Location) {
+            Location location = (Location) object;
+            float[] results = new float[3];
+            Location.distanceBetween(mLat, mLng, location.getLatitude(), location.getLongitude(), results);
+            Log.d(TAG, "matchLocation: Results: Distance-" + results[0] + ",BearingA-" + results[1] + ",BearingB-" + results[2]);
+            if(mInCooldown) {
+                if(results[0] >= 2 * mRadius) mInCooldown = false;
+                return false;
+            }
+            boolean out = results[0] <= mRadius;
+            if(out) mInCooldown = true;
+            return out;
+        }
         return false;
-    }
-
-    @Override
-    public boolean matchLocation(Location location) {
-        float[] results = new float[3];
-        Location.distanceBetween(mLat, mLng, location.getLatitude(), location.getLongitude(), results);
-        Log.d(TAG, "matchLocation: Results: Distance-" + results[0] + ",BearingA-" + results[1] + ",BearingB-" + results[2]);
-        return results[0] <= mRadius;
     }
 
     @Override
     protected View getTypeDescriptiveView(Context context) {
         View view = View.inflate(context, R.layout.layout_view_location, null);
         ((TextView) view.findViewById(R.id.location_tv)).setText(LocationService.geoCode(context, mLat, mLng));
+        ((TextView) view.findViewById(R.id.radius_tv)).setText(String.valueOf(mRadius));
         return view;
     }
 

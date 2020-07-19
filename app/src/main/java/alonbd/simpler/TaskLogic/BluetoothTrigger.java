@@ -3,7 +3,6 @@ package alonbd.simpler.TaskLogic;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -18,30 +17,27 @@ public class BluetoothTrigger extends Trigger implements Serializable {
     private String mDeviceAddress;
     private String mDeviceName;
 
-
-    public BluetoothTrigger(boolean mOnConnection, boolean mOnDisconnection, String mDeviceName, String mDeviceAddress) {
-        super();
+    public BluetoothTrigger(boolean mSingleUse, boolean mOnConnection, boolean mOnDisconnection, String mDeviceName, String mDeviceAddress) {
+        super(mSingleUse);
         this.mOnConnection = mOnConnection;
         this.mOnDisconnection = mOnDisconnection;
         this.mDeviceAddress = mDeviceAddress;
         this.mDeviceName = mDeviceName;
     }
-
     @Override
-    public boolean matchIntent(Intent intent) {
-        String action = intent.getAction();
-        if(mOnConnection && BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
-            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-            return device.getAddress().equals(mDeviceAddress);
-        } else if(mOnDisconnection && BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
-            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-            return device.getAddress().equals(mDeviceAddress);
+    public boolean matchCondition(Object object) {
+        if(object instanceof Intent) {
+            Intent intent = (Intent) object;
+            String action = intent.getAction();
+            if(mOnConnection && BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                return device.getAddress().equals(mDeviceAddress);
+            } else if(mOnDisconnection && BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                return device.getAddress().equals(mDeviceAddress);
+            }
+            return false;
         }
-        return false;
-    }
-
-    @Override
-    public boolean matchLocation(Location location) {
         return false;
     }
 

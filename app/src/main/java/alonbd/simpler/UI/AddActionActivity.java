@@ -14,12 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import alonbd.simpler.BackgroundAndroid.TasksManager;
 import alonbd.simpler.R;
 import alonbd.simpler.TaskLogic.Action;
-import alonbd.simpler.TaskLogic.EmailAction;
-import alonbd.simpler.TaskLogic.NotificationAction;
 import alonbd.simpler.TaskLogic.TaskBuilder;
-import alonbd.simpler.TaskLogic.ToastAction;
-import alonbd.simpler.TaskLogic.WazeAction;
-import alonbd.simpler.TaskLogic.WhatsappAction;
 
 public class AddActionActivity extends AppCompatActivity {
     public static final String NEW_TASK_NAME_EXTRA_STRING = "newTaskNameExtraString";
@@ -30,6 +25,30 @@ public class AddActionActivity extends AppCompatActivity {
     private TaskBuilder mBuilder;
     private ActionFragment mActionFragment;
 
+    private static Intent createIntent(Context context, String actionType, TaskBuilder builder) {
+        Intent intent = new Intent(context, AddActionActivity.class);
+        intent.putExtra(Action.ACTION_EXTRA_CLASS_TYPE, actionType);
+        intent.putExtra(TaskBuilder.EXTRA_TAG, builder);
+        return intent;
+    }
+
+    public static void preDialog(Context context, TaskBuilder builder) {
+        if(builder.getTrigger() == null) return;
+        String[] actionTypes = {context.getString(R.string.action_toast), context.getString(R.string.action_notification),
+                context.getString(R.string.action_email), context.getString(R.string.action_whatsapp), context.getString(R.string.action_waze)};
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        AlertDialog dialog = dialogBuilder.setTitle(context.getString(R.string.action_type_title))
+                .setNegativeButton(context.getString(R.string.main_cancel), (DialogInterface dialogInterface, int which) -> {
+                    dialogInterface.dismiss();
+                })
+                .setCancelable(true).setItems(actionTypes, (DialogInterface dialogInterface, int which) -> {
+                    Intent intent = AddActionActivity.createIntent(context, actionTypes[which], builder);
+                    context.startActivity(intent);
+                }).create();
+        dialog.show();
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,21 +58,20 @@ public class AddActionActivity extends AppCompatActivity {
         //Data From Intent
         Intent cause = getIntent();
         mBuilder = (TaskBuilder) cause.getSerializableExtra(TaskBuilder.EXTRA_TAG);
-        Class actionClass = ((Class) cause.getSerializableExtra(Action.ACTION_EXTRA_CLASS));
+        String actionType = cause.getStringExtra(Action.ACTION_EXTRA_CLASS_TYPE);
         //Add Fragment
-        if(actionClass == ToastAction.class)
+        if(actionType.equals(getString(R.string.action_toast)))
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new ToastActionFragment()).commit();
-        else if(actionClass == NotificationAction.class)
+        else if(actionType.equals(getString(R.string.action_notification)))
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new NotificationActionFragment()).commit();
-        else if(actionClass == EmailAction.class){
+        else if(actionType.equals(getString(R.string.action_email)))
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new EmailActionFragment()).commit();
-        }else if(actionClass == WhatsappAction.class){
+        else if(actionType.equals(getString(R.string.action_whatsapp)))
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new WhatsappActionFragment()).commit();
-        }else if(actionClass == WazeAction.class){
+        else if(actionType.equals(getString(R.string.action_waze)))
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new WazeActionFragment()).commit();
-        }
         else
-            throw new IllegalStateException("Unexpected value: " + actionClass.getName());
+            throw new RuntimeException("Unexpected type of action: " + actionType);
 
 
         mAddActionBtn.setOnClickListener((View v) -> {
@@ -76,29 +94,5 @@ public class AddActionActivity extends AppCompatActivity {
             intent.putExtra(NEW_TASK_NAME_EXTRA_STRING,mBuilder.getTaskName());
             startActivity(intent);
         });
-    }
-
-    private static Intent createIntent(Context context, Class actionClass, TaskBuilder builder) {
-        Intent intent = new Intent(context, AddActionActivity.class);
-        intent.putExtra(Action.ACTION_EXTRA_CLASS, actionClass);
-        intent.putExtra(TaskBuilder.EXTRA_TAG, builder);
-        return intent;
-    }
-
-    public static void preDialog(Context context, TaskBuilder builder) {
-        if(builder.getTrigger() == null) return;
-        String[] actionNames = {"Display Toast","Push Notification","Send Email","WhatsApp Message","Waze Navigation"};
-        Class[] actionClasses = {ToastAction.class,NotificationAction.class, EmailAction.class, WhatsappAction.class, WazeAction.class};
-
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-        AlertDialog dialog = dialogBuilder.setTitle("Choose Task's Action Type")
-                .setNegativeButton("Cancel", (DialogInterface dialogInterface, int which) -> {
-                    dialogInterface.dismiss();
-                })
-                .setCancelable(true).setItems(actionNames, (DialogInterface dialogInterface, int which) -> {
-                    Intent intent = AddActionActivity.createIntent(context, actionClasses[which], builder);
-                    context.startActivity(intent);
-                }).create();
-        dialog.show();
     }
 }

@@ -9,8 +9,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
@@ -26,8 +25,7 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/next_btn"
@@ -38,7 +36,7 @@
             android:layout_centerHorizontal="true"
             android:elevation="10dp"
             android:gravity="center"
-            android:text="NEXT"
+            android:text="@string/btn_next"
             app:icon="@drawable/ic_arrow_forward" />
     </RelativeLayout>
 

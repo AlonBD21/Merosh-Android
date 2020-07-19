@@ -9,9 +9,9 @@
         android:layout_width="240dp"
         android:layout_height="240dp"
         android:src="@drawable/ic_pencil"
-        android:layout_above="@id/inputs_ll"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="130dp"/>
+        android:layout_marginTop="80dp" />
     
     <LinearLayout
         android:id="@+id/inputs_ll"
@@ -30,8 +30,7 @@
         android:id="@+id/name_et_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/btn"
-        android:hint="TASK NAME"
+        android:hint="@string/field_reminder_name"
         android:padding="0dp"
         android:elevation="5dp"
         app:endIconMode="clear_text"
@@ -53,7 +52,7 @@
             android:layout_marginBottom="10dp"
             android:checkable="true"
             android:id="@+id/only_once"
-            android:text="ONE ACTIVATION ONLY"
+            android:text="@string/btn_once_only"
             />
 
     <Button
@@ -62,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="NEXT"
+        android:text="@string/btn_next"
         android:layout_gravity="center_horizontal"
         app:icon="@drawable/ic_arrow_forward"
         android:elevation="5dp"/>

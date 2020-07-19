@@ -64,11 +64,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             ViewTaskActivity.startActivity(context, t);
 
         }));
-        if(t.isOnceOnly()) {
-            holder.mOnlyOnceTv.setText("One Time Action");
-            if(t.isTriggerUsed()) {
+        if(t.isTriggerSingleUse()) {
+            holder.mOnlyOnceTv.setText(context.getString(R.string.prop_once_only));
+            if(!t.isTriggerReady()) {
                 holder.mRoot.setBackgroundColor(context.getResources().getColor(android.R.color.holo_red_light));
-                holder.mUsedTv.setText("Done");
+                holder.mUsedTv.setText(context.getString(R.string.prop_done));
                 holder.mLongPressTv.setVisibility(View.VISIBLE);
                 holder.mRoot.setOnLongClickListener(v -> {
                     t.setTriggerNotUsed();
@@ -81,12 +81,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 });
             } else {
                 holder.mRoot.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
-                holder.mUsedTv.setText("Ready");
+                holder.mUsedTv.setText(context.getString(R.string.prop_ready));
             }
         } else {
             holder.mRoot.setBackgroundColor(context.getResources().getColor(android.R.color.holo_blue_light));
-            holder.mOnlyOnceTv.setText("Reusable Action");
-            holder.mUsedTv.setText("Ready");
+            holder.mOnlyOnceTv.setText(context.getString(R.string.prop_reusable));
+            holder.mUsedTv.setText(context.getString(R.string.prop_ready));
         }
 
         Class c = mTasks.get(position).getTriggerClass();

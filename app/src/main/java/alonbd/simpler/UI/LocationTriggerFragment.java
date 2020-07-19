@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,10 +14,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,8 +35,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -63,8 +61,9 @@ public class LocationTriggerFragment extends Fragment {
     private Marker mMarker;
     private List<Address> mAddressList;
     private Handler mHandler = new Handler();
+    private Spinner mRadiusSpinner;
 
-    public Marker getMarker(){return mMarker;}
+    public Marker getMarker() {return mMarker;}
 
     @Nullable
     @Override
@@ -73,26 +72,16 @@ public class LocationTriggerFragment extends Fragment {
         return root;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mSearchEt = view.findViewById(R.id.search);
-        if(isServicesOK()) {
-            getLocationPermission();
-            initMap();
+    private void setMarker(LatLng latLng) {
+        if(mMarkerOptions == null || mMarker == null) {
+            mMarkerOptions = new MarkerOptions();
+            mMarkerOptions.draggable(true);
+            mMarkerOptions.position(latLng);
+            mMarker = mMap.addMarker(mMarkerOptions);
+        } else {
+            mMarker.setPosition(latLng);
         }
-        mSearchEt.setOnEditorActionListener((TextView v, int actionId, KeyEvent event) -> {
-            if(actionId == EditorInfo.IME_ACTION_SEARCH
-                    || actionId == EditorInfo.IME_ACTION_DONE
-                    || actionId == KeyEvent.ACTION_DOWN
-                    || actionId == KeyEvent.KEYCODE_ENTER) {
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-               imm.hideSoftInputFromWindow(mSearchEt.getWindowToken(),0);
-                mSearchEt.clearFocus();
-                geoLocate();
-            }
-            return true;
-        });
+
     }
 
     private void geoLocate() {
@@ -171,21 +160,32 @@ public class LocationTriggerFragment extends Fragment {
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 
-    private void setMarker(LatLng latLng) {
-        if(mMarkerOptions == null || mMarker==null) {
-            mMarkerOptions = new MarkerOptions();
-            mMarkerOptions.draggable(true);
-            mMarkerOptions.title("Task Activation Spot");
-            mMarkerOptions.position(latLng);
-            mMarker = mMap.addMarker(mMarkerOptions);
-        } else {
-            mMarker.setPosition(latLng);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mSearchEt = view.findViewById(R.id.search);
+        mRadiusSpinner = view.findViewById(R.id.radius_spinner);
+        if(isServicesOK()) {
+            getLocationPermission();
+            initMap();
         }
-
+        mSearchEt.setOnEditorActionListener((TextView v, int actionId, KeyEvent event) -> {
+            if(actionId == EditorInfo.IME_ACTION_SEARCH
+                    || actionId == EditorInfo.IME_ACTION_DONE
+                    || actionId == KeyEvent.ACTION_DOWN
+                    || actionId == KeyEvent.KEYCODE_ENTER) {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mSearchEt.getWindowToken(), 0);
+                mSearchEt.clearFocus();
+                geoLocate();
+            }
+            return true;
+        });
     }
 
     private void initMap() {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        initSpinner();
         mapFragment.getMapAsync(googleMap -> {
             mMap = googleMap;
 
@@ -196,7 +196,13 @@ public class LocationTriggerFragment extends Fragment {
             mMap.setOnMapClickListener(latLng -> {
                 setMarker(latLng);
             });
-    });
+        });
+    }
+
+    private void initSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.spinner_radius_options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mRadiusSpinner.setAdapter(adapter);
     }
 
     @Override
@@ -205,13 +211,14 @@ public class LocationTriggerFragment extends Fragment {
         mLocationPermissionGranted = false;
         switch(requestCode) {
             case LOCATION_PERMISSION_REQ_CODE: {
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mLocationPermissionGranted = true;
-                } else {
-                    mLocationPermissionGranted = false;
-                }
+                mLocationPermissionGranted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
             }
             initMap();
         }
+    }
+
+    public int getSelectedActivationRadius() {
+        String string = ((TextView) mRadiusSpinner.getSelectedView()).getText().toString();
+        return Integer.parseInt(string);
     }
 }
