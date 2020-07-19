@@ -48,7 +48,7 @@
     <string name="tv_actions">Actions</string>
     <string name="action_toast">Toast</string>
     <string name="action_waze">Waze Navigation</string>
-    <string name="tv_destination">Destination</string>
+    <string name="tv_destination">Destination of Navigation</string>
     <string name="action_whatsapp">WhatsApp Message</string>
     <string name="btn_flip_order">Flip Order</string>
     <string name="menu_add_task">Create Reminder</string>
@@ -81,5 +81,13 @@
     <string name="service_notif_sub">Location Activation</string>
     <string name="service_notif_title">Getting Location Updates...</string>
     <string name="service_notif_content">Looking for: %1$s</string>
+    <string name="tv_location_of_activation">Location of Activation</string>
+    <string name="email_notif_content">To: %1$s About: %2$s</string>
+    <string name="email_notif_title">Click to send Email</string>
+    <string name="notif_reminder_activated">Reminder Activated</string>
+    <string name="notif_action_text">The reminder %1$s just got activated</string>
+    <string name="waze_notif_text">Destination: %1$s</string>
+    <string name="waze_notif_click_to_navigate">Click to Navigate with Waze</string>
+    <string name="wa_click_to_send">Click to send message via WhatsApp</string>
 
 </resources>

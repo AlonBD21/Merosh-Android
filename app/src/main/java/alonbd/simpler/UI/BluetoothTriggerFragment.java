@@ -11,24 +11,29 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import alonbd.simpler.R;
+import alonbd.simpler.TaskLogic.BluetoothTrigger;
+import alonbd.simpler.TaskLogic.Trigger;
 
-public class BluetoothTriggerFragment extends Fragment {
+public class BluetoothTriggerFragment extends TriggerFragment {
     private BroadcastReceiver mBTTurnedOnReceiver;
     private RadioGroup mDeviceRadioGroup;
     private TextView mBtErrTv;
+    private CheckBox mConnectionCb;
+    private CheckBox mDisconnectionCb;
 
 
 
@@ -38,6 +43,8 @@ public class BluetoothTriggerFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_trigger_bt, container, false);
         mDeviceRadioGroup = root.findViewById(R.id.radio_group);
         mBtErrTv = root.findViewById(R.id.bt_err_tv);
+        mConnectionCb = root.findViewById(R.id.connection_cb);
+        mDisconnectionCb = root.findViewById(R.id.disconnection_cb);
         return root;
     }
 
@@ -90,4 +97,17 @@ public class BluetoothTriggerFragment extends Fragment {
         getContext().unregisterReceiver(mBTTurnedOnReceiver);
     }
 
+    @Override
+    public Trigger genTrigger(boolean singleUse) {
+        int id = mDeviceRadioGroup.getCheckedRadioButtonId();
+        RadioButton radioButton = mDeviceRadioGroup.findViewById(id);
+        if(!(mConnectionCb.isChecked() || mDisconnectionCb.isChecked())) {
+            Toast.makeText(getContext(), getString(R.string.trigger_no_check_err), Toast.LENGTH_SHORT).show();
+            return null;
+        } else if(radioButton == null) {
+            Toast.makeText(getContext(), getString(R.string.trigger_no_device_err), Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        return new BluetoothTrigger(singleUse, mConnectionCb.isChecked(), mDisconnectionCb.isChecked(), radioButton.getText().toString(), radioButton.getTag().toString());
+    }
 }

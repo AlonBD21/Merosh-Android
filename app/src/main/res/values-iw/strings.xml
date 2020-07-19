@@ -38,7 +38,7 @@
     <string name="tv_actions">פעולות</string>
     <string name="action_toast">טוסט</string>
     <string name="action_waze">ניווט עם וייז</string>
-    <string name="tv_destination">יעד</string>
+    <string name="tv_destination">יעד הניווט</string>
     <string name="action_whatsapp">הודעת ווצאפ</string>
     <string name="btn_flip_order">שנה כיוון</string>
     <string name="menu_add_task">תזכיר חדש</string>
@@ -71,4 +71,12 @@
     <string name="service_notif_sub">הפעלה לפי מיקום</string>
     <string name="service_notif_title">מקבל עידכוני מיקום...</string>
     <string name="service_notif_content">מחפש את: %1$s</string>
+    <string name="tv_location_of_activation">מיקום הפעלה</string>
+    <string name="email_notif_content">ל: %1$s על:  %2$s</string>
+    <string name="email_notif_title">לחץ לשליחת דוא\"ל</string>
+    <string name="notif_reminder_activated">תזכיר הופעל</string>
+    <string name="notif_action_text">התזכיר %1$s הופעל</string>
+    <string name="waze_notif_text">יעד: %1$s</string>
+    <string name="waze_notif_click_to_navigate">לחץ עדי לנווט עם וייז</string>
+    <string name="wa_click_to_send">לחץ לשליחת הודעה דרך ווצאפ</string>
 </resources>

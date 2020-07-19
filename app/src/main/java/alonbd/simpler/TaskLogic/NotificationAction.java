@@ -43,7 +43,7 @@ public class NotificationAction implements Action, Serializable {
             setChannel(context);
             builder.setChannelId(CHANNEL_ID);
         }
-        builder.setContentText("The task '" + mTaskName + "' just got triggered.");
+        builder.setContentText(context.getString(R.string.notif_action_text, mTaskName));
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder.setColor(mColor);
         }

@@ -17,13 +17,13 @@ public class WhatsappAction extends IntentAction implements Serializable {
     private String mTo;
 
     @Override
-    public String getNotificationContentString() {
+    public String getNotificationContentString(Context context) {
         return mContent;
     }
 
     @Override
-    public String getNotificationTitleString() {
-        return "Click to send message via WhatsApp";
+    public String getNotificationTitleString(Context context) {
+        return context.getString(R.string.wa_click_to_send);
     }
 
     @Override

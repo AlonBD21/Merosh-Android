@@ -18,13 +18,13 @@ public class WazeAction extends IntentAction implements Serializable {
     private String mLocationName;
 
     @Override
-    public String getNotificationContentString() {
-        return "Destination: "+ mLocationName;
+    public String getNotificationContentString(Context context) {
+        return context.getString(R.string.waze_notif_text, mLocationName);
     }
 
     @Override
-    public String getNotificationTitleString() {
-        return "Click to Navigate with Waze";
+    public String getNotificationTitleString(Context context) {
+        return context.getString(R.string.waze_notif_click_to_navigate);
     }
 
     @Override

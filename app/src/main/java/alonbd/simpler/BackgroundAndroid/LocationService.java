@@ -79,7 +79,7 @@ public class LocationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand: ");
         startForeground(NOTIF_ID, generateNotification());
-        if(intent.getBooleanExtra(BOOLEAN_STOP_SERVICE_EXTRA,false)){
+        if(intent != null && intent.getBooleanExtra(BOOLEAN_STOP_SERVICE_EXTRA, false)) {
             stopSelf();
         }
         return Service.START_STICKY;
@@ -98,7 +98,7 @@ public class LocationService extends Service {
 
         String notificationContent = TasksManager.getInstance(this).getLocationTasksString();
         if(notificationContent == null) {
-            notificationContent = "No more actions to look for.";
+            notificationContent = getString(R.string.service_no_more_tasks);
             stopSelf();
         }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);

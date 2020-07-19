@@ -41,8 +41,8 @@ public abstract class Trigger implements Serializable, Comparable<Trigger> {
 
     public View getDescriptiveView(Context context) {
         View view = View.inflate(context, R.layout.layout_view_trigger, null);
-        ((TextView) view.findViewById(R.id.activation_tv)).setText(mSingleUse ? "One Time" : "Reusable");
-        ((TextView) view.findViewById(R.id.status_tv)).setText(mUsed ? "Used Already" : "Ready");
+        ((TextView) view.findViewById(R.id.activation_tv)).setText(mSingleUse ? context.getString(R.string.prop_once_only) : context.getString(R.string.prop_reusable));
+        ((TextView) view.findViewById(R.id.status_tv)).setText(mUsed ? context.getString(R.string.prop_done) : context.getString(R.string.prop_ready));
         view.findViewById(R.id.status_tv).setVisibility(mSingleUse ? View.VISIBLE : View.INVISIBLE);
 
         int color;

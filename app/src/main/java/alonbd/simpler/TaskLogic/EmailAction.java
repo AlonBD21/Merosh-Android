@@ -19,13 +19,13 @@ public class EmailAction extends IntentAction implements Serializable {
     private String mContent;
 
     @Override
-    public String getNotificationContentString() {
-        return "To "+mTo+" About "+mSubject;
+    public String getNotificationContentString(Context context) {
+        return context.getString(R.string.email_notif_content, mTo, mContent);
     }
 
     @Override
-    public String getNotificationTitleString() {
-        return "Click to send E-Mail";
+    public String getNotificationTitleString(Context context) {
+        return context.getString(R.string.email_notif_title);
     }
 
 
