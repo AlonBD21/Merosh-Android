@@ -42,7 +42,7 @@ public class EmailActionFragment extends ActionFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_message_email, container, false);
+        View view = inflater.inflate(R.layout.fragment_action_email, container, false);
         return view;
     }
 

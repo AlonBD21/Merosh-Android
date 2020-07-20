@@ -1,5 +1,6 @@
 package alonbd.simpler.BackgroundAndroid;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,6 +8,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -17,6 +19,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -109,11 +112,17 @@ public class LocationService extends Service {
         }
         builder.setSubText(getString(R.string.service_notif_sub));
         builder.setContentTitle(getString(R.string.service_notif_title)).setContentText(getString(R.string.service_notif_content, notificationContent));
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            builder.setContentTitle(getString(R.string.service_notif_need_permission_title));
+            builder.setContentText(getString(R.string.service_notif_need_presmission_text));
+        }
         //Actions
         Intent stopIntent = new Intent(this, LocationService.class);
         stopIntent.putExtra(BOOLEAN_STOP_SERVICE_EXTRA,true);
         PendingIntent stopPending = PendingIntent.getService(this, REQ_CODE, stopIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-        NotificationCompat.Action notifAction = new NotificationCompat.Action(android.R.drawable.ic_delete, "Stop", stopPending);
+        NotificationCompat.Action notifAction = new NotificationCompat.Action(android.R.drawable.ic_delete, getString(R.string.service_stop), stopPending);
+
+
         builder.addAction(notifAction);
         return builder.build();
     }

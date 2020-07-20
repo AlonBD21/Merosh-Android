@@ -77,6 +77,14 @@
     <string name="notif_reminder_activated">תזכיר הופעל</string>
     <string name="notif_action_text">התזכיר %1$s הופעל</string>
     <string name="waze_notif_text">יעד: %1$s</string>
-    <string name="waze_notif_click_to_navigate">לחץ עדי לנווט עם וייז</string>
+    <string name="waze_notif_click_to_navigate">לחץ לניווט עם וייז</string>
     <string name="wa_click_to_send">לחץ לשליחת הודעה דרך ווצאפ</string>
+    <string name="service_notif_need_presmission_text">אפשר הרשאה בהגדרות</string>
+    <string name="service_notif_need_permission_title">נדרשת הרשאת מיקום</string>
+    <string name="service_stop">עצור</string>
+    <string name="menu_about">אודות</string>
+    <string name="dialog_close">סגור</string>
+    <string name="about_info">האפליקציה נוצרה על ידי אלון בן דב והשימוש בה חינמי וללא פרסומות.</string>
+    <string name="about_contact">צרו קשר באינסטגרם @alonbendov</string>
+    <string name="about_pre_credits">קרדיטים למעצבים הגרפיים מflaticon.com על האייקונים:</string>
 </resources>

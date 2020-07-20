@@ -188,6 +188,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
             startActivity(intent);
         }
+        if(menuItem.getItemId() == R.id.menu_about) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.menu_about)).setCancelable(true).
+                    setNeutralButton(getString(R.string.dialog_close), (dialog, which) -> dialog.dismiss()).
+                    setMessage(getString(R.string.about_info) + "\n" + getString(R.string.about_contact) + "\n\n\n" +
+                            getString(R.string.about_pre_credits) + "\n" + getString(R.string.icon_credits));
+            builder.create().show();
+        }
         mRootDrawerLayout.closeDrawer(GravityCompat.START);
         updateOrder(menuItem.getItemId());
         return true;

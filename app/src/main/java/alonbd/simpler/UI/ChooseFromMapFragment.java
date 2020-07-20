@@ -156,9 +156,6 @@ public class ChooseFromMapFragment extends Fragment {
                 LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
                 setMarker(latLng);
-            } else {
-                Log.d(TAG, "selfLocate: onComplete: location is null");
-                Toast.makeText(getContext(), "Could not find current location", Toast.LENGTH_SHORT).show();
             }
         });
     }
