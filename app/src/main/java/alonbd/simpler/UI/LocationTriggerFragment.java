@@ -7,13 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -31,6 +33,9 @@ public class LocationTriggerFragment extends TriggerFragment {
 
     private Spinner mRadiusSpinner;
     private ChooseFromMapFragment mChoosePositionFragment;
+    private Button mPermissionButton;
+    private RelativeLayout mNoPermissionLayout;
+    private LinearLayout mWithPermissionLayout;
 
     @Nullable
     @Override
@@ -41,33 +46,40 @@ public class LocationTriggerFragment extends TriggerFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mNoPermissionLayout = view.findViewById(R.id.without_permission_layout);
+        mWithPermissionLayout = view.findViewById(R.id.with_permission_layout);
         mRadiusSpinner = view.findViewById(R.id.radius_spinner);
         mChoosePositionFragment = (ChooseFromMapFragment) getChildFragmentManager().findFragmentById(R.id.choose_from_map_fragment);
+        mPermissionButton = view.findViewById(R.id.permission_ask_button);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.spinner_radius_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mRadiusSpinner.setAdapter(adapter);
         mRadiusSpinner.setSelection(0);
 
+        mPermissionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] permissions = {FINE_LOCATION};
+                requestPermissions(permissions, LOCATION_PERMISSION_REQ_CODE);
+            }
+        });
+
         if(ContextCompat.checkSelfPermission(getContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
+            mNoPermissionLayout.setVisibility(View.GONE);
         } else {
-            //TODO no permission
+            mWithPermissionLayout.setVisibility(View.GONE);
         }
-    }
-
-    private void requestPermissions() {
-        //TODO IMPROVE
-        String[] permissions = {FINE_LOCATION};
-        ActivityCompat.requestPermissions(getActivity(), permissions, LOCATION_PERMISSION_REQ_CODE);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == LOCATION_PERMISSION_REQ_CODE) {
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mNoPermissionLayout.setVisibility(View.GONE);
+                mWithPermissionLayout.setVisibility(View.VISIBLE);
                 mChoosePositionFragment.notifyPermissionsUpdate();
             } else {
-                //TODO permission not granted
+                Toast.makeText(getContext(), getContext().getString(R.string.permission_ask_failed_toast), Toast.LENGTH_LONG).show();
             }
         }
 

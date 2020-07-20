@@ -114,7 +114,7 @@ public class LocationService extends Service {
         builder.setContentTitle(getString(R.string.service_notif_title)).setContentText(getString(R.string.service_notif_content, notificationContent));
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             builder.setContentTitle(getString(R.string.service_notif_need_permission_title));
-            builder.setContentText(getString(R.string.service_notif_need_presmission_text));
+            builder.setContentText(getString(R.string.service_notif_need_persmission_text));
         }
         //Actions
         Intent stopIntent = new Intent(this, LocationService.class);

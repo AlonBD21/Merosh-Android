@@ -89,7 +89,7 @@
     <string name="waze_notif_text">Destination: %1$s</string>
     <string name="waze_notif_click_to_navigate">Click to Navigate with Waze</string>
     <string name="wa_click_to_send">Click to send message via WhatsApp</string>
-    <string name="service_notif_need_presmission_text">Please enable location permission in settings to activate reminders</string>
+    <string name="service_notif_need_persmission_text">Please enable location permission in settings to activate reminders</string>
     <string name="service_notif_need_permission_title">Location Permission Required</string>
     <string name="service_stop">STOP</string>
     <string name="menu_about">About</string>
@@ -97,5 +97,8 @@
     <string name="about_info">This app was made by Alon Ben Dov. It is free to use and ads-free.</string>
     <string name="about_contact">Find me @alonbendov on instagram.</string>
     <string name="about_pre_credits">Credits for icon creators from flaticon.com:</string>
+    <string name="permission_ask_txt">Permission is required for reminders that activate according to your location.</string>
+    <string name="permission_ask_btn">Give Permission</string>
+    <string name="permission_ask_failed_toast">Please try again. Failed to get the permission.</string>
 
 </resources>
