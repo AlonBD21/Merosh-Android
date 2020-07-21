@@ -109,7 +109,7 @@ public class TasksManager {
         ArrayList<Task> tmp = new ArrayList<>();
         for(Task task : mData) {
             if(task.getTriggerClass() == LocationTrigger.class) {
-                if(task.isTriggerReady())
+                if(!task.isTriggerSingleUse() || task.isTriggerReady())
                     tmp.add(task);
             }
         }

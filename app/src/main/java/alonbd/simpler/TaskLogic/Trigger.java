@@ -42,18 +42,29 @@ public abstract class Trigger implements Serializable, Comparable<Trigger> {
     public View getDescriptiveView(Context context) {
         View view = View.inflate(context, R.layout.layout_view_trigger, null);
         ((TextView) view.findViewById(R.id.activation_tv)).setText(mSingleUse ? context.getString(R.string.prop_once_only) : context.getString(R.string.prop_reusable));
-        ((TextView) view.findViewById(R.id.status_tv)).setText(mUsed ? context.getString(R.string.prop_done) : context.getString(R.string.prop_ready));
-        view.findViewById(R.id.status_tv).setVisibility(mSingleUse ? View.VISIBLE : View.INVISIBLE);
 
+        String status;
         int color;
+
         if(!mSingleUse)
-            color = context.getResources().getColor(android.R.color.holo_blue_light);
+            if(isReady()) {
+                color = context.getResources().getColor(android.R.color.holo_blue_light);
+                status = context.getString(R.string.prop_ready);
+            } else {
+                color = context.getResources().getColor(android.R.color.holo_orange_light);
+                status = context.getString(R.string.prop_cooldown);
+            }
         else {
-            if(mUsed) color = context.getResources().getColor(android.R.color.holo_red_light);
-            else
+            if(mUsed) {
+                color = context.getResources().getColor(android.R.color.holo_red_light);
+                status = context.getString(R.string.prop_done);
+            } else {
                 color = context.getResources().getColor(android.R.color.holo_green_light);
+                status = context.getString(R.string.prop_ready);
+            }
         }
 
+        ((TextView) view.findViewById(R.id.status_tv)).setText(status);
         GradientDrawable shape = new GradientDrawable();
         shape.setShape(GradientDrawable.OVAL);
         shape.setColor(color);

@@ -7,8 +7,8 @@
     <string name="btn_once_only">One-Time Activation</string>
     <string name="btn_next">Next</string>
     <string name="reminder_reset">Long-press to set reminder ready</string>
-    <string name="field_notification_text">Notification Text</string>
-    <string name="tv_color_of_notif">Color of Notification</string>
+    <string name="field_notification_text">Text</string>
+    <string name="tv_color_of_notif">Color</string>
     <string name="tv_whats_toast">What is a Toast?</string>
     <string name="tv_toast_info">Toast is a simple text notification that appears on the bottom part of the screen for few seconds.\nPress the button to try it!</string>
     <string name="field_toast_text">Text</string>

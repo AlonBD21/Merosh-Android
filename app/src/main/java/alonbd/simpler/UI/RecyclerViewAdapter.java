@@ -57,7 +57,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         //RESETS
         Context context = holder.itemView.getContext();
         Task t = mTasks.get(position);
-        holder.mLongPressTv.setVisibility(View.GONE);
         holder.mRoot.setOnLongClickListener(null);
         //GENERAL INFO
         holder.mTaskNameTv.setText(t.getName());

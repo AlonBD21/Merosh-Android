@@ -6,8 +6,8 @@
     <string name="btn_once_only">הפעלה חד פעמית</string>
     <string name="btn_next">הבא</string>
     <string name="reminder_reset">לחיצה ארוכה - לדריכת התזכיר</string>
-    <string name="field_notification_text">טקסט להתראה</string>
-    <string name="tv_color_of_notif">צבע ההתראה</string>
+    <string name="field_notification_text">טקסט</string>
+    <string name="tv_color_of_notif">צבע</string>
     <string name="tv_whats_toast">מהי הודעת טוסט?</string>
     <string name="tv_toast_info">טוסט הוא שמו של סוג פשוט של התראה המציגה טסקט קצר בתחתית המסך.\nלחץ על הכפתור ונסה!</string>
     <string name="field_toast_text">טקסט</string>
@@ -20,7 +20,7 @@
     <string name="field_content">תוכן</string>
     <string name="tv_email_tip_tip">" טיפ "</string>
     <string name="tv_email_tip_content">אפשר להשאיר חלק מהשדות ריקים ולמלא אותם טרם השליחה</string>
-    <string name="field_phone_to">הפעלה חד פעמית</string>
+    <string name="field_phone_to">נמען</string>
     <string name="tv_bt_activation">הפעלה על בסיס בלוטוס</string>
     <string name="tv_at_con">בעת חיבור</string>
     <string name="tv_at_dis">בעת ניתוק</string>
@@ -90,6 +90,6 @@
     <string name="permission_ask_btn">תן ת\'הרשאה</string>
     <string name="permission_ask_txt">כדי לאפשר הפעלה של תזכירים לפי מיקום, נדרשת לאפליקצייה הרשאה.</string>
     <string name="permission_ask_failed_toast">אנא נסה שוב. לא התקבלה ההרשאה.</string>
-    <string name="cooldown_message">ההקפאה תיפסק במרחק של %1$d מטר</string>
+    <string name="cooldown_message">ההקפאה תרד במרחק של %1$d מטר</string>
     <string name="prop_cooldown">מוקפא</string>
 </resources>
