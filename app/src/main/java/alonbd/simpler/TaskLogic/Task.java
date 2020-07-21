@@ -58,6 +58,12 @@ public class Task implements Serializable {
         Task.sRecyclerViewAdapter = mRecyclerViewAdapter;
     }
 
+    public static void notifyRecyclerViewAdapterIfExists() {
+        if(sRecyclerViewAdapter != null) {
+            sRecyclerViewAdapter.notifyDataSetChanged();
+        }
+    }
+
     public void start(Context context) {
         if(mTrigger.isReady()) {
             for(Action action :
@@ -66,9 +72,6 @@ public class Task implements Serializable {
             }
             mTrigger.setUsed();
             TasksManager.getInstance(context).saveData();
-            if(sRecyclerViewAdapter != null) {
-                sRecyclerViewAdapter.notifyDataSetChanged();
-            }
         }
     }
 
@@ -140,6 +143,17 @@ public class Task implements Serializable {
         public int compare(Task o1, Task o2) {
             return (o1.mTrigger.compareTo(o2.mTrigger)) * (mDefaultOrder ? 1 : -1);
         }
+    }
+
+    public String getNotReadyMessage(Context context) {
+        if(!isTriggerReady()) {
+            if(isTriggerSingleUse()) {
+                return context.getString(R.string.reminder_reset);
+            } else if(mTrigger instanceof LocationTrigger) {
+                return ((LocationTrigger) mTrigger).getCooldownMessage(context);
+            }
+        }
+        return "";
     }
 }
 

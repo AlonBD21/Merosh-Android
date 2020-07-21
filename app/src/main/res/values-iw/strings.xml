@@ -79,7 +79,7 @@
     <string name="waze_notif_text">יעד: %1$s</string>
     <string name="waze_notif_click_to_navigate">לחץ לניווט עם וייז</string>
     <string name="wa_click_to_send">לחץ לשליחת הודעה דרך ווצאפ</string>
-    <string name="service_notif_need_persmission_text">אפשר הרשאה בהגדרות</string>
+    <string name="service_notif_need_persmission_text">אנא אפשר הרשאת מיקום בהגדרות המכשיר</string>
     <string name="service_notif_need_permission_title">נדרשת הרשאת מיקום</string>
     <string name="service_stop">עצור</string>
     <string name="menu_about">אודות</string>
@@ -87,7 +87,9 @@
     <string name="about_info">האפליקציה נוצרה על ידי אלון בן דב והשימוש בה חינמי וללא פרסומות.</string>
     <string name="about_contact">צרו קשר באינסטגרם @alonbendov</string>
     <string name="about_pre_credits">קרדיטים למעצבים הגרפיים מflaticon.com על האייקונים:</string>
-    <string name="permission_ask_btn">תן הרשאה</string>
-    <string name="permission_ask_txt">הרשאה נדרשת עבור תזכירים שמופעלים בהתאם למיקומך.</string>
+    <string name="permission_ask_btn">תן ת\'הרשאה</string>
+    <string name="permission_ask_txt">כדי לאפשר הפעלה של תזכירים לפי מיקום, נדרשת לאפליקצייה הרשאה.</string>
     <string name="permission_ask_failed_toast">אנא נסה שוב. לא התקבלה ההרשאה.</string>
+    <string name="cooldown_message">ההקפאה תיפסק במרחק של %1$d מטר</string>
+    <string name="prop_cooldown">מוקפא</string>
 </resources>

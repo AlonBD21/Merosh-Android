@@ -1,7 +1,6 @@
 package alonbd.simpler.UI;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import alonbd.simpler.BackgroundAndroid.LocationService;
 import alonbd.simpler.R;
 import alonbd.simpler.TaskLogic.BluetoothTrigger;
 import alonbd.simpler.TaskLogic.LocationTrigger;
@@ -56,39 +54,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
+        //RESETS
         Context context = holder.itemView.getContext();
         Task t = mTasks.get(position);
+        holder.mLongPressTv.setVisibility(View.GONE);
+        holder.mRoot.setOnLongClickListener(null);
+        //GENERAL INFO
         holder.mTaskNameTv.setText(t.getName());
-        holder.mLongPressTv.setVisibility(View.INVISIBLE);
         holder.mRoot.setOnClickListener((v -> {
             ViewTaskActivity.startActivity(context, t);
-
         }));
-        if(t.isTriggerSingleUse()) {
-            holder.mOnlyOnceTv.setText(context.getString(R.string.prop_once_only));
-            if(!t.isTriggerReady()) {
-                holder.mRoot.setBackgroundColor(context.getResources().getColor(android.R.color.holo_red_light));
-                holder.mUsedTv.setText(context.getString(R.string.prop_done));
-                holder.mLongPressTv.setVisibility(View.VISIBLE);
-                holder.mRoot.setOnLongClickListener(v -> {
-                    t.setTriggerNotUsed();
-                    notifyDataSetChanged();
-                    if(t.getTriggerClass() == LocationTrigger.class){
-                        Intent intent = new Intent(context, LocationService.class);
-                        context.startService(intent);
-                    }
-                   return true;
-                });
-            } else {
-                holder.mRoot.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
-                holder.mUsedTv.setText(context.getString(R.string.prop_ready));
-            }
-        } else {
-            holder.mRoot.setBackgroundColor(context.getResources().getColor(android.R.color.holo_blue_light));
-            holder.mOnlyOnceTv.setText(context.getString(R.string.prop_reusable));
-            holder.mUsedTv.setText(context.getString(R.string.prop_ready));
-        }
-
+        holder.mLongPressTv.setText(t.getNotReadyMessage(context));
+        //IMAGE VIEW
         Class c = mTasks.get(position).getTriggerClass();
         if(c == BluetoothTrigger.class) {
             holder.mTypeIv.setImageResource(R.drawable.ic_task_bluetooth);
@@ -97,6 +74,34 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         } else {
             holder.mTypeIv.setImageBitmap(null);
         }
+        //OTHER FIELDS
+        if(t.isTriggerSingleUse()) {//SingleUse
+            holder.mOnlyOnceTv.setText(context.getString(R.string.prop_once_only));
+            if(!t.isTriggerReady()) {//Done
+                holder.mRoot.setBackgroundColor(context.getResources().getColor(android.R.color.holo_red_light));
+                holder.mUsedTv.setText(context.getString(R.string.prop_done));
+                holder.mRoot.setOnLongClickListener(v -> {
+                    t.setTriggerNotUsed();
+                    notifyDataSetChanged();
+                   return true;
+                });
+            } else {//Ready
+                holder.mRoot.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
+                holder.mUsedTv.setText(context.getString(R.string.prop_ready));
+            }
+        } else {//MultiUse
+            holder.mOnlyOnceTv.setText(context.getString(R.string.prop_reusable));
+            if(c == LocationTrigger.class && !t.isTriggerReady()) {
+                holder.mUsedTv.setText(context.getString(R.string.prop_cooldown));
+                holder.mRoot.setBackgroundColor(context.getResources().getColor(android.R.color.holo_orange_light));
+
+            } else {
+                holder.mUsedTv.setText(context.getString(R.string.prop_ready));
+                holder.mRoot.setBackgroundColor(context.getResources().getColor(android.R.color.holo_blue_light));
+            }
+
+        }
+
     }
 
     @Override

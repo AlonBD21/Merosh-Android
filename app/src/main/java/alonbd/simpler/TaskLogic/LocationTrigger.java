@@ -17,15 +17,16 @@ public class LocationTrigger extends Trigger implements Serializable {
     private final static String TAG = "ThugLocationTrigger";
     private double mLat;
     private double mLng;
-    private boolean mInCooldown;
     private int mRadius;
+
+    private boolean mJustActivated;
 
     public LocationTrigger(boolean mSingleUse, LatLng mLatLng, int mRadius) {
         super(mSingleUse);
         mLat = mLatLng.latitude;
         mLng = mLatLng.longitude;
         this.mRadius = mRadius;
-        mInCooldown = false;
+        mJustActivated = false;
     }
 
     @Override
@@ -35,15 +36,25 @@ public class LocationTrigger extends Trigger implements Serializable {
             float[] results = new float[3];
             Location.distanceBetween(mLat, mLng, location.getLatitude(), location.getLongitude(), results);
             Log.d(TAG, "matchLocation: Results: Distance-" + results[0] + ",BearingA-" + results[1] + ",BearingB-" + results[2]);
-            if(mInCooldown) {
-                if(results[0] >= 2 * mRadius) mInCooldown = false;
+            float distance = results[0];
+
+            if(distance <= mRadius) {//In activation range
+                if(isInCooldown()) return false;
+                else {
+                    mJustActivated = true;
+                    return true;
+                }
+            } else if(distance >= 2 * mRadius) {
+                mJustActivated = false;
                 return false;
-            }
-            boolean out = results[0] <= mRadius;
-            if(out) mInCooldown = true;
-            return out;
+            } else return false;
+
         }
         return false;
+    }
+
+    public boolean isInCooldown() {
+        return mJustActivated && !isSingleUse();
     }
 
     @Override
@@ -51,7 +62,19 @@ public class LocationTrigger extends Trigger implements Serializable {
         View view = View.inflate(context, R.layout.layout_view_location, null);
         ((TextView) view.findViewById(R.id.location_tv)).setText(LocationService.geoCode(context, mLat, mLng));
         ((TextView) view.findViewById(R.id.radius_tv)).setText(String.valueOf(mRadius));
+        TextView cdTv = view.findViewById(R.id.cooldown_tv);
+        cdTv.setText(getCooldownMessage(context));
+        if(!isInCooldown()) cdTv.setVisibility(View.GONE);
         return view;
     }
 
+    @Override
+    public boolean isReady() {
+        if(isInCooldown()) return false;
+        return super.isReady();
+    }
+
+    public String getCooldownMessage(Context context) {
+        return context.getString(R.string.cooldown_message, mRadius * 2);
+    }
 }

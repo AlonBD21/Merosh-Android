@@ -79,6 +79,7 @@ public class TasksManager {
                 ret = true;
             }
         }
+        Task.notifyRecyclerViewAdapterIfExists();
         return ret;
     }
 

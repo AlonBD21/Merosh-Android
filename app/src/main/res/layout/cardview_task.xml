@@ -41,7 +41,6 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
-            android:text="@string/reminder_reset"
             android:textColor="#fff"
             android:textSize="15sp" />
 

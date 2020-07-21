@@ -100,5 +100,7 @@
     <string name="permission_ask_txt">Permission is required for reminders that activate according to your location.</string>
     <string name="permission_ask_btn">Give Permission</string>
     <string name="permission_ask_failed_toast">Please try again. Failed to get the permission.</string>
+    <string name="cooldown_message">At distance of %1$d the cooldown will end.</string>
+    <string name="prop_cooldown">In Cooldown</string>
 
 </resources>

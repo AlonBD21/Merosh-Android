@@ -79,8 +79,8 @@ public class ChooseFromMapFragment extends Fragment {
             Dialog dialog = availabilityHelper.getErrorDialog(getActivity(), availabilityCode, SERVICES_ERROR_DIALOG_REQ);
             dialog.show();
         } else {
-            Toast.makeText(getContext(), "isServiceOK: Can't activate Google Play services", Toast.LENGTH_SHORT).show();
-            //TODO map not available
+            Log.d(TAG, "isServicesOK: Can't activate Google Play services");
+            Toast.makeText(getContext(), "ERROR: Google Play Services are not available", Toast.LENGTH_LONG).show();
         }
     }
 
